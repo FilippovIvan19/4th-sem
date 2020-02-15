@@ -5,11 +5,11 @@
 
 class GameManager
 {
+private:
+    std::set<CommonElement*> game_objects_;
 public:
     GameManager();
    ~GameManager();
-
-    std::set<CommonElement*> game_objects_;
 
     void add_obj(CommonElement *obj_ptr);
     void draw();
