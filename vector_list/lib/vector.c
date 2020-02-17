@@ -24,7 +24,8 @@ void _vector_resize(box *box_p, short direction)
         this->capacity /= 2;
     else
         this->capacity *= 2;
-    this->data = realloc(this->data, this->capacity);
+    // $(this->capacity)
+    this->data = realloc(this->data, this->capacity * sizeof(data_type));
 }
 
 void vector_destroy(box *box_p)

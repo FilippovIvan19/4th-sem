@@ -6,6 +6,12 @@
 
 #define ERR_VAL -17562984
 
+#define DEBUG_BY_PRINTF_OFF
+
+#ifdef DEBUG_BY_PRINTF_OFF
+  #define printf(x, ...) ;
+#endif
+
 typedef struct list list;
 typedef struct node node;
 
@@ -112,7 +118,7 @@ data_type list_get(box* box_p, int index) {
 }
 
 void list_set(box* box_p, int index, data_type value) {
-  list* list_p = (list*) box_p;
+  // list* list_p = (list*) box_p;
   data_type* value_p = list_getAddr(box_p, index);
   if (value_p == NULL) {
     printf("list_set: list #%d: can't set value - wrong index %d\n", list_p->id, index);
@@ -266,7 +272,7 @@ void list_removeByIndex (box *box_p, int index) {
     printf("list_removeByIndex: wrong list adress: %p\n", box_p);
     exit(-1);
   }
-  list* list_p = (list*) box_p;
+  // list* list_p = (list*) box_p;
   node* rm_node = (node*) list_getAddr(box_p, index);
   if (rm_node == NULL) {
     printf("list_removeByIndex: list #%d: fail to get node adress: %p\n", list_p->id, rm_node);
