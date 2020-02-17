@@ -11,3 +11,8 @@ enum Tower_kind
     capsule,
     mixture,
 };
+
+enum Unit_kind
+{
+    
+};
