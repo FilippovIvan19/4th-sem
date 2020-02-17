@@ -1,0 +1,16 @@
+ 
+CC = g++
+CFLAGS = -Wall
+PROG = game
+PROG_OBJ = main.o lib/CommonElement.o lib/GameManager.o lib/Tower.o
+
+all: $(PROG)
+
+$(PROG) : $(PROG_OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+.o : .cpp 
+	$(CC) -c $^
+
+clean : 
+	rm -f *.o $(PROG_OBJ) $(PROG)
