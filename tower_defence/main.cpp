@@ -1,4 +1,4 @@
-#include "tower_defence_lib.cpp"
+#include "lib/tower_defence_headers.h"
 
 int main(int argc, char const *argv[])
 {
