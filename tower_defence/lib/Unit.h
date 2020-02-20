@@ -26,5 +26,5 @@ public:
     void update (float dt) override; // only visual
 
     void hurt(double damage);
-    void move();
+    void move(double dt);
 };

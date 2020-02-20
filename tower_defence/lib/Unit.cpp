@@ -1,12 +1,17 @@
 #include "Unit.h"
 
 
-Unit::Unit()
+Unit::Unit() :
+CommonElement(),
+kind_ { (Unit_kind)0 },
+health_ { 0 },
+velocity_ { 0 },
+alive_ { false }
 {}
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
-        sf::Sprite sprite, float frame_width, float frame_height):
+        sf::Sprite sprite, float frame_width, float frame_height) :
 CommonElement(window, x0, y0, sprite, frame_width, frame_height),
 kind_ { kind },
 health_ { health },
@@ -24,15 +29,18 @@ void Unit::draw() const
 
 void Unit::act(float dt)
 {
-    while(alive_)
+    if(alive_)
     {
-        move();
+        // this->move(dt);
     }
 }
 
 void Unit::hurt(double damage)
 {
-    health_ -= damage;
-    if(health_ <= 0)
+    this->health_ -= damage;
+    if(this->health_ <= 0)
+    {
         this->set_visibility(false);
+        this->alive_ = false;
+    }
 }

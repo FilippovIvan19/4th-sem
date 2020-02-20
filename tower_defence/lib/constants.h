@@ -14,5 +14,5 @@ enum Tower_kind
 
 enum Unit_kind
 {
-    
+    simple_virus,
 };
