@@ -13,7 +13,6 @@ private:
     double health_;
     bool alive_;
     Unit_kind kind_;
-protected:
 public:
     Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
@@ -26,5 +25,5 @@ public:
     void update (float dt) override; // only visual
 
     void hurt(double damage);
-    void move(double dt);
+    void move(float dt);
 };
