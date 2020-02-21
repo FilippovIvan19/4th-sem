@@ -32,6 +32,6 @@ public:
     float get_y() const;
 
     virtual void draw() const;
-    virtual void    act(float dt);
-    virtual void update(float dt); //visual part only
+    virtual void    act(float dt); //all inner logic & calls functions like moving, shooting etc
+    virtual void update(float dt); //visual part only i.e. desribes frame changing behavior
 };
