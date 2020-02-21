@@ -20,7 +20,7 @@ public:
 
 class Tower : public CommonElement
 {
-private: //нужно много protection
+private:
     Gun gun_;
     
     int rank_num_;
@@ -41,8 +41,8 @@ public:
     Tower();
    ~Tower();
 
-    void    act(float dt) override;
-    void update(float dt) override;
+    void    act(float dt) override; //shooting
+    void update(float dt) override; //gun rotation
     void draw() const override;
     void find_target();
 
