@@ -21,6 +21,13 @@ enum class Tower_kind
     Mixture,
 };
 
+
+enum Unit_kind
+{
+    simple_virus,
+};
+
+
 #define ADD_TEXTURE(obj) sf::Texture *obj##_texture;
 
 struct all_textures
