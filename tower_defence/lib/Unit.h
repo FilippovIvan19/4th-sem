@@ -16,7 +16,7 @@ private:
 public:
     Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
-        sf::Sprite sprite, float frame_width, float frame_height);
+        sf::Sprite sprite, int frame_width, int frame_height);
     Unit();
    ~Unit();
 

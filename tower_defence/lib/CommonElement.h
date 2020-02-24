@@ -30,6 +30,7 @@ public:
     void set_position(float x, float y);
     void set_origin_center();
     void set_origin_zero();
+    void set_scale(float factorX, float factorY);
     float get_x() const;
     float get_y() const;
 

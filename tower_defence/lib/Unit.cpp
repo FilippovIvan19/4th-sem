@@ -11,7 +11,7 @@ alive_ ( false )
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
-        sf::Sprite sprite, float frame_width, float frame_height) :
+        sf::Sprite sprite, int frame_width, int frame_height) :
 CommonElement(window, x0, y0, sprite, frame_width, frame_height),
 kind_ ( kind ),
 health_ ( health ),

@@ -78,6 +78,11 @@ void CommonElement::set_origin_zero()
     this->sprite_.setOrigin(0, 0);
 }
 
+void CommonElement::set_scale(float factorX, float factorY)
+{
+    this->sprite_.setScale(factorX, factorY);
+}
+
 void CommonElement::update(float dt)
 {}
 
