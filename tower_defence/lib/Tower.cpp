@@ -2,7 +2,7 @@
 #include <math.h>
 
 Gun::Gun(sf::RenderWindow *window, float x0, float y0,
-    sf::Sprite sprite, float frame_width, float frame_height):
+    sf::Sprite sprite, int frame_width, int frame_height):
 CommonElement(window, x0, y0,   sprite,   frame_width,   frame_height)
 {}
 
@@ -26,10 +26,10 @@ void Gun::rotate(CommonElement *target)
 
 
 Tower::Tower(sf::RenderWindow *window, Tower_kind kind, float attack_range, float x0, float y0,
-    sf::Sprite   base_sprite, float   base_frame_width, float   base_frame_height,
-    sf::Sprite    gun_sprite, float    gun_frame_width, float    gun_frame_height,
-    sf::Sprite bullet_sprite, float bullet_frame_width, float bullet_frame_height,
-    sf::Sprite   rank_sprite, float   rank_frame_width, float   rank_frame_height):
+    sf::Sprite   base_sprite, int   base_frame_width, int   base_frame_height,
+    sf::Sprite    gun_sprite, int    gun_frame_width, int    gun_frame_height,
+    sf::Sprite bullet_sprite, int bullet_frame_width, int bullet_frame_height,
+    sf::Sprite   rank_sprite, int   rank_frame_width, int   rank_frame_height):
 CommonElement(window, x0, y0,   base_sprite,   base_frame_width,   base_frame_height),
 gun_(         window, x0, y0,    gun_sprite,    gun_frame_width,    gun_frame_height),
 bullet_(      window, x0, y0, bullet_sprite, bullet_frame_width, bullet_frame_height),
@@ -43,6 +43,8 @@ attack_range_(attack_range)
 {
     this->rank_.set_position(this->get_x() + RANK_SPRITE_OFFSET_X,
                              this->get_y() + RANK_SPRITE_OFFSET_Y);
+    this->gun_.set_origin_center();
+    this->bullet_.set_origin_center();
 }
 
 Tower::Tower():

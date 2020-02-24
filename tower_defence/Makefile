@@ -1,8 +1,7 @@
- 
 CC = g++
 CFLAGS = -Wall
 PROG = game
-PROG_OBJ = main.o lib/CommonElement.o lib/GameManager.o lib/Tower.o lib/Unit.o lib/LevelIcon.o
+PROG_OBJ = main.o lib/CommonElement.o lib/GameManager.o lib/Tower.o lib/Unit.o lib/LevelIcon.o lib/PillTower.o
 
 all: $(PROG)
 

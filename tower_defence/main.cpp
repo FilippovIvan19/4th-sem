@@ -23,11 +23,9 @@ int main_menu(sf::RenderWindow& window, sf::Event& event)
 
 int main(int argc, char const *argv[])
 {
-    /* code */
-
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TOWER DEFENCE");
     sf::Event event;
-    GameManager manager;
+    // GameManager manager;
     // Map map;
 
 
@@ -45,12 +43,12 @@ int main(int argc, char const *argv[])
 
         // process_input(event);
 
-        manager.update(dt);
-        manager.act(dt);
+        // manager.update(dt);
+        // manager.act(dt);
 
         window.clear();
             // map.draw();
-            manager.draw();
+            // manager.draw();
         window.display();
 
         dt = main_clock.getElapsedTime().asMicroseconds();
