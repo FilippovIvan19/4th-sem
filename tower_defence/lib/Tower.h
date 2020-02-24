@@ -7,7 +7,7 @@ class Gun : public CommonElement
 {
 public:
     Gun(sf::RenderWindow *window, float x0, float y0,
-        sf::Sprite sprite, float frame_width, float frame_height);
+        sf::Sprite sprite, int frame_width, int frame_height);
     Gun();
    ~Gun();
     
@@ -34,10 +34,10 @@ private:
     CommonElement *target_;
 public:
     Tower(sf::RenderWindow *window, Tower_kind kind, float attack_range, float x0, float y0,
-        sf::Sprite   base_sprite, float   base_frame_width, float   base_frame_height,
-        sf::Sprite    gun_sprite, float    gun_frame_width, float    gun_frame_height,
-        sf::Sprite bullet_sprite, float bullet_frame_width, float bullet_frame_height,
-        sf::Sprite  level_sprite, float  level_frame_width, float  level_frame_height);
+        sf::Sprite   base_sprite, int   base_frame_width, int   base_frame_height,
+        sf::Sprite    gun_sprite, int    gun_frame_width, int    gun_frame_height,
+        sf::Sprite bullet_sprite, int bullet_frame_width, int bullet_frame_height,
+        sf::Sprite   rank_sprite, int   rank_frame_width, int   rank_frame_height);
     Tower();
    ~Tower();
 

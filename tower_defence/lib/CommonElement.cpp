@@ -2,7 +2,7 @@
 
 
 CommonElement::CommonElement(sf::RenderWindow *window, float x0, float y0,
-    sf::Sprite sprite, float frame_width, float frame_height):
+    sf::Sprite sprite, int frame_width, int frame_height):
 x_(x0),
 y_(y0),
 sprite_(sprite),
@@ -66,6 +66,16 @@ float CommonElement::get_x() const
 float CommonElement::get_y() const
 {
     return this->y_;
+}
+
+void CommonElement::set_origin_center()
+{
+    this->sprite_.setOrigin(this->frame_width_ / 2, this->frame_height_ / 2);
+}
+
+void CommonElement::set_origin_zero()
+{
+    this->sprite_.setOrigin(0, 0);
 }
 
 void CommonElement::update(float dt)
