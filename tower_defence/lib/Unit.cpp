@@ -29,7 +29,12 @@ void Unit::draw() const
 
 void Unit::act(float dt)
 {
-    this->move(dt);
+    // this->move(dt);
+}
+
+void Unit::update(float dt)
+{
+    //
 }
 
 void Unit::hurt(double damage)
