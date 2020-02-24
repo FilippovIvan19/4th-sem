@@ -1,5 +1,26 @@
 #include "lib/tower_defence_headers.h"
 
+int main_menu(sf::RenderWindow& window, sf::Event& event)
+{
+    sf::Font font;
+    font.loadFromFile("font.otf");
+
+    sf::Text text("", font, 80);
+    // text.setFillColor();
+
+    sf::Texture menu_texture;
+    // menu_texture.loadFromFile("textures/menu.png");
+
+    sf::Sprite menu_sprite(menu_texture);
+    menu_texture.setSmooth(true);
+
+    CommonElement menu(&window, 0, 0, menu_sprite, WINDOW_WIDTH, WINDOW_HEIGHT);
+    
+    window.clear();
+    menu.draw();
+    window.display();
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
@@ -35,7 +56,6 @@ int main(int argc, char const *argv[])
         dt = main_clock.getElapsedTime().asMicroseconds();
         main_clock.restart();
     }
-
 
     return 0;
 }
