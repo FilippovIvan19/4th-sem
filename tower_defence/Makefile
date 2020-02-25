@@ -1,8 +1,8 @@
  
 CC = g++
 CFLAGS = -Wall
-PROG = game
-PROG_OBJ = main.o lib/CommonElement.o lib/GameManager.o lib/Tower.o
+PROG = main
+PROG_OBJ = main.o lib/CommonElement.o lib/cell.o lib/map.o
 
 all: $(PROG)
 
@@ -13,4 +13,4 @@ $(PROG) : $(PROG_OBJ)
 	$(CC) -c $^
 
 clean : 
-	rm -f *.o $(PROG_OBJ) $(PROG)
+	rm -fv *.o $(PROG_OBJ) $(PROG)

@@ -1,18 +1,13 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include "constants.h"
-
-#define CELL_HEIGHT 100
-#define CELL_WIDTH 100
+#include "CommonElement.h"
 
 class Cell : public CommonElement {
 public:
-  int _cell_type;
-  char _arrow;
+  char cell_type_;
+  //char get_type() const;
   Cell();
   Cell(sf::RenderWindow* window, sf::Sprite sprite,
-    row, col, int frame_width, int frame_height, int cell_type, char arrow);
+    int row, int col, char cell_type);
  ~Cell();
-}
+};

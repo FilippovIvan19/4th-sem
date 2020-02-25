@@ -3,14 +3,14 @@
 #include "CommonElement.h"
 
 
-class Gun : public CommonElement
+class Gun : public CommonElement // Gun - childof Common element // a component of tower (main static weapon)
 {
 public:
     Gun(sf::RenderWindow *window, float x0, float y0,
         sf::Sprite sprite, float frame_width, float frame_height);
     Gun();
    ~Gun();
-    
+
     void rotate(CommonElement *target);
 
     // void    act(float dt) override;
@@ -21,14 +21,14 @@ public:
 class Tower : public CommonElement
 {
 private: //нужно много protection
-    Gun gun_;
-    
+    Gun gun_; // var type of class Gun
+
     int rank_num_;
     CommonElement rank_;
     CommonElement bullet_;
 
-    float shoot_period_;
-    float shoot_ago_;
+    float shoot_period_; // fire_rate_ms reload_time_ms
+    float shoot_ago_; // reload_time_ms
     float attack_range_;
     Tower_kind kind_;
     CommonElement *target_;

@@ -2,7 +2,7 @@
 
 
 CommonElement::CommonElement(sf::RenderWindow *window, float x0, float y0,
-    sf::Sprite sprite, float frame_width, float frame_height):
+    sf::Sprite sprite, float frame_width, float frame_height): // constructor initialization only
 x_(x0),
 y_(y0),
 sprite_(sprite),
@@ -36,8 +36,10 @@ CommonElement::~CommonElement()
 
 void CommonElement::set_frame(int x, int y)
 {
+    this->frame_x_ = x;
+    this->frame_y_ = y;
     this->sprite_.setTextureRect(sf::IntRect
-        (frame_x_ * frame_width_, frame_y_ * frame_height_, frame_width_, frame_height_));
+        (x * this->frame_width_, y * this->frame_height_, frame_width_, frame_height_));
 }
 
 void CommonElement::set_visibility(bool visibility)
