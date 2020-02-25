@@ -37,7 +37,7 @@ CommonElement()
 
 Cell::~Cell()
 {}
-/*
+
 char Cell::get_type() const {
   return this->cell_type_;
-}*/
+}

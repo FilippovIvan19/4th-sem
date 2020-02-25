@@ -3,11 +3,13 @@
 #include "CommonElement.h"
 
 class Cell : public CommonElement {
-public:
+protected:
   char cell_type_;
-  //char get_type() const;
+
+public:
   Cell();
   Cell(sf::RenderWindow* window, sf::Sprite sprite,
     int row, int col, char cell_type);
+    char get_type() const;
  ~Cell();
 };

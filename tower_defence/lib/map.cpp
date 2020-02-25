@@ -1,5 +1,34 @@
 #include "map.h"
-#include "stdio.h"
+
+
+int Map::read_map(const char* name) {
+  printf("\n");
+  int row = 0;
+  int col = 0;
+  char str[MAP_WIDTH];
+  std::ifstream fin;
+  fin.open(name);
+  if (fin) {
+    printf("\nFile openned!\n");
+    while(!fin.eof() && row < MAP_HEIGHT) {
+      fin.getline(str, 50);
+      //printf("%s\n", str);
+      for (col = 0; col < MAP_WIDTH; col ++) {
+        //printf("%d\n", col);
+        scheme_[row][col] = str[col];
+      }
+      row ++;
+    }
+    fin.close();
+    printf("file closed\n");
+    }
+  else {
+    printf("error openning file\n");
+    return -1;
+  }
+
+  return 0;
+}
 
 int ptr_x(int i) {
   switch(i) {
@@ -27,12 +56,14 @@ int ptr_y(int i) {
     }
 }
 
-Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::String* scheme, int map_id):
+Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename, int map_id):
 map_id_(map_id),
-scheme_(scheme),
-free_places(std::set <point> ()),
-busy_places(std::set <point> ())
+//scheme_(0)
+free_places(std::list <point> ()),
+busy_places(std::list <point> ())
 {
+  read_map(filename);
+
   int row;
   int col;
   int spawn_row;
@@ -40,6 +71,7 @@ busy_places(std::set <point> ())
   int despawn_row;
   int despawn_col;
   int turn_count = 0;
+  int tower_places = 0;
 
   printf("\n");
   for (row = 0; row < MAP_HEIGHT; row++) {
@@ -51,9 +83,9 @@ busy_places(std::set <point> ())
 
         case 'P': // tower placing available
         point p;
-        //p.x = col;
-        //p.y = row;
-        //free_places.insert(p);
+        p.x = col;
+        p.y = row;
+        free_places.push_back(p);
         break;
         case '1':
 
@@ -134,7 +166,7 @@ busy_places(std::set <point> ())
           (xi >= 0 && xi < MAP_WIDTH) &&
           (yi >= 0 && yi < MAP_HEIGHT) &&
           ((scheme_[yi][xi] == 'T') || (scheme_[yi][xi] == 'O'))) {
-            printf("type %c\n", scheme_[yi][xi]);
+            //printf("type %c\n", scheme_[yi][xi]);
         col = col + ptr_x(i);
         row = row + ptr_y(i);
         if (scheme_[yi][xi] == 'T') {
@@ -149,7 +181,7 @@ busy_places(std::set <point> ())
       }
     }
   }
-  printf("\n");
+  printf("turns' coordinates: row | col\n");
   for (int turn = 0; turn < turn_count+2; turn++) {
       printf("%d) %d | %d\n", turn, turn_array[turn].x, turn_array[turn].y);
   }
@@ -158,8 +190,8 @@ busy_places(std::set <point> ())
 }
 
 Map::Map():
-map_id_(0),
-scheme_(nullptr)
+map_id_(0)
+//scheme_(nullptr)
 {}
 
 Map::~Map()
@@ -170,7 +202,7 @@ void Map::map_draw() const {
   for (int row = 0; row < MAP_HEIGHT; row++) {
     for (int col = 0; col < MAP_WIDTH; col++) {
       cell_array[row][col].draw();
-      printf("%c", cell_array[row][col].cell_type_);
+      printf("%c", cell_array[row][col].get_type());
     }
     printf("\n");
   }

@@ -1,7 +1,10 @@
 #pragma once
 
 #include "cell.h"
-#include <set>
+#include "stdio.h"
+#include <fstream>
+#include <iostream>
+#include <list>
 
 typedef struct point {
   int x;
@@ -13,18 +16,20 @@ int ptr_y(int i);
 
 class Map : public Cell {
 private:
-protected:
-public:
-  sf::String* scheme_;
+  int read_map(const char* name);
+  char scheme_[MAP_HEIGHT][MAP_WIDTH];
   int map_id_;
   point* turn_vector;
-  std::set <point> free_places;
-  std::set <point> busy_places;
+protected:
+public:
+
+  std::list<point> free_places;
+  std::list<point> busy_places;
 
   Cell cell_array[MAP_HEIGHT][MAP_WIDTH];
 
   Map();
-  Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::String* scheme, int map_id);
+  Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename, int map_id);
  ~Map();
  void map_draw() const;
  point* get_turns() const;

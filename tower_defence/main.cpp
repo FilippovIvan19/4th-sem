@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
   	sf::Sprite map_sprite;
   	map_sprite.setTexture(map_texture);
 
-    Map map(&window, map_sprite, text_scheme_1, 1);
+    Map map(&window, map_sprite, "lib/map_scheme.txt", 1);
     //map_sprite.setTextureRect(sf::IntRect(10, 10, CELL_WIDTH, CELL_HEIGHT));
     //Cell cell(&window, map_sprite, 2,2, 'O');
     bool first = true;
