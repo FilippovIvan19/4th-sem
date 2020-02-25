@@ -12,19 +12,19 @@ CommonElement(window, col * CELL_WIDTH, row * CELL_HEIGHT,
     break;
 
     case 'O':
-    this->set_frame(2, 2);
+    this->set_frame(2, 0);
     break;
 
     case 'T':
-    this->set_frame(2, 2);
+    this->set_frame(2, 0);
     break;
 
     case 'S':
-    this->set_frame(2, 2);
+    this->set_frame(2, 0);
     break;
 
     case 'E':
-    this->set_frame(2, 2);
+    this->set_frame(2, 0);
     break;
   }
 
