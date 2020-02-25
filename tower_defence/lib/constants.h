@@ -6,6 +6,7 @@ const float RANK_SPRITE_OFFSET_X = 10;
 const float RANK_SPRITE_OFFSET_Y = 10;
 const int CELL_SIZE = 50;
 const int CELL_PIC_SIZE = 100;
+// standart PillTower constants
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 100;
@@ -17,6 +18,10 @@ const int MAP_WIDTH = 37;
 const int WINDOW_WIDTH  = CELL_SIZE * MAP_WIDTH;
 const int WINDOW_HEIGHT = CELL_SIZE * MAP_HEIGHT;
 
+// standart BacteriaUnit constants
+const int BACTERIA_UNIT_PIC_SIZE = 100;
+const int BACTERIA_UNIT_HEALTH = 100;
+const int BACTERIA_UNIT_VELOCITY = 10;
 
 struct point {
   int x;
@@ -45,7 +50,8 @@ enum class Tower_kind
 
 enum Unit_kind
 {
-    simple_virus,
+    Bacteria,
+    Simple_virus,
 };
 
 

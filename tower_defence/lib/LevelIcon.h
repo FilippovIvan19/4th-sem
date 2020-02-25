@@ -7,14 +7,18 @@
 class LevelIcon : public CommonElement
 {
 private:
-    sf::Sprite number_;
-    sf::Sprite score_;
+    int number_;
+    int score_;
     bool locked_;
+
+    sf::Sprite number_sprite_;
+    sf::Sprite score_sprite_;
 public:
     LevelIcon();
-    LevelIcon(sf::RenderWindow *window, sf::Sprite sprite, sf::Sprite score_sprite,
-        float frame_width, float frame_height);
+    LevelIcon(sf::RenderWindow *window, sf::Sprite sprite,
+        int number, float frame_width, float frame_height);
    ~LevelIcon();
 
     void draw() const override;
+    void set_score(int score);
 };

@@ -9,6 +9,13 @@ velocity_ ( 0 ),
 alive_ ( false )
 {}
 
+// experimental
+Unit::Unit(Unit_kind kind) :
+Unit()
+{
+    kind_ = kind;
+}
+
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
         sf::Sprite sprite, int frame_width, int frame_height) :
@@ -29,7 +36,12 @@ void Unit::draw() const
 
 void Unit::act(float dt)
 {
-    this->move(dt);
+    // this->move(dt);
+}
+
+void Unit::update(float dt)
+{
+    //
 }
 
 void Unit::hurt(double damage)

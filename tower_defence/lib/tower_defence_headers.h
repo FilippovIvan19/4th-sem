@@ -1,13 +1,13 @@
 #include "constants.h"
+// #include <SFML/Window/Event.hpp>
+#include <SFML/Audio.hpp>
 
-#include "CommonElement.h"
+
 #include "GameManager.h"
-#include "Tower.h"
+#include "LevelIcon.h"
 #include "PillTower.h"
-// #include "Unit.h"
+#include "BacteriaUnit.h"
 #include "Map.h"
-#include "Cell.h"
-// #include "LevelIcon.h"
 
 
 void load_textures(all_textures *textures);
