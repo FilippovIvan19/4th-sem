@@ -9,9 +9,7 @@ sprite_(sprite),
 visibility_(true),
 frame_width_(frame_width),
 frame_height_(frame_height),
-window_(window),
-frame_x_(0),
-frame_y_(0)
+window_(window)
 {
     this->sprite_.setPosition(x0, y0);
     this->sprite_.setTextureRect(sf::IntRect(0, 0, frame_width_, frame_height_));
@@ -24,9 +22,7 @@ sprite_(sf::Sprite()),
 visibility_(true),
 frame_width_(0),
 frame_height_(0),
-window_(nullptr),
-frame_x_(0),
-frame_y_(0)
+window_(nullptr)
 {
     this->sprite_.setPosition(0, 0);
 }
@@ -37,7 +33,7 @@ CommonElement::~CommonElement()
 void CommonElement::set_frame(int x, int y)
 {
     this->sprite_.setTextureRect(sf::IntRect
-        (frame_x_ * frame_width_, frame_y_ * frame_height_, frame_width_, frame_height_));
+        (x * this->frame_width_, y * this->frame_height_, frame_width_, frame_height_));
 }
 
 void CommonElement::set_visibility(bool visibility)

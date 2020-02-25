@@ -4,15 +4,36 @@
 
 const float RANK_SPRITE_OFFSET_X = 10;
 const float RANK_SPRITE_OFFSET_Y = 10;
-const int WINDOW_WIDTH  = 1200;
-const int WINDOW_HEIGHT = 800;
 const int CELL_SIZE = 50;
+const int CELL_PIC_SIZE = 100;
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 100;
 const int PILL_TOWER_RANGE = 150;
 const int RANK_PIC_SIZE = 100;
 const int RANK_SIZE = 10;
+const int MAP_HEIGHT = 15;
+const int MAP_WIDTH = 37;
+const int WINDOW_WIDTH  = CELL_SIZE * MAP_WIDTH;
+const int WINDOW_HEIGHT = CELL_SIZE * MAP_HEIGHT;
+
+
+struct point {
+  int x;
+  int y;
+};
+
+struct cmp_points
+{
+    bool operator()(const point& left, const point& right)
+    {
+        if (left.x != right.x)
+            return left.x < right.x;
+        else
+            return left.y < right.y;
+    }
+};
+
 
 enum class Tower_kind
 {

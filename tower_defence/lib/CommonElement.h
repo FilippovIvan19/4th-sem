@@ -14,8 +14,6 @@ private:
     int frame_height_;
     // float frame_chanched_ago_;
     sf::RenderWindow *window_;
-    int frame_x_;
-    int frame_y_;
     bool visibility_;
 protected:
     sf::Sprite sprite_;
