@@ -2,17 +2,15 @@
 
 
 CommonElement::CommonElement(sf::RenderWindow *window, float x0, float y0,
-    sf::Sprite sprite, int frame_width, int frame_height):
+    sf::Sprite sprite, int pic_frame_width, int pic_frame_height):
 x_(x0),
 y_(y0),
 sprite_(sprite),
 visibility_(true),
-frame_width_(frame_width),
-frame_height_(frame_height),
 window_(window)
 {
     this->sprite_.setPosition(x0, y0);
-    this->sprite_.setTextureRect(sf::IntRect(0, 0, frame_width_, frame_height_));
+    this->sprite_.setTextureRect(sf::IntRect(0, 0, pic_frame_width, pic_frame_height));
 }
 
 CommonElement::CommonElement():
@@ -20,8 +18,6 @@ x_(0),
 y_(0),
 sprite_(sf::Sprite()),
 visibility_(true),
-frame_width_(0),
-frame_height_(0),
 window_(nullptr)
 {
     this->sprite_.setPosition(0, 0);
@@ -33,7 +29,8 @@ CommonElement::~CommonElement()
 void CommonElement::set_frame(int x, int y)
 {
     this->sprite_.setTextureRect(sf::IntRect
-        (x * this->frame_width_, y * this->frame_height_, frame_width_, frame_height_));
+        (x * this->sprite_.getTextureRect().width, y * this->sprite_.getTextureRect().height, 
+        this->sprite_.getTextureRect().width, this->sprite_.getTextureRect().height));
 }
 
 void CommonElement::set_visibility(bool visibility)
@@ -66,7 +63,8 @@ float CommonElement::get_y() const
 
 void CommonElement::set_origin_center()
 {
-    this->sprite_.setOrigin(this->frame_width_ / 2, this->frame_height_ / 2);
+    this->sprite_.setOrigin(this->sprite_.getTextureRect().width / 2,
+        this->sprite_.getTextureRect().height / 2);
 }
 
 void CommonElement::set_origin_zero()

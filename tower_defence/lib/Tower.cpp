@@ -2,8 +2,8 @@
 #include <math.h>
 
 Gun::Gun(sf::RenderWindow *window, float x0, float y0,
-    sf::Sprite sprite, int frame_width, int frame_height):
-CommonElement(window, x0, y0,   sprite,   frame_width,   frame_height)
+    sf::Sprite sprite, int pic_frame_width, int pic_frame_height):
+CommonElement(window, x0, y0,   sprite,   pic_frame_width,   pic_frame_height)
 {}
 
 Gun::Gun():
@@ -45,6 +45,8 @@ attack_range_(attack_range)
                              this->get_y() + RANK_SPRITE_OFFSET_Y);
     this->gun_.set_origin_center();
     this->bullet_.set_origin_center();
+    this->   gun_.set_position(x0 + CELL_SIZE / 2, y0 + CELL_SIZE / 2);
+    // this->bullet_.set_position(x0 + CELL_SIZE / 2, y0 + CELL_SIZE / 2);
 }
 
 Tower::Tower():

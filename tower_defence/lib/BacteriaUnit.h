@@ -8,6 +8,6 @@ class BacteriaUnit : public Unit
 public:
     BacteriaUnit();
     BacteriaUnit(sf::RenderWindow *window, float x0, float y0, 
-        sf::Sprite sprite, int frame_width, int frame_height);
+        sf::Sprite sprite, int pic_frame_width, int pic_frame_height);
    ~BacteriaUnit();
 };

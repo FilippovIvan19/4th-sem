@@ -16,7 +16,7 @@ private:
 public:
     LevelIcon();
     LevelIcon(sf::RenderWindow *window, sf::Sprite sprite,
-        int number, float frame_width, float frame_height);
+        int number, float pic_frame_width, float pic_frame_height);
    ~LevelIcon();
 
     void draw() const override;

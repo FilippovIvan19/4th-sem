@@ -34,8 +34,11 @@ char Cell::get_type() const {
 
 void Cell::highlight() {
   this->sprite_.setColor(sf::Color::Green);
+  // this->set_frame(this->sprite_.getTextureRect().left / this->sprite_.getTextureRect().width, 1);
 }
 
 void Cell::darken() {
   this->sprite_.setColor(sf::Color::White);
+  // this->set_frame(this->sprite_.getTextureRect().left / this->sprite_.getTextureRect().width, 0);
+  // printf("dark\n");
 }

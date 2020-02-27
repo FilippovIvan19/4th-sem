@@ -10,8 +10,6 @@ class CommonElement
 private:
     float x_;
     float y_;
-    int frame_width_;
-    int frame_height_;
     // float frame_chanched_ago_;
     sf::RenderWindow *window_;
     bool visibility_;
@@ -19,7 +17,7 @@ protected:
     sf::Sprite sprite_;
 public:
     CommonElement(sf::RenderWindow *window, float x0, float y0, 
-        sf::Sprite sprite, int frame_width, int frame_height);
+        sf::Sprite sprite, int pic_frame_width, int pic_frame_height);
     CommonElement();
    ~CommonElement();
 

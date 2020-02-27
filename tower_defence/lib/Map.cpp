@@ -12,7 +12,7 @@ busy_places(std::set<point, cmp_points> ())
   std::ifstream fin;
   fin.open(filename);
   if (!fin) {
-    printf("error openning map file\n");
+    // printf("error openning map file\n");
     return;
   }
 

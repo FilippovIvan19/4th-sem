@@ -18,8 +18,8 @@ Unit()
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
-        sf::Sprite sprite, int frame_width, int frame_height) :
-CommonElement(window, x0, y0, sprite, frame_width, frame_height),
+        sf::Sprite sprite, int pic_frame_width, int pic_frame_height) :
+CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
 health_ ( health ),
 velocity_ ( velocity ),

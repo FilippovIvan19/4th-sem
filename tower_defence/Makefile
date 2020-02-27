@@ -3,7 +3,7 @@ CFLAGS = -Wall
 PROG = game
 PROG_OBJ = main.o lib/CommonElement.o lib/GameManager.o lib/Tower.o \
 	lib/PillTower.o lib/Cell.o lib/Map.o lib/Unit.o lib/LevelIcon.o \
-	lib/BacteriaUnit.o
+	lib/BacteriaUnit.o lib/init_functions.o
 
 all: $(PROG)
 

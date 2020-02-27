@@ -8,8 +8,8 @@ score_ ( 0 )
 {}
 
 LevelIcon::LevelIcon(sf::RenderWindow *window, sf::Sprite sprite,
-        int number, float frame_width, float frame_height) : 
-CommonElement(window, 0, 0, sprite, frame_width, frame_height), 
+        int number, float pic_frame_width, float pic_frame_height) : 
+CommonElement(window, 0, 0, sprite, pic_frame_width, pic_frame_height), 
 number_ (number),
 locked_ (true),
 score_ ( 0 )
