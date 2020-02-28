@@ -21,5 +21,6 @@ public:
 
     void draw() const override;
     void set_lock(bool value);
+    bool is_locked() const;
     void set_score(int score);
 };

@@ -6,7 +6,7 @@ const float RANK_SPRITE_OFFSET_X = 0;
 const float RANK_SPRITE_OFFSET_Y = 0;
 const int CELL_SIZE = 50;
 const int CELL_PIC_SIZE = 100;
-// standart PillTower constants
+// PillTower constants
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 55;
@@ -25,11 +25,16 @@ const int BACTERIA_UNIT_HEALTH = 100;
 const int BACTERIA_UNIT_VELOCITY = 10;
 
 // LevelIcon constants
-const int LEVEL_ICON_SIZE = 100;
 const int LEVEL_ICON_PIC_SIZE = 100;
+const int LEVEL_ICON_SIZE = 100;
 const int LEVEL_COUNT_X = 4;
 const int LEVEL_COUNT_Y = 3;
 const int LEVEL_COUNT = LEVEL_COUNT_X * LEVEL_COUNT_Y;
+// Menu constants
+const int LEVEL_GRID_X0 = WINDOW_WIDTH / (2 * LEVEL_COUNT_X + 1);
+const int LEVEL_GRID_Y0 = WINDOW_HEIGHT / (2 * LEVEL_COUNT_Y + 1);
+const int LEVEL_OFFSET_X = LEVEL_GRID_X0;
+const int LEVEL_OFFSET_Y = LEVEL_GRID_Y0;
 
 struct point {
   int x;

@@ -55,3 +55,8 @@ void LevelIcon::set_lock(bool value)
 {
     this->locked_ = value;
 }
+
+bool LevelIcon::is_locked() const
+{
+    return this->locked_;
+}

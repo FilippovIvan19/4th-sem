@@ -1,21 +1,20 @@
 #include "lib/tower_defence_headers.h"
 
 
-
-void init_level(sf::RenderWindow& window, all_sprites *sprites ,int level)
+void init_level(sf::RenderWindow& window, all_sprites *sprites, int level)
 {
     
 }
 
-
 int current_position(sf::RenderWindow& window, sf::Event& event)
 {
-    int position = LEVEL_COUNT; // default case value
+    int position = LEVEL_COUNT; // LEVEL_COUNT is a default case value
 
     for (int i = 0; i < LEVEL_COUNT; ++i)
     {
-        if (sf::IntRect(100 + i * 100, 100 + i * 100,
-             LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE).contains(sf::Mouse::getPosition(window)))
+        if (sf::IntRect(LEVEL_GRID_X0 + LEVEL_OFFSET_X * 2 * (i % LEVEL_COUNT_X),
+         LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * 2 * (i / LEVEL_COUNT_X),
+         LEVEL_ICON_SIZE, LEVEL_ICON_SIZE).contains(sf::Mouse::getPosition(window)))
         {
             position = i;
             break;
@@ -30,8 +29,9 @@ int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
     LevelIcon *level[LEVEL_COUNT + 1];
     for (int i = 0; i < LEVEL_COUNT; ++i)
     {
-        level[i] = new LevelIcon(&window, 100 + i * 100, 100 + i * 100,
-         *sprites->level_icon_sprite, i, LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE);
+        level[i] = new LevelIcon(&window, LEVEL_GRID_X0 + LEVEL_OFFSET_X * 2 * (i % LEVEL_COUNT_X),
+         LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * 2 * (i / LEVEL_COUNT_X), *sprites->level_icon_sprite,
+         i, LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE);
     }
     level[0]->set_lock(false);
 
@@ -62,7 +62,10 @@ int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
             else if (event.type == sf::Event::MouseButtonPressed && 
                      sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 if(level_num > -1 && level_num < LEVEL_COUNT)
-                    is_menu = false;
+                {
+                    if(!level[level_num]->is_locked())
+                        is_menu = false;
+                }
         }
 
         if (level_num != LEVEL_COUNT)
