@@ -5,11 +5,12 @@
 
 #define TEXTURE_DEFINE(obj) \
 textures->obj##_texture = new sf::Texture;                      \
-textures->obj##_texture->loadFromFile("textures/" #obj ".png");
+textures->obj##_texture->loadFromFile("textures/" #obj ".png"); \
+textures->obj##_texture->setSmooth(true);
 
 void load_textures(all_textures *textures)
 {
-    #include "textures_list.cpp"
+    #include "textures_list.h"
 }
 
 #undef TEXTURE_DEFINE
@@ -24,7 +25,7 @@ sprites->obj##_sprite->setScale(x, y);
 
 void load_sprites(all_sprites *sprites, all_textures *textures)
 {
-    #include "textures_list.cpp"
+    #include "textures_list.h"
 
     SET_SCALE(pill_tower_base,   (float)CELL_SIZE / PILL_TOWER_BASE_PIC_SIZE,
                                  (float)CELL_SIZE / PILL_TOWER_BASE_PIC_SIZE)
@@ -39,7 +40,10 @@ void load_sprites(all_sprites *sprites, all_textures *textures)
                         (float)CELL_SIZE / BACTERIA_UNIT_PIC_SIZE)
 
     SET_SCALE(rank, (float)RANK_SIZE / RANK_PIC_SIZE,
-                               (float)RANK_SIZE / RANK_PIC_SIZE)
+                    (float)RANK_SIZE / RANK_PIC_SIZE)
+    
+    SET_SCALE(level_icon, (float)LEVEL_ICON_SIZE / LEVEL_ICON_PIC_SIZE,
+                          (float)LEVEL_ICON_SIZE / LEVEL_ICON_PIC_SIZE)
 
 }
 

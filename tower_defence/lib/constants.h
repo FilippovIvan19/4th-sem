@@ -24,6 +24,13 @@ const int BACTERIA_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_HEALTH = 100;
 const int BACTERIA_UNIT_VELOCITY = 10;
 
+// LevelIcon constants
+const int LEVEL_ICON_SIZE = 100;
+const int LEVEL_ICON_PIC_SIZE = 100;
+const int LEVEL_COUNT_X = 4;
+const int LEVEL_COUNT_Y = 3;
+const int LEVEL_COUNT = LEVEL_COUNT_X * LEVEL_COUNT_Y;
+
 struct point {
   int x;
   int y;
@@ -60,7 +67,7 @@ enum Unit_kind
 
 struct all_textures
 {
-    #include "textures_list.cpp"
+    #include "textures_list.h"
 };
 
 #undef TEXTURE_DEFINE
@@ -70,7 +77,7 @@ struct all_textures
 
 struct all_sprites
 {
-    #include "textures_list.cpp"
+    #include "textures_list.h"
 };
 
 #undef TEXTURE_DEFINE

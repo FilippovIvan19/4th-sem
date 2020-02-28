@@ -12,7 +12,7 @@ busy_places(std::set<point, cmp_points> ())
   std::ifstream fin;
   fin.open(filename);
   if (!fin) {
-    // printf("error openning map file\n");
+    printf("error openning map file\n");
     return;
   }
 
@@ -31,9 +31,8 @@ busy_places(std::set<point, cmp_points> ())
   }
   fin.close();
 
-
-  row = this->turn_vector[0].x;
-  col = this->turn_vector[0].y;
+  row = this->turn_vector[0].y;
+  col = this->turn_vector[0].x;
 
   int prev_dx = 0;
   int prev_dy = 0;
