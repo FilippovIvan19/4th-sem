@@ -1,3 +1,5 @@
+#pragma once
+
 #include "constants.h"
 // #include <SFML/Window/Event.hpp>
 #include <SFML/Audio.hpp>
