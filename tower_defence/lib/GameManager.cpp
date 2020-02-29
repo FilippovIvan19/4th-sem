@@ -30,6 +30,6 @@ void GameManager::update(float dt)
 
 GameManager::~GameManager()
 {
-    for (CommonElement *obj: this->game_objects_)
-        delete(obj);
+    // for (CommonElement *obj: this->game_objects_)
+    //     delete(obj);
 }
