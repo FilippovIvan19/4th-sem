@@ -41,9 +41,12 @@ void load_sprites(all_sprites *sprites, all_textures *textures)
 
     SET_SCALE(rank, (float)RANK_SIZE / RANK_PIC_SIZE,
                     (float)RANK_SIZE / RANK_PIC_SIZE)
-    
+
     SET_SCALE(level_icon, (float)LEVEL_ICON_SIZE / LEVEL_ICON_PIC_SIZE,
                           (float)LEVEL_ICON_SIZE / LEVEL_ICON_PIC_SIZE)
+    // added by Antipov
+    SET_SCALE(map, (float)CELL_SIZE / CELL_PIC_SIZE,
+                          (float)CELL_SIZE / CELL_PIC_SIZE)
 
 }
 

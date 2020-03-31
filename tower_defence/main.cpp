@@ -1,9 +1,30 @@
 #include "lib/tower_defence_headers.h"
 
+// added by Antipov (start)
+float get_ffullscreen_scale(void) {
+    // Get and display desktop mode
+    sf::VideoMode fullscreen = sf::VideoMode::getDesktopMode();
+    float scale_x = WINDOW_WIDTH *1. / fullscreen.width;
+    float scale_y = WINDOW_HEIGHT *1. / fullscreen.height;
+    printf("Game: %dx%d | Fullscreen: %dx%d | sx = %f, sy = %f\n", WINDOW_WIDTH, WINDOW_HEIGHT, fullscreen.width, fullscreen.height, scale_x, scale_y);
+    float min;
+    if (scale_x < scale_y)
+        min = scale_x;
+    else
+        min = scale_y;
+
+    if (WINDOW_WIDTH * min > fullscreen.width)
+        printf("Out of x border!\n");
+    if (WINDOW_HEIGHT * min > fullscreen.height)
+        printf("Out of y border!\n");
+    return min;
+}
+//  added by Antipov (end)
+
 
 void init_level(sf::RenderWindow& window, all_sprites *sprites, int level)
 {
-    
+
 }
 
 int current_position(sf::RenderWindow& window, sf::Event& event)
@@ -20,7 +41,7 @@ int current_position(sf::RenderWindow& window, sf::Event& event)
             break;
         }
     }
-    
+
     return position;
 }
 
@@ -59,7 +80,7 @@ int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
                 window.close();
                 return 0;
             }
-            else if (event.type == sf::Event::MouseButtonPressed && 
+            else if (event.type == sf::Event::MouseButtonPressed &&
                      sf::Mouse::isButtonPressed(sf::Mouse::Left))
                 if(level_num > -1 && level_num < LEVEL_COUNT)
                 {
@@ -82,20 +103,24 @@ int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
 
 int main(int argc, char const *argv[])
 {
+
     all_textures textures;
     all_sprites  sprites;
 
     load_textures(&textures);
     load_sprites(&sprites, &textures);
-    
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TOWER DEFENCE");
+
+    float flscr_scale = get_ffullscreen_scale()*3;
+    printf("scale: %f\n", flscr_scale);
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH *1. / flscr_scale, WINDOW_HEIGHT *1. / flscr_scale), "TOWER DEFENCE", sf::Style::Fullscreen | sf::Style::Close);
+    window.setView(sf::View(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)));
     sf::Event event;
 
     int level = main_menu(window, event, &sprites);
 
     GameManager manager;
     Map map(&window, *sprites.map_sprite, CONCAT(level + 1));
-    BacteriaUnit *bact = new BacteriaUnit(&window, 300, 300, 
+    BacteriaUnit *bact = new BacteriaUnit(&window, 300, 300,
         *sprites.bacteria_sprite, BACTERIA_UNIT_PIC_SIZE, BACTERIA_UNIT_PIC_SIZE);
     PillTower *pill = new PillTower(&window, 600, 600, &sprites);
 
