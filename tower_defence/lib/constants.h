@@ -2,39 +2,41 @@
 
 #include <SFML/Graphics.hpp>
 
-const float RANK_SPRITE_OFFSET_X = 0;
-const float RANK_SPRITE_OFFSET_Y = 0;
-const int CELL_SIZE = 50;
+extern float coef;
+
+#define RANK_SPRITE_OFFSET_X (int)(coef * 0)
+#define RANK_SPRITE_OFFSET_Y (int)(coef * 0)
+#define CELL_SIZE (int)(coef * 50)
 const int CELL_PIC_SIZE = 100;
 // PillTower constants
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 55;
-const int PILL_TOWER_BULLET_SIZE = 20;
-const int PILL_TOWER_RANGE = 150;
+#define PILL_TOWER_BULLET_SIZE (int)(coef * 20)
+#define PILL_TOWER_RANGE (int)(coef * 150)
 const int RANK_PIC_SIZE = 100;
-const int RANK_SIZE = 30;
+#define RANK_SIZE (int)(coef * 30)
 const int MAP_HEIGHT = 18;
 const int MAP_WIDTH = 32;
-const int WINDOW_WIDTH  = CELL_SIZE * MAP_WIDTH;
-const int WINDOW_HEIGHT = CELL_SIZE * MAP_HEIGHT;
+#define WINDOW_WIDTH  (CELL_SIZE * MAP_WIDTH)
+#define WINDOW_HEIGHT (CELL_SIZE * MAP_HEIGHT)
 
 // standart BacteriaUnit constants
 const int BACTERIA_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_HEALTH = 100;
-const int BACTERIA_UNIT_VELOCITY = 10;
+#define BACTERIA_UNIT_VELOCITY (int)(coef * 10)
 
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 100;
-const int LEVEL_ICON_SIZE = 100;
+#define LEVEL_ICON_SIZE (int)(coef * 100)
 const int LEVEL_COUNT_X = 4;
 const int LEVEL_COUNT_Y = 3;
 const int LEVEL_COUNT = LEVEL_COUNT_X * LEVEL_COUNT_Y;
 // Menu constants
-const int LEVEL_GRID_X0 = WINDOW_WIDTH / (2 * LEVEL_COUNT_X + 1);
-const int LEVEL_GRID_Y0 = WINDOW_HEIGHT / (2 * LEVEL_COUNT_Y + 1);
-const int LEVEL_OFFSET_X = LEVEL_GRID_X0;
-const int LEVEL_OFFSET_Y = LEVEL_GRID_Y0;
+#define LEVEL_OFFSET_X (int)((WINDOW_WIDTH  + LEVEL_ICON_SIZE) / (LEVEL_COUNT_X + 1))
+#define LEVEL_OFFSET_Y (int)((WINDOW_HEIGHT + LEVEL_ICON_SIZE) / (LEVEL_COUNT_Y + 1))
+#define LEVEL_GRID_X0 (LEVEL_OFFSET_X - LEVEL_ICON_SIZE)
+#define LEVEL_GRID_Y0 (LEVEL_OFFSET_Y - LEVEL_ICON_SIZE)
 
 struct point {
   int x;

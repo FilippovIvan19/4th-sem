@@ -6,7 +6,8 @@ CommonElement(),
 kind_ ( (Unit_kind)0 ),
 health_ ( 0 ),
 velocity_ ( 0 ),
-alive_ ( false )
+alive_ ( false ),
+cur_waypoint_ ( 0 )
 {}
 
 // experimental
@@ -23,11 +24,22 @@ CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
 health_ ( health ),
 velocity_ ( velocity ),
-alive_ ( true )
+alive_ ( true ),
+cur_waypoint_ ( 0 )
 {}
 
 Unit::~Unit()
 {}
+
+void Unit::set_way(Map map, int n)
+{
+    this->waypoint_ = map.next_turn(n);
+}
+
+void Unit::move(float dt)
+{
+    if(abs(waypoint_.x - x_) == 0);
+}
 
 void Unit::draw() const
 {

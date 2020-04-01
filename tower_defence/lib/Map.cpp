@@ -108,3 +108,8 @@ void Map::mark_free(point cell) {
   this->busy_places.erase(cell);
   this->free_places.insert(cell);
 }
+
+point Map::next_turn(int i)
+{
+  return turn_vector[i + 1];
+}

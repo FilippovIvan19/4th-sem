@@ -23,4 +23,5 @@ public:
   void darken_free();
   void mark_busy(point cell);
   void mark_free(point cell);
+  point next_turn(int i = -1);
 };

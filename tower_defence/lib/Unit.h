@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommonElement.h"
+#include "Map.h"
 #include "constants.h"
 
 
@@ -13,6 +14,8 @@ private:
     double health_;
     bool alive_;
     Unit_kind kind_;
+    point waypoint_;
+    int cur_waypoint_;
 public:
     Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
@@ -25,6 +28,7 @@ public:
     void    act (float dt) override; // moving, dying
     void update (float dt) override; // only visual
 
-    void hurt(double damage);
-    void move(float dt);
+    void set_way(Map map, int n);
+    void hurt (double damage);
+    void move (float dt);
 };
