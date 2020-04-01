@@ -110,9 +110,9 @@ int main(int argc, char const *argv[])
     load_textures(&textures);
     load_sprites(&sprites, &textures);
 
-    float flscr_scale = get_ffullscreen_scale()*3;
+    float flscr_scale = get_ffullscreen_scale()*1.02;
     printf("scale: %f\n", flscr_scale);
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH *1. / flscr_scale, WINDOW_HEIGHT *1. / flscr_scale), "TOWER DEFENCE", sf::Style::Fullscreen | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH *1. / flscr_scale, WINDOW_HEIGHT *1. / flscr_scale), "TOWER DEFENCE");//, sf::Style::Fullscreen | sf::Style::Close);
     window.setView(sf::View(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)));
     sf::Event event;
 
