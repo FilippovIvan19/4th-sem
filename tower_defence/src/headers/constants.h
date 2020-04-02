@@ -2,20 +2,20 @@
 
 #include <SFML/Graphics.hpp>
 
-extern float coef;
+extern float GLOBAL_SCALE_COEF;
 
-#define RANK_SPRITE_OFFSET_X (int)(coef * 0)
-#define RANK_SPRITE_OFFSET_Y (int)(coef * 0)
-#define CELL_SIZE (int)(coef * 50)
+#define RANK_SPRITE_OFFSET_X (int)(GLOBAL_SCALE_COEF * 0)
+#define RANK_SPRITE_OFFSET_Y (int)(GLOBAL_SCALE_COEF * 0)
+#define CELL_SIZE (int)(GLOBAL_SCALE_COEF * 50)
 const int CELL_PIC_SIZE = 100;
 // PillTower constants
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 55;
-#define PILL_TOWER_BULLET_SIZE (int)(coef * 20)
-#define PILL_TOWER_RANGE (int)(coef * 150)
+#define PILL_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 20)
+#define PILL_TOWER_RANGE (int)(GLOBAL_SCALE_COEF * 150)
 const int RANK_PIC_SIZE = 100;
-#define RANK_SIZE (int)(coef * 30)
+#define RANK_SIZE (int)(GLOBAL_SCALE_COEF * 30)
 const int MAP_HEIGHT = 18;
 const int MAP_WIDTH = 32;
 #define WINDOW_WIDTH  (CELL_SIZE * MAP_WIDTH)
@@ -24,11 +24,11 @@ const int MAP_WIDTH = 32;
 // standart BacteriaUnit constants
 const int BACTERIA_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_HEALTH = 100;
-#define BACTERIA_UNIT_VELOCITY (int)(coef * 10)
+#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 10)
 
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 100;
-#define LEVEL_ICON_SIZE (int)(coef * 100)
+#define LEVEL_ICON_SIZE (int)(GLOBAL_SCALE_COEF * 100)
 const int LEVEL_COUNT_X = 4;
 const int LEVEL_COUNT_Y = 3;
 const int LEVEL_COUNT = LEVEL_COUNT_X * LEVEL_COUNT_Y;

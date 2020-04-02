@@ -1,4 +1,4 @@
-#include "GameManager.h"
+#include "../headers/GameManager.h"
 
 
 GameManager::GameManager():

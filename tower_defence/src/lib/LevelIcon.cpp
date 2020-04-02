@@ -1,4 +1,4 @@
-#include "LevelIcon.h"
+#include "../headers/LevelIcon.h"
 
 LevelIcon::LevelIcon() :
 CommonElement(),

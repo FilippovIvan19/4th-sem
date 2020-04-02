@@ -1,4 +1,4 @@
-#include "Wave.h"
+#include "../headers/Wave.h"
 
 unitpack *Wave::create_unitpack(std::string &unit_name, int unit_count)
 {

@@ -1,4 +1,4 @@
-#include "lib/tower_defence_headers.h"
+#include "headers/tower_defence_headers.h"
 
 
 void init_level(sf::RenderWindow& window, all_sprites *sprites, int level)
@@ -23,9 +23,6 @@ int current_position(sf::RenderWindow& window, sf::Event& event)
     
     return position;
 }
-
-
-float coef;
 
 int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
 {
@@ -89,13 +86,14 @@ float get_screen_scale()
     return std::min(scale_x, scale_y);
 }
 
+float GLOBAL_SCALE_COEF;
+
 #define CONCAT(num) (std::string("levels/maps/") + std::to_string(num) + std::string(".txt")).c_str()
 
 int main(int argc, char const *argv[])
 {
-    coef = get_screen_scale();
-    std::cout << coef << std::endl;
-
+    GLOBAL_SCALE_COEF = get_screen_scale();
+    std::cout << GLOBAL_SCALE_COEF << std::endl;
     all_textures textures;
     all_sprites  sprites;
 
