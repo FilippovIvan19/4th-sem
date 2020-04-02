@@ -1,17 +1,32 @@
-CC = g++
-CFLAGS = -Wall
+LIB_DIR = src/lib
+OBJ_DIR = obj
+MAIN = src/main.cpp
 PROG = game
-PROG_OBJ = main.o lib/CommonElement.o lib/GameManager.o lib/Tower.o \
-	lib/PillTower.o lib/Cell.o lib/Map.o lib/Unit.o lib/LevelIcon.o \
-	lib/BacteriaUnit.o lib/init_functions.o lib/Wave.o
+DEPENDENCIES = .depend
+
+VPATH = $(LIB_DIR)
+SRCS = $(wildcard $(LIB_DIR)/*.cpp)
+PROG_OBJ = $(patsubst $(LIB_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
+
+CC = g++
+CXXFLAGS = -Wall
+
 
 all: $(PROG)
 
-$(PROG) : $(PROG_OBJ)
-	$(CC) $(CFLAGS) -o $@ $^ -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+$(PROG): $(PROG_OBJ) $(OBJ_DIR)/main.o
+	$(CC) $(CXXFLAGS) -o $@ $^ -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-.o : .cpp 
-	$(CC) -c $^
+$(OBJ_DIR)/%.o: $(LIB_DIR)/%.cpp
+	$(CC) $(CXXFLAGS) -c $^ -o $@
 
-clean : 
-	rm -f *.o $(PROG_OBJ) $(PROG)
+$(OBJ_DIR)/main.o: $(MAIN)
+	$(CC) $(CXXFLAGS) -c $^ -o $@
+
+depend: $(SRCS)
+	$(CC) $(CXXFLAGS) -MM -c $^ > $(DEPENDENCIES)
+
+clean: 
+	rm -f $(OBJ_DIR)/*.o $(PROG_OBJ) $(PROG) $(DEPENDENCIES)
+
+-include $(DEPENDENCIES)

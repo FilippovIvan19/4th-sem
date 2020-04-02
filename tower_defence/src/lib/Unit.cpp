@@ -31,14 +31,25 @@ cur_waypoint_ ( 0 )
 Unit::~Unit()
 {}
 
-void Unit::set_way(Map map, int n)
+void Unit::update_way(Map map, int n)
 {
     this->waypoint_ = map.next_turn(n);
 }
 
 void Unit::move(float dt)
 {
-    if(abs(waypoint_.x - x_) == 0);
+    if(waypoint_.x - this->x_ == 0)
+    {
+        while(waypoint_.y - this->y_ != 0)
+            this->y_ += waypoint_.y - this->y_ > 0 ?
+                -this->velocity_ * dt : this->velocity_ * dt; 
+    }
+    else
+    {
+        while(waypoint_.x - this->x_ != 0)
+            this->x_ += waypoint_.x - this->x_ > 0 ?
+                -this->velocity_ * dt : this->velocity_ * dt;   
+    }
 }
 
 void Unit::draw() const

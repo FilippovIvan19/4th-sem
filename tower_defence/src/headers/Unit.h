@@ -28,7 +28,7 @@ public:
     void    act (float dt) override; // moving, dying
     void update (float dt) override; // only visual
 
-    void set_way(Map map, int n);
+    void update_way(Map map, int n = -1);
     void hurt (double damage);
     void move (float dt);
 };

@@ -24,6 +24,9 @@ int current_position(sf::RenderWindow& window, sf::Event& event)
     return position;
 }
 
+
+float coef;
+
 int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
 {
     LevelIcon *level[LEVEL_COUNT + 1];
@@ -86,14 +89,12 @@ float get_screen_scale()
     return std::min(scale_x, scale_y);
 }
 
-float coef;
-
 #define CONCAT(num) (std::string("levels/maps/") + std::to_string(num) + std::string(".txt")).c_str()
 
 int main(int argc, char const *argv[])
 {
     coef = get_screen_scale();
-    std::cout << coef;
+    std::cout << coef << std::endl;
 
     all_textures textures;
     all_sprites  sprites;
