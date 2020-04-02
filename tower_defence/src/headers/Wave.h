@@ -17,5 +17,5 @@ public:
     std::vector<unitpack*> packs;
 
     Wave(const char *filename);
-   ~Wave();//delete all units inside
+   ~Wave();//deletes all units inside
 };

@@ -1,4 +1,4 @@
-#include "Tower.h"
+#include "../headers/Tower.h"
 #include <math.h>
 
 Gun::Gun(sf::RenderWindow *window, float x0, float y0,

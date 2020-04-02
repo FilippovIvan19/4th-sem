@@ -1,3 +1,4 @@
 callgrind*
 *.vscode
 *.o
+obj/*

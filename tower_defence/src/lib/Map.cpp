@@ -1,4 +1,4 @@
-#include "Map.h"
+#include "../headers/Map.h"
 
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename):
