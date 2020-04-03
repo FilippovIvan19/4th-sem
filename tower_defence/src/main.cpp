@@ -163,8 +163,7 @@ int main(int argc, char const *argv[])
             else
                 map.darken_free();
             
-        // bact->act(dt); 
-        manager.act(dt);
+        manager.act(1);
         }
 
 
