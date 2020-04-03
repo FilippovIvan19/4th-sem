@@ -93,6 +93,7 @@ float GLOBAL_SCALE_COEF;
 int main(int argc, char const *argv[])
 {
     GLOBAL_SCALE_COEF = get_screen_scale();
+    // GLOBAL_SCALE_COEF = 1;
     std::cout << GLOBAL_SCALE_COEF << std::endl;
     all_textures textures;
     all_sprites  sprites;
@@ -117,7 +118,7 @@ int main(int argc, char const *argv[])
     GameManager manager;
     Map map(&window, *sprites.map_sprite, CONCAT(level + 1));
     BacteriaUnit *bact = new BacteriaUnit(&window, 300, 300, 
-        *sprites.bacteria_sprite, BACTERIA_UNIT_PIC_SIZE, BACTERIA_UNIT_PIC_SIZE);
+        *sprites.bacteria_sprite, BACTERIA_UNIT_PIC_SIZE, BACTERIA_UNIT_PIC_SIZE, &map);
     PillTower *pill = new PillTower(&window, 600, 600, &sprites);
 
     manager.add_obj(bact);
@@ -161,7 +162,12 @@ int main(int argc, char const *argv[])
                 map.highlight_free();
             else
                 map.darken_free();
+            
+        // bact->act(dt); 
+        manager.act(dt);
         }
+
+
         // printf("%.2f\n", 1000000.0 / dt);
         main_clock.restart();
     }
