@@ -25,10 +25,11 @@ kind_ ( kind ),
 health_ ( health ),
 velocity_ ( velocity ),
 alive_ ( true ),
-cur_waypoint_ ( 0 ),
+cur_waypoint_ ( -1 ),
 map_ (map)
 {
     this->update_way(map);
+    this->set_position(waypoint_.x, waypoint_.y);
 }
 
 Unit::~Unit()
@@ -36,30 +37,35 @@ Unit::~Unit()
 
 void Unit::update_way(Map* map)
 {
-    this->waypoint_ = map->next_turn(this->cur_waypoint_);
+    this->waypoint_ = map->next_turn(this->cur_waypoint_++);
 }
 
 void Unit::move(float dt)
 {
-    printf("move to %d %d from %d %d\n", waypoint_.x, waypoint_.y, this->x_, this->y_);
-    if (waypoint_.x == this->x_ && waypoint_.y == this->y_)
+    using std::clog;
+    clog << "move to " << waypoint_.x   << " " << waypoint_.y 
+         << " from "   << this->get_x() << " " << this->get_y() << std::endl;
+
+    if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
     {
         this->update_way(map_);
-        printf("current position %d %d\n", x_, y_);
+        clog << "current position " << get_x() << " " << get_y() << std::endl;
         printf("here 1\n");
     }
-    else if(waypoint_.x - this->x_ == 0)
+    else if(waypoint_.x - this->get_x() == 0)
     {
-        if(waypoint_.y - this->y_ != 0)
-            this->y_ += waypoint_.y - this->y_ > 0 ?
-                -this->velocity_ * dt : this->velocity_ * dt; 
+        if(waypoint_.y - this->get_y() != 0)
+            this->set_position(this->get_x(), this->get_y() + 
+            (waypoint_.y - this->get_y() < 0 ?
+                -this->velocity_ * dt : this->velocity_ * dt)); 
         printf("here 2\n");
     }
-    else if(waypoint_.y - this->y_ == 0)
+    else if(waypoint_.y - this->get_y() == 0)
     {
-        if(waypoint_.x - this->x_ != 0)
-            this->x_ += waypoint_.x - this->x_ > 0 ?
-                -this->velocity_ * dt : this->velocity_ * dt;   
+        if(waypoint_.x - this->get_x() != 0)
+            this->set_position(this->get_x() + 
+            (waypoint_.x - this->get_x() < 0 ?
+                -this->velocity_ * dt : this->velocity_ * dt), this->get_y()); 
         printf("here 3\n");
     }
 }

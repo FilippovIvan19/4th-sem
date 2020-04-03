@@ -109,6 +109,6 @@ void Map::mark_free(point cell) {
   this->free_places.insert(cell);
 }
 
-point Map::next_turn(int n) const{
+point Map::next_turn(int n) const {
   return turn_vector[n + 1];
 }

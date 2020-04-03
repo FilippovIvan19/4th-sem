@@ -8,8 +8,8 @@
 class Unit : public CommonElement
 {
 private:
-    float x_;
-    float y_;
+    // float x_;
+    // float y_;
     float velocity_;
     double health_;
     bool alive_;
