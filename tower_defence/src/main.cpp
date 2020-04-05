@@ -133,6 +133,10 @@ int main(int argc, char const *argv[])
 
     while (window.isOpen())
     {
+        dt = main_clock.getElapsedTime().asMicroseconds();
+        main_clock.restart();
+        delta += dt;
+        
         while (window.pollEvent(event))
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
@@ -145,8 +149,6 @@ int main(int argc, char const *argv[])
         // manager.update(dt);
         manager.act(dt / 100000);
 
-        dt = main_clock.getElapsedTime().asMicroseconds();
-        delta += dt;
         if (delta >= 1e6)
         {
             delta = 0;
@@ -165,7 +167,6 @@ int main(int argc, char const *argv[])
         window.display();
 
         // printf("%.2f\n", 1000000.0 / dt);
-        main_clock.restart();
     }
 
     return 0;
