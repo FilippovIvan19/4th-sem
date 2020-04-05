@@ -78,12 +78,12 @@ int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
     return level_num;
 }
 
-float get_screen_scale()
+float get_screen_scale(float scale = 0)
 {
     sf::VideoMode fullscreen = sf::VideoMode::getDesktopMode();
     float scale_x = fullscreen.width  / 1920.0;
     float scale_y = fullscreen.height / 1080.0;
-    return std::min(scale_x, scale_y);
+    return scale ? scale : std::min(scale_x, scale_y);
 }
 
 float GLOBAL_SCALE_COEF;
@@ -92,8 +92,7 @@ float GLOBAL_SCALE_COEF;
 
 int main(int argc, char const *argv[])
 {
-    GLOBAL_SCALE_COEF = get_screen_scale();
-    // GLOBAL_SCALE_COEF = 1;
+    GLOBAL_SCALE_COEF = get_screen_scale(0.75);
     std::cout << GLOBAL_SCALE_COEF << std::endl;
     all_textures textures;
     all_sprites  sprites;
