@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+// #define DEBUG
+
 extern float GLOBAL_SCALE_COEF;
 
 #define RANK_SPRITE_OFFSET_X (int)(GLOBAL_SCALE_COEF * 0)
@@ -24,7 +26,7 @@ const int MAP_WIDTH = 32;
 // standart BacteriaUnit constants
 const int BACTERIA_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_HEALTH = 100;
-#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 10)
+#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 100)
 
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 100;
@@ -95,3 +97,41 @@ struct all_sprites
 };
 
 #undef TEXTURE_DEFINE
+
+enum class Direction {
+    U,
+    D,
+    L,
+    R,
+    UL,
+    UR,
+    DL,
+    DR,
+    LU,
+    LD,
+    RU,
+    RD,
+    ERR,
+
+    SPAWN_POINT = 'S',
+    END_POINT = 'E',
+    TURN_POINT = 'T',
+    ROAD_POINT = 'O',
+    FREE_PLACE = 'P',
+    COMMON_POINT = '.',
+
+    D_ROADSIDE = 4,
+    U_ROADSIDE = 0,
+    R_ROADSIDE = 2,
+    L_ROADSIDE = 6,
+    RU_EXT_ROADSIDE = 1,
+    RD_EXT_ROADSIDE = 3,
+    LD_EXT_ROADSIDE = 5,
+    LU_EXT_ROADSIDE = 7,
+
+    RD_INT_ROADSIDE = 'd',
+    RU_INT_ROADSIDE = 'c',
+    LD_INT_ROADSIDE = 'a',
+    LU_INT_ROADSIDE = 'b'
+
+};

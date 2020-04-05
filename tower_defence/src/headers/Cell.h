@@ -4,14 +4,15 @@
 
 class Cell : public CommonElement {
 private:
-  char cell_type_;
+  Direction cell_type_;
 public:
   Cell();
   Cell(sf::RenderWindow* window, sf::Sprite sprite,
-    int col, int row, char cell_type);
+    int col, int row, Direction cell_type);
  ~Cell();
 
-  char get_type() const;
+  Direction get_type() const;
+  void set_type(Direction cell_type);
   void highlight();
   void darken();
 };
