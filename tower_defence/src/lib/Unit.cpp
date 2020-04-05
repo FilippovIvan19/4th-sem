@@ -50,7 +50,7 @@ void Unit::move(float dt)
     {
         this->update_way(map_);
         clog << "current position " << get_x() << " " << get_y() << std::endl;
-        printf("here 1\n");
+        printf("movecase 1\n");
     }
     else if(waypoint_.x - this->get_x() == 0)
     {
@@ -58,7 +58,7 @@ void Unit::move(float dt)
             this->set_position(this->get_x(), this->get_y() + 
             (waypoint_.y - this->get_y() < 0 ?
                 -this->velocity_ * dt : this->velocity_ * dt)); 
-        printf("here 2\n");
+        printf("movecase 2\n");
     }
     else if(waypoint_.y - this->get_y() == 0)
     {
@@ -66,7 +66,7 @@ void Unit::move(float dt)
             this->set_position(this->get_x() + 
             (waypoint_.x - this->get_x() < 0 ?
                 -this->velocity_ * dt : this->velocity_ * dt), this->get_y()); 
-        printf("here 3\n");
+        printf("movecase 3\n");
     }
 }
 
