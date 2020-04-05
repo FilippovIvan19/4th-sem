@@ -1,4 +1,4 @@
 callgrind*
 *.vscode
 *.o
-obj/*
+obj*
