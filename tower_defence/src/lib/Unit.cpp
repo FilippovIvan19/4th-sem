@@ -29,6 +29,52 @@ alive_ ( true )
 Unit::~Unit()
 {}
 
+void Unit::update_way(Map* map)
+{
+    this->waypoint_ = map->next_turn(this->cur_waypoint_++);
+    if (this->waypoint_.x == END_POINT.x && this->waypoint_.y == END_POINT.y)
+        this->hurt(this->health_);
+}
+
+int sign(double exp)
+{
+    if (exp == 0)
+        return 0;
+    if (exp < 0)
+        return -1;
+    if (exp > 0)
+        return 1;
+}
+
+void Unit::move(float dt)
+{
+    // TODO: cast to int and fix checking arriving
+    
+    using std::clog;
+    clog << "move to " << waypoint_.x   << " " << waypoint_.y 
+         << " from "   << this->get_x() << " " << this->get_y() << std::endl;
+
+    if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
+    {
+        this->update_way(map_);
+        clog << "current position " << get_x() << " " << get_y() << std::endl;
+        printf("movecase 1\n");
+    }
+    else if (abs(waypoint_.x - this->get_x() < 0.1) && abs(waypoint_.y - this->get_y()) < 0.1)
+    {
+        set_position(waypoint_.x, waypoint_.y);
+        printf("movecase 2\n");
+    }
+    else
+    {
+        set_position(
+            this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
+            this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
+        );
+        printf("movecase 3\n");
+    }
+}
+
 void Unit::draw() const
 {
     CommonElement::draw();

@@ -143,13 +143,7 @@ int main(int argc, char const *argv[])
         // process_input(event);
 
         // manager.update(dt);
-        // manager.act(dt);
-
-
-        window.clear();
-        map.draw();
-        manager.draw();
-        window.display();
+        manager.act(dt / 100000);
 
         dt = main_clock.getElapsedTime().asMicroseconds();
         delta += dt;
@@ -162,9 +156,13 @@ int main(int argc, char const *argv[])
             else
                 map.darken_free();
             
-        manager.act(1);
+        // manager.act(1);
         }
 
+        window.clear();
+        map.draw();
+        manager.draw();
+        window.display();
 
         // printf("%.2f\n", 1000000.0 / dt);
         main_clock.restart();
