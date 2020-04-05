@@ -38,7 +38,7 @@ Unit::~Unit()
 void Unit::update_way(Map* map)
 {
     this->waypoint_ = map->next_turn(this->cur_waypoint_++);
-    if (this->waypoint_ == END_POINT)
+    if (this->waypoint_.x == END_POINT.x && this->waypoint_.y == END_POINT.y)
         this->hurt(this->health_);
 }
 
