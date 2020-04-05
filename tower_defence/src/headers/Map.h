@@ -25,7 +25,7 @@ public:
   void darken_free();
   void mark_busy(point cell);
   void mark_free(point cell);
-  point next_turn(int n = -1) const;
+  point next_turn(int n) const;
   Direction turn_info(const int x0, const int y0, const int x, const int y, bool p = false);
   void make_roadside(int col, int row, Direction type);
   bool check_corner(int col, int row);

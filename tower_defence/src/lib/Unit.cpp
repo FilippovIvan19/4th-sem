@@ -40,33 +40,47 @@ void Unit::update_way(Map* map)
     this->waypoint_ = map->next_turn(this->cur_waypoint_++);
 }
 
+int sign(double exp)
+{
+    if (exp == 0)
+        return 0;
+    if (exp < 0)
+        return -1;
+    if (exp > 0)
+        return 1;
+}
+
+using std::clog;
 void Unit::move(float dt)
 {
-    using std::clog;
+#ifdef DEBUG    
     clog << "move to " << waypoint_.x   << " " << waypoint_.y 
          << " from "   << this->get_x() << " " << this->get_y() << std::endl;
-
+#endif DEBUG
     if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
     {
         this->update_way(map_);
+#ifdef DEBUG
         clog << "current position " << get_x() << " " << get_y() << std::endl;
-        printf("here 1\n");
+        printf("movecase 1\n");
+#endif DEBUG
     }
     else if(waypoint_.x - this->get_x() == 0)
     {
-        if(waypoint_.y - this->get_y() != 0)
-            this->set_position(this->get_x(), this->get_y() + 
-            (waypoint_.y - this->get_y() < 0 ?
-                -this->velocity_ * dt : this->velocity_ * dt)); 
-        printf("here 2\n");
+        set_position(waypoint_.x, waypoint_.y);
+#ifdef DEBUG
+        printf("movecase 2\n");
+#endif DEBUG
     }
     else if(waypoint_.y - this->get_y() == 0)
     {
-        if(waypoint_.x - this->get_x() != 0)
-            this->set_position(this->get_x() + 
-            (waypoint_.x - this->get_x() < 0 ?
-                -this->velocity_ * dt : this->velocity_ * dt), this->get_y()); 
-        printf("here 3\n");
+        set_position(
+            this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
+            this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
+        );
+#ifdef DEBUG
+        printf("movecase 3\n");
+#endif DEBUG
     }
 }
 

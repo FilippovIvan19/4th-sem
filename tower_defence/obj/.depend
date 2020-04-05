@@ -1,0 +1,44 @@
+obj/LevelIcon.o: src/lib/LevelIcon.cpp src/lib/../headers/LevelIcon.h \
+ src/lib/../headers/constants.h src/lib/../headers/textures_list.h \
+ src/lib/../headers/CommonElement.h
+obj/CommonElement.o: src/lib/CommonElement.cpp \
+ src/lib/../headers/CommonElement.h src/lib/../headers/constants.h \
+ src/lib/../headers/textures_list.h
+obj/PillTower.o: src/lib/PillTower.cpp src/lib/../headers/PillTower.h \
+ src/lib/../headers/Tower.h src/lib/../headers/CommonElement.h \
+ src/lib/../headers/constants.h src/lib/../headers/textures_list.h
+obj/Wave.o: src/lib/Wave.cpp src/lib/../headers/Wave.h \
+ src/lib/../headers/constants.h src/lib/../headers/textures_list.h \
+ src/lib/../headers/BacteriaUnit.h src/lib/../headers/Unit.h \
+ src/lib/../headers/CommonElement.h src/lib/../headers/Map.h \
+ src/lib/../headers/Cell.h
+obj/init_functions.o: src/lib/init_functions.cpp \
+ src/lib/../headers/constants.h src/lib/../headers/textures_list.h \
+ src/lib/../headers/textures_list.h
+obj/GameManager.o: src/lib/GameManager.cpp src/lib/../headers/GameManager.h \
+ src/lib/../headers/CommonElement.h src/lib/../headers/constants.h \
+ src/lib/../headers/textures_list.h
+obj/Unit.o: src/lib/Unit.cpp src/lib/../headers/Unit.h \
+ src/lib/../headers/CommonElement.h src/lib/../headers/constants.h \
+ src/lib/../headers/textures_list.h src/lib/../headers/Map.h \
+ src/lib/../headers/Cell.h
+obj/Map.o: src/lib/Map.cpp src/lib/../headers/Map.h src/lib/../headers/Cell.h \
+ src/lib/../headers/CommonElement.h src/lib/../headers/constants.h \
+ src/lib/../headers/textures_list.h
+obj/Tower.o: src/lib/Tower.cpp src/lib/../headers/Tower.h \
+ src/lib/../headers/CommonElement.h src/lib/../headers/constants.h \
+ src/lib/../headers/textures_list.h
+obj/Cell.o: src/lib/Cell.cpp src/lib/../headers/Cell.h \
+ src/lib/../headers/CommonElement.h src/lib/../headers/constants.h \
+ src/lib/../headers/textures_list.h
+obj/BacteriaUnit.o: src/lib/BacteriaUnit.cpp \
+ src/lib/../headers/BacteriaUnit.h src/lib/../headers/Unit.h \
+ src/lib/../headers/CommonElement.h src/lib/../headers/constants.h \
+ src/lib/../headers/textures_list.h src/lib/../headers/Map.h \
+ src/lib/../headers/Cell.h
+obj/main.o: src/main.cpp src/headers/tower_defence_headers.h \
+ src/headers/constants.h src/headers/textures_list.h \
+ src/headers/GameManager.h src/headers/CommonElement.h \
+ src/headers/LevelIcon.h src/headers/PillTower.h src/headers/Tower.h \
+ src/headers/BacteriaUnit.h src/headers/Unit.h src/headers/Map.h \
+ src/headers/Cell.h

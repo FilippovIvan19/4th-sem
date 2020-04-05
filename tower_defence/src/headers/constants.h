@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+// #define DEBUG
+
 extern float GLOBAL_SCALE_COEF;
 
 #define RANK_SPRITE_OFFSET_X (int)(GLOBAL_SCALE_COEF * 0)
@@ -24,7 +26,7 @@ const int MAP_WIDTH = 32;
 // standart BacteriaUnit constants
 const int BACTERIA_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_HEALTH = 100;
-#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 10)
+#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 100)
 
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 100;
