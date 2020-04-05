@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 // #define DEBUG
+#define RELEASE
 
 extern float GLOBAL_SCALE_COEF;
 
@@ -26,7 +27,7 @@ const int MAP_WIDTH = 32;
 // standart BacteriaUnit constants
 const int BACTERIA_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_HEALTH = 100;
-#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 100)
+#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 200)
 
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 100;

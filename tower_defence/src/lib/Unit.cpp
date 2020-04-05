@@ -38,6 +38,8 @@ Unit::~Unit()
 void Unit::update_way(Map* map)
 {
     this->waypoint_ = map->next_turn(this->cur_waypoint_++);
+    if (this->waypoint_.x == END_POINT.x && this->waypoint_.y == END_POINT.y)
+        this->hurt(this->health_);
 }
 
 int sign(double exp)
@@ -65,14 +67,14 @@ void Unit::move(float dt)
         printf("movecase 1\n");
 #endif DEBUG
     }
-    else if(waypoint_.x - this->get_x() == 0)
+    else if (abs(waypoint_.x - this->get_x()) < 0.1 && abs(waypoint_.y - this->get_y()) < 0.1)
     {
         set_position(waypoint_.x, waypoint_.y);
 #ifdef DEBUG
         printf("movecase 2\n");
 #endif DEBUG
     }
-    else if(waypoint_.y - this->get_y() == 0)
+    else
     {
         set_position(
             this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
