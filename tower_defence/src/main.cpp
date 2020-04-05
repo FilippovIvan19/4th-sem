@@ -92,7 +92,7 @@ float GLOBAL_SCALE_COEF;
 
 int main(int argc, char const *argv[])
 {
-    GLOBAL_SCALE_COEF = get_screen_scale(0.75);
+    GLOBAL_SCALE_COEF = get_screen_scale();
     std::cout << GLOBAL_SCALE_COEF << std::endl;
     all_textures textures;
     all_sprites  sprites;
