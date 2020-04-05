@@ -42,8 +42,20 @@ void Unit::update_way(Map* map)
         this->hurt(this->health_);
 }
 
+int sign(double exp)
+{
+    if (exp == 0)
+        return 0;
+    if (exp < 0)
+        return -1;
+    if (exp > 0)
+        return 1;
+}
+
 void Unit::move(float dt)
 {
+    // TODO: cast to int and fix checking arriving
+    
     using std::clog;
     clog << "move to " << waypoint_.x   << " " << waypoint_.y 
          << " from "   << this->get_x() << " " << this->get_y() << std::endl;
@@ -54,20 +66,17 @@ void Unit::move(float dt)
         clog << "current position " << get_x() << " " << get_y() << std::endl;
         printf("movecase 1\n");
     }
-    else if(waypoint_.x - this->get_x() == 0)
+    else if (abs(waypoint_.x - this->get_x() < 0.1) && abs(waypoint_.y - this->get_y()) < 0.1)
     {
-        if(waypoint_.y - this->get_y() != 0)
-            this->set_position(this->get_x(), this->get_y() + 
-            (waypoint_.y - this->get_y() < 0 ?
-                -this->velocity_ * dt : this->velocity_ * dt)); 
+        set_position(waypoint_.x, waypoint_.y);
         printf("movecase 2\n");
     }
-    else if(waypoint_.y - this->get_y() == 0)
+    else
     {
-        if(waypoint_.x - this->get_x() != 0)
-            this->set_position(this->get_x() + 
-            (waypoint_.x - this->get_x() < 0 ?
-                -this->velocity_ * dt : this->velocity_ * dt), this->get_y()); 
+        set_position(
+            this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
+            this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
+        );
         printf("movecase 3\n");
     }
 }
