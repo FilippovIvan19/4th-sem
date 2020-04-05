@@ -43,6 +43,13 @@ struct point {
   int y;
 };
 
+bool operator==(const point& left, const point& right)
+{
+    return (left.x == right.x) && (left.y == right.y);
+}
+
+const point END_POINT{ -666, -666 };
+
 struct cmp_points
 {
     bool operator()(const point& left, const point& right)

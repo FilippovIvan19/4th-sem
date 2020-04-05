@@ -110,5 +110,8 @@ void Map::mark_free(point cell) {
 }
 
 point Map::next_turn(int n) const {
-  return turn_vector[n + 1];
+  return n != turn_vector.size() - 1 ? 
+  (point){turn_vector[n + 1].x * CELL_SIZE - CELL_SIZE / 2,
+          turn_vector[n + 1].y * CELL_SIZE - CELL_SIZE / 2} : 
+  END_POINT;
 }
