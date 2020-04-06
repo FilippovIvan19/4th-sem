@@ -30,7 +30,7 @@ int main_menu(sf::RenderWindow& window, sf::Event& event, all_sprites* sprites)
     }
     level[0]->set_lock(false);
 
-    CommonElement menu(&window, 0, 0, *sprites->menu_background_sprite, WINDOW_WIDTH, WINDOW_HEIGHT);
+    CommonElement menu(&window, 0, 0, *sprites->menu_background_sprite, MENU_PIC_WIDTH, MENU_PIC_HEIGHT);
     bool is_menu = true;
 
     int level_num;
@@ -87,7 +87,7 @@ float GLOBAL_SCALE_COEF;
 int main(int argc, char const *argv[])
 {
     GLOBAL_SCALE_COEF = get_screen_scale();
-    std::cout << GLOBAL_SCALE_COEF << std::endl;
+    // std::cout << GLOBAL_SCALE_COEF << std::endl;
     all_textures textures;
     all_sprites  sprites;
 

@@ -44,9 +44,15 @@ void load_sprites(all_sprites *sprites, all_textures *textures)
 
     SET_SCALE(rank, (float)RANK_SIZE / RANK_PIC_SIZE,
                     (float)RANK_SIZE / RANK_PIC_SIZE)
-    
+
     SET_SCALE(level_icon, (float)LEVEL_ICON_SIZE / LEVEL_ICON_PIC_SIZE,
                           (float)LEVEL_ICON_SIZE / LEVEL_ICON_PIC_SIZE)
+
+    SET_SCALE(menu_background, (float)WINDOW_WIDTH  / MENU_PIC_WIDTH,
+                               (float)WINDOW_HEIGHT / MENU_PIC_HEIGHT)
+
+    SET_SCALE(buttons, (float)CELL_SIZE / CELL_PIC_SIZE,
+                       (float)CELL_SIZE / CELL_PIC_SIZE)
 
 }
 

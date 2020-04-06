@@ -3,7 +3,14 @@
 #include <SFML/Graphics.hpp>
 
 // #define DEBUG
-#define RELEASE
+
+#ifndef DEBUG
+    #define RELEASE
+#endif
+
+#ifdef RELEASE
+    #define printf(...) ;
+#endif
 
 extern float GLOBAL_SCALE_COEF;
 
@@ -38,11 +45,10 @@ const int LEVEL_ICON_PIC_SIZE = 300;
 
 // Menu constants
 
-// const int MENU_PIC_WIDTH = 1920;
-// const int MENU_PIC_HEIGHT = 1080;
-// #define MENU_WIDTH  (int)(GLOBAL_SCALE_COEF * MENU_PIC_WIDTH)
-// #define MENU_HEIGHT (int)(GLOBAL_SCALE_COEF * MENU_PIC_HEIGHT)
-// I tried :(
+const int MENU_PIC_WIDTH = 1920;
+const int MENU_PIC_HEIGHT = 1080;
+// #define MENU_WIDTH  WINDOW_WIDTH
+// #define MENU_HEIGHT WINDOW_HEIGHT
 
 const int LEVEL_COUNT_X = 4;
 const int LEVEL_COUNT_Y = 3;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Wave.h"
+#include "NewWave.h"
 #include "Tower.h"
 
 
@@ -10,7 +10,7 @@ private:
     std::set<Tower*> towers_;
     Wave *cur_wave_;
 public:
-    EntityManager(/* args */);
+    EntityManager();
    ~EntityManager(); // should delete every tower
     
     void draw() const;

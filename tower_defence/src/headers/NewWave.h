@@ -9,7 +9,7 @@ private:
     std::vector<Unitpack*> packs_;
 public:
 
-    Wave(const char *filename); // look wave constructor
+    Wave(const char *wave_info); // look wave constructor
    ~Wave(); // should delete every unitpack inside
     
     void draw() const;
