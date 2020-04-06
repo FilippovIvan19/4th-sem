@@ -1,11 +1,6 @@
 #include "headers/tower_defence_headers.h"
 
 
-void init_level(sf::RenderWindow& window, all_sprites *sprites, int level)
-{
-    
-}
-
 int current_position(sf::RenderWindow& window, sf::Event& event)
 {
     int position = LEVEL_COUNT; // LEVEL_COUNT is a default case value
@@ -102,15 +97,9 @@ int main(int argc, char const *argv[])
     
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TOWER DEFENCE");
 
-    // sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH *1. / flscr_scale, WINDOW_HEIGHT *1. / flscr_scale), "TOWER DEFENCE", sf::Style::Close);
-    // window.setView(sf::View(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT)));
     
     sf::Event event;
 
-
-    // sf::View view = window.getDefaultView();
-    // view.zoom(2);
-    // window.setView(view);
 
     int level = main_menu(window, event, &sprites);
 
@@ -146,7 +135,6 @@ int main(int argc, char const *argv[])
 
         // process_input(event);
 
-        // manager.update(dt);
         manager.act(dt / 100000);
 
         if (delta >= 1e6)
@@ -158,7 +146,6 @@ int main(int argc, char const *argv[])
             else
                 map.darken_free();
             
-        // manager.act(1);
         }
 
         window.clear();
@@ -166,7 +153,6 @@ int main(int argc, char const *argv[])
         manager.draw();
         window.display();
 
-        // printf("%.2f\n", 1000000.0 / dt);
     }
 
     return 0;
