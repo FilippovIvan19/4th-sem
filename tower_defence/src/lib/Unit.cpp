@@ -53,28 +53,26 @@ int sign(double exp)
         return 1;
 }
 
-using std::clog;
 void Unit::move(float dt)
 {
-#ifdef DEBUG    
-    clog << "move to " << waypoint_.x   << " " << waypoint_.y 
-         << " from "   << this->get_x() << " " << this->get_y() << std::endl;
-#endif
+// #ifdef DEBUG
+//     std::clog << "move to " << waypoint_.x   << " " << waypoint_.y 
+//               << " from "   << this->get_x() << " " << this->get_y() << std::endl;
+// #endif
+    printf("moving to %d %d from %f %f\n", waypoint_.x, waypoint_.y, this->get_x(), this->get_y());
     // TODO: fix comparing 'point' objects
     if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
     {
         this->update_way(map_);
-#ifdef DEBUG
-        clog << "current position " << get_x() << " " << get_y() << std::endl;
         printf("movecase 1\n");
-#endif
+// #ifdef DEBUG
+//         std::clog << "movecase 1\ncurrent position " << get_x() << " " << get_y() << std::endl;
+// #endif
     }
     else if (abs(waypoint_.x - this->get_x()) < 0.1 && abs(waypoint_.y - this->get_y()) < 0.1)
     {
         set_position(waypoint_.x, waypoint_.y);
-#ifdef DEBUG
         printf("movecase 2\n");
-#endif
     }
     else
     {
@@ -82,9 +80,7 @@ void Unit::move(float dt)
             this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
             this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
         );
-#ifdef DEBUG
         printf("movecase 3\n");
-#endif
     }
 }
 
