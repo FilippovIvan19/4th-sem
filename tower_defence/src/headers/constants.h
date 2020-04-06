@@ -30,8 +30,8 @@ const int RANK_PIC_SIZE = 100;
 
 // Window constants
 const int MAP_HEIGHT = 18;
-const int MAP_WIDTH = 32;
-#define WINDOW_WIDTH  (CELL_SIZE * MAP_WIDTH)
+const int MAP_WIDTH = 31;
+#define WINDOW_WIDTH  (CELL_SIZE * (MAP_WIDTH + 1))
 #define WINDOW_HEIGHT (CELL_SIZE * MAP_HEIGHT)
 
 // BacteriaUnit constants

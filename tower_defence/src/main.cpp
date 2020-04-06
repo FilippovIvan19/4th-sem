@@ -110,6 +110,8 @@ int main(int argc, char const *argv[])
         *sprites.bacteria_sprite, BACTERIA_UNIT_PIC_SIZE, BACTERIA_UNIT_PIC_SIZE, &map);
     PillTower *pill = new PillTower(&window, 600, 600, &sprites);
 
+    Buttons buttons(&window, *sprites.buttons_sprite);
+
 #undef CONCAT
 
     manager.add_obj(bact);
@@ -154,6 +156,7 @@ int main(int argc, char const *argv[])
         window.clear();
         map.draw();
         manager.draw();
+        buttons.draw();
         window.display();
 
     }
