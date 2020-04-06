@@ -81,7 +81,9 @@ busy_places_(std::set<point, cmp_points> ())
               this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////
               this->cell_array[col][row].set_type(Direction::TURN_POINT);
               elem_in_vector++;
+#ifdef DEBUG
               printf("turn = (%d ; %d)\n", col, row);
+#endif
           }
 
 
@@ -97,13 +99,17 @@ busy_places_(std::set<point, cmp_points> ())
       }
     }
   }
+#ifdef DEBUG
   printf("I'm here!\n");
+#endif
   make_roadside(col, row, turn_info(prev_dx, prev_dy, prev_dx, prev_dy));
   //turn_info(prev_dx, prev_dy, prev_dx, prev_dy);
   //make_roadside();
   this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////////
   elem_in_vector++;
+#ifdef DEBUG
   printf("T + s + e = (25) = %d\n", elem_in_vector);
+#endif
 }
 
 Map::Map():

@@ -58,21 +58,21 @@ void Unit::move(float dt)
 #ifdef DEBUG    
     clog << "move to " << waypoint_.x   << " " << waypoint_.y 
          << " from "   << this->get_x() << " " << this->get_y() << std::endl;
-#endif DEBUG
+#endif
     if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
     {
         this->update_way(map_);
 #ifdef DEBUG
         clog << "current position " << get_x() << " " << get_y() << std::endl;
         printf("movecase 1\n");
-#endif DEBUG
+#endif
     }
     else if (abs(waypoint_.x - this->get_x()) < 0.1 && abs(waypoint_.y - this->get_y()) < 0.1)
     {
         set_position(waypoint_.x, waypoint_.y);
 #ifdef DEBUG
         printf("movecase 2\n");
-#endif DEBUG
+#endif
     }
     else
     {
@@ -82,7 +82,7 @@ void Unit::move(float dt)
         );
 #ifdef DEBUG
         printf("movecase 3\n");
-#endif DEBUG
+#endif
     }
 }
 

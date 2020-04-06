@@ -33,13 +33,13 @@ Wave::Wave(const char *wave_info)
     {
         stream >> unit_name >> unit_count;
         unitpack *unit_pack = create_unitpack(unit_name, unit_count);
-        this->packs.push_back(unit_pack);
+        this->packs_.push_back(unit_pack);
     }
 }
 
 Wave::~Wave()
 {
-    for (auto &pack : this->packs)
+    for (auto &pack : this->packs_)
     {
         for (auto &unit : *pack)
             delete unit;
