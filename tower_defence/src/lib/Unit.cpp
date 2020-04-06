@@ -11,11 +11,11 @@ cur_waypoint_ ( 0 )
 {}
 
 // experimental
-Unit::Unit(Unit_kind kind) :
-Unit()
-{
-    kind_ = kind;
-}
+// Unit::Unit(Unit_kind kind) :
+// Unit()
+// {
+//     kind_ = kind;
+// }
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
@@ -42,6 +42,7 @@ void Unit::update_way(Map* map)
         this->hurt(this->health_);
 }
 
+// TODO(optional): find alternative in c++ std lib
 int sign(double exp)
 {
     if (exp == 0)
@@ -59,6 +60,7 @@ void Unit::move(float dt)
     clog << "move to " << waypoint_.x   << " " << waypoint_.y 
          << " from "   << this->get_x() << " " << this->get_y() << std::endl;
 #endif
+    // TODO: fix comparing 'point' objects
     if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
     {
         this->update_way(map_);

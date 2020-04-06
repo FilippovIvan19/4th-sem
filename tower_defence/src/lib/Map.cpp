@@ -24,26 +24,26 @@ busy_places_(std::set<point, cmp_points> ())
       if       (str[col] == 'S') { // spawn point
           this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////
           elem_in_vector++;
-          this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::SPAWN_POINT);
+          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::SPAWN_POINT);
       }
       else if (str[col] == '.') { // no road
-          this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::COMMON_POINT);
+          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::COMMON_POINT);
       }
       else if (str[col] == 'O') { // main road
-          this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::ROAD_POINT);
+          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::ROAD_POINT);
       }
       else if (str[col] == 'P') { // tower placing available
           this->free_places_.insert( point{col, row} );
-          this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::FREE_PLACE);
+          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::FREE_PLACE);
       }
       else if (str[col] == 'T') { // turn point
-          this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::TURN_POINT);
+          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::TURN_POINT);
       }
       else if (str[col] == 'E') { // end of road
-          this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::END_POINT);
+          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::END_POINT);
       }
       else {
-          this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::ERR);
+          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::ERR);
           printf("Map: undefined map symbol.\n");
       }
     }
@@ -57,7 +57,7 @@ busy_places_(std::set<point, cmp_points> ())
   int prev_dx = 0;
   int prev_dy = 0;
 
-  while (this->cell_array[col][row].get_type() != Direction::END_POINT) { // end of road
+  while (this->cell_array_[col][row].get_type() != Direction::END_POINT) { // end of road
 
 
     bool break_flag = false;
@@ -73,13 +73,13 @@ busy_places_(std::set<point, cmp_points> ())
         continue;
       }
 
-      Direction cur_type = this->cell_array[col + dx][row + dy].get_type();
+      Direction cur_type = this->cell_array_[col + dx][row + dy].get_type();
       if (cur_type == Direction::TURN_POINT || cur_type == Direction::ROAD_POINT || cur_type == Direction::END_POINT) {
 
           make_roadside(col, row, turn_info(prev_dx, prev_dy, dx, dy, 1));
           if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { //road turn
               this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////
-              this->cell_array[col][row].set_type(Direction::TURN_POINT);
+              this->cell_array_[col][row].set_type(Direction::TURN_POINT);
               elem_in_vector++;
 #ifdef DEBUG
               printf("turn = (%d ; %d)\n", col, row);
@@ -100,9 +100,12 @@ busy_places_(std::set<point, cmp_points> ())
     }
   }
 #ifdef DEBUG
+  // who is here? please, change message to more appropriate. 
+  //    i can guess, that's about map initialization
   printf("I'm here!\n");
 #endif
   make_roadside(col, row, turn_info(prev_dx, prev_dy, prev_dx, prev_dy));
+  // maybe should be deleted
   //turn_info(prev_dx, prev_dy, prev_dx, prev_dy);
   //make_roadside();
   this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////////
@@ -124,8 +127,8 @@ Map::~Map()
 void Map::draw() const {
   for (int row = 0; row < MAP_HEIGHT; row++) {
     for (int col = 0; col < MAP_WIDTH; col++) {
-      cell_array[col][row].draw();
-      // printf("%c", cell_array[col][row].get_type());
+      cell_array_[col][row].draw();
+      // printf("%c", cell_array_[col][row].get_type());
     }
     // printf("\n");
   }
@@ -133,13 +136,13 @@ void Map::draw() const {
 
 void Map::highlight_free() {
   for (auto &cell: this->free_places_) {
-    this->cell_array[cell.x][cell.y].highlight();
+    this->cell_array_[cell.x][cell.y].highlight();
   }
 }
 
 void Map::darken_free() {
   for (auto &cell: this->free_places_) {
-    this->cell_array[cell.x][cell.y].darken();
+    this->cell_array_[cell.x][cell.y].darken();
   }
 }
 
@@ -153,7 +156,7 @@ void Map::mark_free(point cell) {
   this->free_places_.insert(cell);
 }
 
-Direction Map::turn_info(const int x0, const int y0, const int x, const int y, bool p) {
+Direction Map::turn_info(const int x0, const int y0, const int x, const int y, bool p) const {
     static int i = 0;
     if (p) printf("%d. %d %d %d %d.\t", i++, x0, y0, x, y);
 
@@ -260,80 +263,80 @@ void Map::make_roadside(int col, int row, Direction type) {
 
     if (type == Direction::R || type == Direction::L) {
         if (row - 1 >= 0 && !check_corner(col, row - 1)) {
-            this->cell_array[col][row - 1].set_type(Direction::U_ROADSIDE);
+            this->cell_array_[col][row - 1].set_type(Direction::U_ROADSIDE);
         }
         if (row + 1 < MAP_HEIGHT && !check_corner(col, row + 1)) {
-            this->cell_array[col][row + 1].set_type(Direction::D_ROADSIDE);
+            this->cell_array_[col][row + 1].set_type(Direction::D_ROADSIDE);
         }
         return;
     }
     if (type == Direction::U || type == Direction::D) {
         if (col - 1 >= 0 && !check_corner(col - 1, row)) {
-            this->cell_array[col - 1][row].set_type(Direction::L_ROADSIDE);
+            this->cell_array_[col - 1][row].set_type(Direction::L_ROADSIDE);
         }
         if (col + 1 < MAP_WIDTH && !check_corner(col + 1, row)) {
-            this->cell_array[col + 1][row].set_type(Direction::R_ROADSIDE);
+            this->cell_array_[col + 1][row].set_type(Direction::R_ROADSIDE);
         }
         return;
     }
 
     if (type == Direction::UL || type == Direction::RD) {
         if (col - 1 >= 0 && row + 1 < MAP_HEIGHT) {
-            this->cell_array[col - 1][row + 1].set_type(Direction::LD_INT_ROADSIDE); //a
+            this->cell_array_[col - 1][row + 1].set_type(Direction::LD_INT_ROADSIDE); //a
         }
         if (col + 1 < MAP_WIDTH && row - 1 >= 0)
-            this->cell_array[col + 1][row - 1].set_type(Direction::RU_EXT_ROADSIDE);
+            this->cell_array_[col + 1][row - 1].set_type(Direction::RU_EXT_ROADSIDE);
         if (col + 1 < MAP_WIDTH && !check_corner(col + 1, row))
-            this->cell_array[col + 1][row    ].set_type(Direction::R_ROADSIDE);
+            this->cell_array_[col + 1][row    ].set_type(Direction::R_ROADSIDE);
         if (row - 1 >= 0 && !check_corner(col, row - 1))
-            this->cell_array[col    ][row - 1].set_type(Direction::U_ROADSIDE);
+            this->cell_array_[col    ][row - 1].set_type(Direction::U_ROADSIDE);
         return;
     }
 
     if (type == Direction::RU || type == Direction::DL) {
         if (col - 1 >= 0 && row - 1 >= 0) {
-            this->cell_array[col - 1][row - 1].set_type(Direction::LU_INT_ROADSIDE); //b
+            this->cell_array_[col - 1][row - 1].set_type(Direction::LU_INT_ROADSIDE); //b
         }
         if (col + 1 < MAP_WIDTH && row + 1 < MAP_HEIGHT)
-            this->cell_array[col + 1][row + 1].set_type(Direction::RD_EXT_ROADSIDE);
+            this->cell_array_[col + 1][row + 1].set_type(Direction::RD_EXT_ROADSIDE);
         if (row + 1 < MAP_HEIGHT && !check_corner(col, row + 1))
-            this->cell_array[col    ][row + 1].set_type(Direction::D_ROADSIDE);
+            this->cell_array_[col    ][row + 1].set_type(Direction::D_ROADSIDE);
         if (col + 1 < MAP_WIDTH && !check_corner(col + 1, row))
-            this->cell_array[col + 1][row    ].set_type(Direction::R_ROADSIDE);
+            this->cell_array_[col + 1][row    ].set_type(Direction::R_ROADSIDE);
         return;
     }
 
     if (type == Direction::UR || type == Direction::LD) {
         if (col + 1 < MAP_WIDTH && row + 1 < MAP_HEIGHT) {
-            this->cell_array[col + 1][row + 1].set_type(Direction::RD_INT_ROADSIDE); // d
+            this->cell_array_[col + 1][row + 1].set_type(Direction::RD_INT_ROADSIDE); // d
         }
         if (col - 1 >= 0 && row - 1 >= 0)
-            this->cell_array[col - 1][row - 1].set_type(Direction::LU_EXT_ROADSIDE);
+            this->cell_array_[col - 1][row - 1].set_type(Direction::LU_EXT_ROADSIDE);
         if (row - 1 >= 0 && !check_corner(col, row - 1))
-            this->cell_array[col    ][row - 1].set_type(Direction::U_ROADSIDE);
+            this->cell_array_[col    ][row - 1].set_type(Direction::U_ROADSIDE);
         if (col - 1 >= 0 && !check_corner(col - 1, row))
-            this->cell_array[col - 1][row    ].set_type(Direction::L_ROADSIDE);
+            this->cell_array_[col - 1][row    ].set_type(Direction::L_ROADSIDE);
         return;
     }
 
     if (type == Direction::DR || type == Direction::LU) {
         if (col + 1 < MAP_WIDTH && row - 1 >= 0) {
-            this->cell_array[col + 1][row - 1].set_type(Direction::RU_INT_ROADSIDE); // c
+            this->cell_array_[col + 1][row - 1].set_type(Direction::RU_INT_ROADSIDE); // c
         }
         if (col - 1 >= 0 && row + 1 < MAP_HEIGHT)
-            this->cell_array[col - 1][row + 1].set_type(Direction::LD_EXT_ROADSIDE);
+            this->cell_array_[col - 1][row + 1].set_type(Direction::LD_EXT_ROADSIDE);
         if (row + 1 < MAP_HEIGHT && !check_corner(col, row + 1))
-            this->cell_array[col    ][row + 1].set_type(Direction::D_ROADSIDE);
+            this->cell_array_[col    ][row + 1].set_type(Direction::D_ROADSIDE);
         if (col - 1 >= 0 && !check_corner(col - 1, row))
-            this->cell_array[col - 1][row    ].set_type(Direction::L_ROADSIDE);
+            this->cell_array_[col - 1][row    ].set_type(Direction::L_ROADSIDE);
         return;
     }
 
     printf("Map: Error making roadside.\n");
 }
 
-bool Map::check_corner(int col, int row) {
-    switch (this->cell_array[col][row].get_type()) {
+bool Map::check_corner(int col, int row) const {
+    switch (this->cell_array_[col][row].get_type()) {
         case Direction::RD_INT_ROADSIDE:
         case Direction::RU_INT_ROADSIDE:
         case Direction::LD_INT_ROADSIDE:
@@ -350,7 +353,7 @@ bool Map::check_corner(int col, int row) {
     return 0;
 }
 
-bool Map::check_turn(Direction turn) {
+bool Map::check_turn(Direction turn) const {
     switch (turn) {
         case Direction::RD:
         case Direction::RU:

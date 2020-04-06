@@ -13,7 +13,7 @@ private:
   std::set<point, cmp_points> free_places_;
   std::set<point, cmp_points> busy_places_;
   std::vector<point> turn_vector_;
-  Cell cell_array[MAP_WIDTH][MAP_HEIGHT];
+  Cell cell_array_[MAP_WIDTH][MAP_HEIGHT];
 
 public:
   Map();
@@ -26,8 +26,12 @@ public:
   void mark_busy(point cell);
   void mark_free(point cell);
   point next_turn(int n) const;
-  Direction turn_info(const int x0, const int y0, const int x, const int y, bool p = false);
+  // what does this function stand for? it commented everywhere. 
+  //    it can be marked as #ifdef DEBUG .. #endif
+  //        vvvvvvvvv
+  Direction turn_info(const int x0, const int y0, const int x, const int y, bool p = false) const;
+  //        ^^^^^^^^^
   void make_roadside(int col, int row, Direction type);
-  bool check_corner(int col, int row);
-  bool check_turn(Direction turn);
+  bool check_corner(int col, int row) const;
+  bool check_turn(Direction turn) const;
 };

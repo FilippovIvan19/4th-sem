@@ -83,7 +83,6 @@ float get_screen_scale(float scale = 0)
 
 float GLOBAL_SCALE_COEF;
 
-#define CONCAT(num) (std::string("levels/maps/") + std::to_string(num) + std::string(".txt")).c_str()
 
 int main(int argc, char const *argv[])
 {
@@ -103,11 +102,15 @@ int main(int argc, char const *argv[])
 
     int level = main_menu(window, event, &sprites);
 
+#define CONCAT(num) (std::string("levels/maps/") + std::to_string(num) + std::string(".txt")).c_str()
+
     GameManager manager;
     Map map(&window, *sprites.map_sprite, CONCAT(level + 1));
     BacteriaUnit *bact = new BacteriaUnit(&window, 300, 300, 
         *sprites.bacteria_sprite, BACTERIA_UNIT_PIC_SIZE, BACTERIA_UNIT_PIC_SIZE, &map);
     PillTower *pill = new PillTower(&window, 600, 600, &sprites);
+
+#undef CONCAT
 
     manager.add_obj(bact);
     manager.add_obj(pill);
@@ -158,4 +161,3 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-#undef CONCAT

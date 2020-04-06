@@ -1,8 +1,8 @@
 #include "../headers/BacteriaUnit.h"
 
-// experimental
 BacteriaUnit::BacteriaUnit() : 
-Unit(Unit_kind::Bacteria)
+Unit()
+// Unit(Unit_kind::Bacteria) // experimental
 {}
 
 BacteriaUnit::BacteriaUnit(sf::RenderWindow *window, float x0, float y0, 
