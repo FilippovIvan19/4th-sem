@@ -13,8 +13,8 @@ class Wave
 private:
     static unitpack *create_unitpack(std::string &unit_name, int unit_count);
     /* data */
+    std::vector<unitpack*> packs_;
 public:
-    std::vector<unitpack*> packs;
 
     Wave(const char *filename);
    ~Wave();//deletes all units inside

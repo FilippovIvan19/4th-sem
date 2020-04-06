@@ -10,9 +10,9 @@
 
 class Map {
 private:
-  std::set<point, cmp_points> free_places;
-  std::set<point, cmp_points> busy_places;
-  std::vector<point> turn_vector;
+  std::set<point, cmp_points> free_places_;
+  std::set<point, cmp_points> busy_places_;
+  std::vector<point> turn_vector_;
   Cell cell_array[MAP_WIDTH][MAP_HEIGHT];
 
 public:

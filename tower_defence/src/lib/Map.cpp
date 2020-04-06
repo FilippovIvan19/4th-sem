@@ -2,9 +2,9 @@
 
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename):
-turn_vector(std::vector<point> ()),
-free_places(std::set<point, cmp_points> ()),
-busy_places(std::set<point, cmp_points> ())
+turn_vector_(std::vector<point> ()),
+free_places_(std::set<point, cmp_points> ()),
+busy_places_(std::set<point, cmp_points> ())
 {
     int elem_in_vector = 0;
   int row = 0;
@@ -22,7 +22,7 @@ busy_places(std::set<point, cmp_points> ())
     for (col = 0; col < MAP_WIDTH; col++) {
 
       if       (str[col] == 'S') { // spawn point
-          this->turn_vector.push_back( point{col, row} ); //////////////////////////////////
+          this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////
           elem_in_vector++;
           this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::SPAWN_POINT);
       }
@@ -33,7 +33,7 @@ busy_places(std::set<point, cmp_points> ())
           this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::ROAD_POINT);
       }
       else if (str[col] == 'P') { // tower placing available
-          this->free_places.insert( point{col, row} );
+          this->free_places_.insert( point{col, row} );
           this->cell_array[col][row] = Cell(window, map_sprite, col, row, Direction::FREE_PLACE);
       }
       else if (str[col] == 'T') { // turn point
@@ -51,8 +51,8 @@ busy_places(std::set<point, cmp_points> ())
   }
   fin.close();
 
-  row = this->turn_vector[0].y;
-  col = this->turn_vector[0].x;
+  row = this->turn_vector_[0].y;
+  col = this->turn_vector_[0].x;
 
   int prev_dx = 0;
   int prev_dy = 0;
@@ -78,7 +78,7 @@ busy_places(std::set<point, cmp_points> ())
 
           make_roadside(col, row, turn_info(prev_dx, prev_dy, dx, dy, 1));
           if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { //road turn
-              this->turn_vector.push_back( point{col, row} ); //////////////////////////////////
+              this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////
               this->cell_array[col][row].set_type(Direction::TURN_POINT);
               elem_in_vector++;
               printf("turn = (%d ; %d)\n", col, row);
@@ -101,15 +101,15 @@ busy_places(std::set<point, cmp_points> ())
   make_roadside(col, row, turn_info(prev_dx, prev_dy, prev_dx, prev_dy));
   //turn_info(prev_dx, prev_dy, prev_dx, prev_dy);
   //make_roadside();
-  this->turn_vector.push_back( point{col, row} ); //////////////////////////////////////
+  this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////////
   elem_in_vector++;
   printf("T + s + e = (25) = %d\n", elem_in_vector);
 }
 
 Map::Map():
-turn_vector(std::vector<point> ()),
-free_places(std::set<point, cmp_points> ()),
-busy_places(std::set<point, cmp_points> ())
+turn_vector_(std::vector<point> ()),
+free_places_(std::set<point, cmp_points> ()),
+busy_places_(std::set<point, cmp_points> ())
 {}
 
 Map::~Map()
@@ -126,25 +126,25 @@ void Map::draw() const {
 }
 
 void Map::highlight_free() {
-  for (auto &cell: this->free_places) {
+  for (auto &cell: this->free_places_) {
     this->cell_array[cell.x][cell.y].highlight();
   }
 }
 
 void Map::darken_free() {
-  for (auto &cell: this->free_places) {
+  for (auto &cell: this->free_places_) {
     this->cell_array[cell.x][cell.y].darken();
   }
 }
 
 void Map::mark_busy(point cell) {
-  this->free_places.erase(cell);
-  this->busy_places.insert(cell);
+  this->free_places_.erase(cell);
+  this->busy_places_.insert(cell);
 }
 
 void Map::mark_free(point cell) {
-  this->busy_places.erase(cell);
-  this->free_places.insert(cell);
+  this->busy_places_.erase(cell);
+  this->free_places_.insert(cell);
 }
 
 Direction Map::turn_info(const int x0, const int y0, const int x, const int y, bool p) {
@@ -363,8 +363,8 @@ bool Map::check_turn(Direction turn) {
 }
 
 point Map::next_turn(int n) const {
-  return n != turn_vector.size() - 1 ? 
-  (point){turn_vector[n + 1].x * CELL_SIZE,
-          turn_vector[n + 1].y * CELL_SIZE} : 
+  return n != turn_vector_.size() - 1 ? 
+  (point){turn_vector_[n + 1].x * CELL_SIZE,
+          turn_vector_[n + 1].y * CELL_SIZE} : 
   END_POINT;
 }
