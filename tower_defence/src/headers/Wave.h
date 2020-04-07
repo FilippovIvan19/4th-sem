@@ -1,21 +1,19 @@
 #pragma once
 
-#include "constants.h"
-#include "BacteriaUnit.h"
-#include <string>
-#include <iostream>
-#include <sstream>
+#include "Unitpack.h"
 
-typedef std::vector<Unit*> unitpack;
 
 class Wave
 {
 private:
-    static unitpack *create_unitpack(std::string &unit_name, int unit_count);
-    /* data */
-    std::vector<unitpack*> packs_;
+    std::vector<Unitpack*> packs_;
 public:
 
-    Wave(const char *filename);
-   ~Wave();//deletes all units inside
+    Wave(std::string &wave_info); // look wave constructor
+    Wave();
+   ~Wave(); // should delete every unitpack inside
+    
+    void draw() const;
+    void update(float dt);
+    void act(float dt);
 };

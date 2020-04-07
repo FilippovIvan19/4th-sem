@@ -2,7 +2,7 @@
 
 #include "Map.h"
 #include "EntityManager.h"
-#include "NewWave.h"
+#include "Wave.h"
 
 
 class Level
@@ -12,7 +12,8 @@ private:
     Map map_;
     EntityManager entity_manager_;
 public:
-    Level(/* args */);
+    Level(sf::RenderWindow *window, all_sprites *sprites, int num);
+    Level();
    ~Level(); //should delete every wave
     
     void draw() const;

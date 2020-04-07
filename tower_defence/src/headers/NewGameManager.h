@@ -12,6 +12,7 @@ private:
     static point get_coordinates();
 public:
     GameManager(/* args */);
+    // GameManager();
    ~GameManager();
     
     void draw() const;

@@ -11,6 +11,7 @@
 #include "BacteriaUnit.h"
 #include "Map.h"
 #include "Buttons.h"
+#include "Level.h"
 
 
 void load_textures(all_textures *textures);

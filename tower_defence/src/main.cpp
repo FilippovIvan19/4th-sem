@@ -100,25 +100,26 @@ int main(int argc, char const *argv[])
     sf::Event event;
 
 
-    int level = main_menu(window, event, &sprites);
+    int level_num = main_menu(window, event, &sprites);
 
-#define CONCAT(num) (std::string("levels/maps/") + std::to_string(num) + std::string(".txt")).c_str()
+// #define CONCAT(num) (std::string("levels/maps/") + std::to_string(num) + std::string(".txt")).c_str()
 
     GameManager manager;
-    Map map(&window, *sprites.map_sprite, CONCAT(level + 1));
-    BacteriaUnit *bact = new BacteriaUnit(&window, 300, 300, 
-        *sprites.bacteria_sprite, BACTERIA_UNIT_PIC_SIZE, BACTERIA_UNIT_PIC_SIZE, &map);
-    PillTower *pill = new PillTower(&window, 600, 600, &sprites);
+    // Map map(&window, *sprites.map_sprite, CONCAT(level_num + 1));
+    // BacteriaUnit *bact = new BacteriaUnit(&window, 300, 300, 
+    //     *sprites.bacteria_sprite, BACTERIA_UNIT_PIC_SIZE, BACTERIA_UNIT_PIC_SIZE, &map);
+    // PillTower *pill = new PillTower(&window, 600, 600, &sprites);
 
     Buttons buttons(&window, *sprites.buttons_sprite);
+    Level level(&window, &sprites, level_num + 1);
 
-#undef CONCAT
+// #undef CONCAT
 
-    manager.add_obj(bact);
-    manager.add_obj(pill);
+    // manager.add_obj(bact);
+    // manager.add_obj(pill);
 
 
-    bool highlight = false;
+    // bool highlight = false;
     float delta = 0;
 
 
@@ -138,24 +139,26 @@ int main(int argc, char const *argv[])
                 return 0;
             }
 
+        // printf("fps: %f\n", 1e6 / dt);
         // process_input(event);
 
-        manager.act(dt / 100000);
+        // manager.act(dt / 100000);
 
-        if (delta >= 1e6)
-        {
-            delta = 0;
-            highlight = !highlight;
-            if (highlight)
-                map.highlight_free();
-            else
-                map.darken_free();
+        // if (delta >= 1e6)
+        // {
+        //     delta = 0;
+        //     highlight = !highlight;
+        //     if (highlight)
+        //         map.highlight_free();
+        //     else
+        //         map.darken_free();
             
-        }
+        // }
 
         window.clear();
-        map.draw();
-        manager.draw();
+        // map.draw();
+        // manager.draw();
+        level.draw();
         buttons.draw();
         window.display();
 
