@@ -286,7 +286,8 @@ void GameManager::add_tower(point coords)
         }
         else
         {
-            this->buttons_.darken(this->chosen_tower_);
+            if (this->chosen_tower_ != -1)
+                this->buttons_.darken(this->chosen_tower_);
             this->chosen_tower_ = coords.y;
             this->buttons_.highlight(this->chosen_tower_);
             printf("case2\n");
