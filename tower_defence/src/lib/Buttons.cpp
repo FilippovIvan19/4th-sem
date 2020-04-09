@@ -23,6 +23,12 @@ Buttons::Buttons(sf::RenderWindow* window, sf::Sprite sprite)
             case Buttons::Order::Restart :
                 this->button_array_[i].set_frame(5, 0);
                 break;
+            case Buttons::Order::CapsuleTower :
+                this->button_array_[i].set_frame(9, 0);
+                break;
+            case Buttons::Order::PillTower :
+                this->button_array_[i].set_frame(10, 0);
+                break;
             
             default:
                 this->button_array_[i].set_frame(6, 0);
@@ -51,10 +57,15 @@ void Buttons::draw() const
 
 void Buttons::highlight(int num)
 {
+    // printf("high\n");
     this->background_[num].set_frame(8, 0);
+    if (num == Buttons::Order::Pause)
+        this->button_array_[num].set_frame(0, 0);
 }
 
 void Buttons::darken(int num)
 {
     this->background_[num].set_frame(7, 0);
+    if (num == Buttons::Order::Pause)
+        this->button_array_[num].set_frame(3, 0);
 }

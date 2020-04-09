@@ -24,34 +24,14 @@ int main(int argc, char const *argv[])
     
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "TOWER DEFENCE");
     sf::Event event;
+    sf::Clock main_clock;
 
-    GameManager manager(&window, &event, &sprites);
+    GameManager manager(&window, &event, &main_clock, &sprites);
 
     manager.level_menu();
     manager.load_level();
+    manager.main_cycle();
 
-
-    sf::Clock main_clock;
-    main_clock.restart();
-    float dt = 0;
-    float delta = 0;
-
-    while (window.isOpen())
-    {
-        dt = main_clock.getElapsedTime().asMicroseconds();
-        main_clock.restart();
-        delta += dt;
-
-        manager.draw();
-        
-        while (window.pollEvent(event))
-            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            {
-                window.close();
-                return 0;
-            }
-
-    }
 
     return 0;
 }

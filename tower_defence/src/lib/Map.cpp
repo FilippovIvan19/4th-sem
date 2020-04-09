@@ -3,8 +3,8 @@
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename):
 turn_vector_(std::vector<point> ()),
-free_places_(std::set<point, cmp_points> ()),
-busy_places_(std::set<point, cmp_points> ())
+free_places_(std::set<point> ()),
+busy_places_(std::set<point> ())
 {
     int elem_in_vector = 0;
   int row = 0;
@@ -114,8 +114,8 @@ busy_places_(std::set<point, cmp_points> ())
 
 Map::Map():
 turn_vector_(std::vector<point> ()),
-free_places_(std::set<point, cmp_points> ()),
-busy_places_(std::set<point, cmp_points> ())
+free_places_(std::set<point> ()),
+busy_places_(std::set<point> ())
 {}
 
 Map::~Map()
@@ -373,4 +373,9 @@ point Map::next_turn(int n) const {
   (point){turn_vector_[n + 1].x * CELL_SIZE,
           turn_vector_[n + 1].y * CELL_SIZE} : 
   END_POINT;
+}
+
+bool Map::is_free(point cell)
+{
+  return this->free_places_.count(cell);
 }

@@ -16,4 +16,6 @@ public:
     void draw() const;
     void update(float dt);
     void act(float dt);
+
+    void add(Tower *tower);
 };

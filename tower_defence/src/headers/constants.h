@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-// #define DEBUG
+#define DEBUG
 
 #ifndef DEBUG
     #define RELEASE
@@ -59,29 +59,26 @@ const int LEVEL_COUNT = LEVEL_COUNT_X * LEVEL_COUNT_Y;
 #define LEVEL_GRID_Y0 (LEVEL_OFFSET_Y - LEVEL_ICON_SIZE)
 
 struct point {
-  int x;
-  int y;
+    int x;
+    int y;
+
+    bool operator<(const point& other) const
+    {
+        if (this->x != other.x)
+            return this->x < other.x;
+        else
+            return this->y < other.y;
+    }
+
+    bool operator==(const point& other) const
+    {
+        return (this->x == other.x) && (this->y == other.y);
+    }
 };
 
-// TODO: fix comparing 'point' objects
-
-// bool operator==(const point& left, const point& right)
-// {
-//     return (left.x == right.x) && (left.y == right.y);
-// }
 
 const point END_POINT{ -666, -666 }; // POISON for units
 
-struct cmp_points
-{
-    bool operator()(const point& left, const point& right)
-    {
-        if (left.x != right.x)
-            return left.x < right.x;
-        else
-            return left.y < right.y;
-    }
-};
 
 
 enum class Tower_kind

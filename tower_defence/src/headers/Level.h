@@ -9,9 +9,10 @@ class Level
 {
 private:
     std::vector<Wave*> waves_;
+public:
     Map map_;
     EntityManager entity_manager_;
-public:
+
     Level(sf::RenderWindow *window, all_sprites *sprites, int num);
     Level();
    ~Level(); //should delete every wave

@@ -4,14 +4,16 @@ Cell::Cell(sf::RenderWindow* window, sf::Sprite sprite,
   int col, int row, Direction cell_type):
 cell_type_(cell_type),
 CommonElement(window, col * CELL_SIZE, row * CELL_SIZE,
-  sprite, CELL_PIC_SIZE, CELL_PIC_SIZE)
+  sprite, CELL_PIC_SIZE, CELL_PIC_SIZE),
+tower_(nullptr)
 {
     set_type(cell_type);
 }
 
 Cell::Cell():
 cell_type_(Direction::ERR),
-CommonElement()
+CommonElement(),
+tower_(nullptr)
 {}
 
 Cell::~Cell()
@@ -77,6 +79,7 @@ void Cell::set_type(Direction cell_type) {
             break;
 
         case Direction::FREE_PLACE:
+            this->set_frame(5, 0);
             printf("it's free place!\n");
             break;
         default:

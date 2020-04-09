@@ -10,12 +10,13 @@
 
 class Map {
 private:
-  std::set<point, cmp_points> free_places_;
-  std::set<point, cmp_points> busy_places_;
+  std::set<point> free_places_;
+  std::set<point> busy_places_;
   std::vector<point> turn_vector_;
-  Cell cell_array_[MAP_WIDTH][MAP_HEIGHT];
 
 public:
+  Cell cell_array_[MAP_WIDTH][MAP_HEIGHT];
+
   Map();
   Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename);
  ~Map();
@@ -34,4 +35,5 @@ public:
   void make_roadside(int col, int row, Direction type);
   bool check_corner(int col, int row) const;
   bool check_turn(Direction turn) const;
+  bool is_free(point cell);
 };

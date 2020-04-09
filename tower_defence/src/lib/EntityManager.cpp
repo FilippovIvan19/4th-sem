@@ -14,21 +14,29 @@ EntityManager::~EntityManager()
 
 void EntityManager::draw() const
 {
-    this->cur_wave_->draw();
+    if (this->cur_wave_)
+        this->cur_wave_->draw();
     for (auto tower : this->towers_)
         tower->draw();
 }
 
 void EntityManager::act(float dt)
 {
-    this->cur_wave_->act(dt);
+    if (this->cur_wave_)
+        this->cur_wave_->act(dt);
     for (auto tower : this->towers_)
         tower->act(dt);
 }
 
 void EntityManager::update(float dt)
 {
-    this->cur_wave_->update(dt);
+    if (this->cur_wave_)
+        this->cur_wave_->update(dt);
     for (auto tower : this->towers_)
         tower->update(dt);
+}
+
+void EntityManager::add(Tower *tower)
+{
+    this->towers_.insert(tower);
 }
