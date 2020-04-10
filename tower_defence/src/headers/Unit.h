@@ -8,8 +8,6 @@
 class Unit : public CommonElement
 {
 private:
-    // float x_;
-    // float y_;
     float velocity_;
     double health_;
     bool alive_;
@@ -21,7 +19,7 @@ public:
     Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Map* map);
-    Unit(Unit_kind kind); // experimental
+    // Unit(Unit_kind kind); // experimental
     Unit();
    ~Unit();
 

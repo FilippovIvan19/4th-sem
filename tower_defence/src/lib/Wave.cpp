@@ -1,48 +1,52 @@
 #include "../headers/Wave.h"
 
-unitpack *Wave::create_unitpack(std::string &unit_name, int unit_count)
-{
-    unitpack *unit_pack = new unitpack;
-    
-    if (unit_name == "BacteriaUnit")
-        for (int i = 0; i < unit_count; i++)
-        {
-            Unit *unit = new BacteriaUnit(/**/);
-            unit_pack->push_back(unit);
-        }
-    else if (unit_name == "VirusUnit")
-        for (int i = 0; i < unit_count; i++)
-        {
-            Unit *unit = new BacteriaUnit(/**/);
-            unit_pack->push_back(unit);
-        }
-    else
-        printf("wrong wave file\n");
-    
-    return unit_pack;
-}
+#include <string>
+#include <iostream>
+#include <sstream>
 
 
-Wave::Wave(const char *wave_info)
+Wave::Wave(std::string &wave_info) :
+packs_(std::vector<Unitpack*> ())
 {
-    std::string input(wave_info);
-    std::istringstream stream(input);
+    printf("wave info: %s", wave_info.c_str());
+    std::istringstream stream(wave_info);
     std::string unit_name;
     int unit_count = -1;
+    float spawn_delta = -1;
+    float spawn_delay = -1;
     while (!stream.eof())
     {
-        stream >> unit_name >> unit_count;
-        unitpack *unit_pack = create_unitpack(unit_name, unit_count);
-        this->packs.push_back(unit_pack);
+        stream >> unit_name >> unit_count >> spawn_delta >> spawn_delay;
+        Unitpack *unit_pack = new Unitpack(unit_name, unit_count, spawn_delta, spawn_delay);
+        this->packs_.push_back(unit_pack);
     }
 }
+
+Wave::Wave() :
+packs_(std::vector<Unitpack*> ())
+{}
 
 Wave::~Wave()
 {
-    for (auto &pack : this->packs)
-    {
-        for (auto &unit : *pack)
-            delete unit;
-        delete pack;        
-    }
+    for (auto pack : this->packs_)
+        delete pack;
 }
+
+void Wave::draw() const
+{
+    for (auto pack : this->packs_)
+        pack->draw();
+}
+
+void Wave::act(float dt)
+{
+    for (auto pack : this->packs_)
+        pack->act(dt);
+}
+
+void Wave::update(float dt)
+{
+    for (auto pack : this->packs_)
+        pack->update(dt);
+}
+

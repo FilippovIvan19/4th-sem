@@ -11,15 +11,16 @@ cur_waypoint_ ( 0 )
 {}
 
 // experimental
-Unit::Unit(Unit_kind kind) :
-Unit()
-{
-    kind_ = kind;
-}
+// Unit::Unit(Unit_kind kind) :
+// Unit()
+// {
+//     kind_ = kind;
+// }
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Map* map) :
+        // TODO: change use of x0 y0
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
 health_ ( health ),
@@ -42,6 +43,7 @@ void Unit::update_way(Map* map)
         this->hurt(this->health_);
 }
 
+// TODO(optional): find alternative in c++ std lib
 int sign(double exp)
 {
     if (exp == 0)
@@ -52,27 +54,26 @@ int sign(double exp)
         return 1;
 }
 
-using std::clog;
 void Unit::move(float dt)
 {
-#ifdef DEBUG    
-    clog << "move to " << waypoint_.x   << " " << waypoint_.y 
-         << " from "   << this->get_x() << " " << this->get_y() << std::endl;
-#endif DEBUG
+// #ifdef DEBUG
+//     std::clog << "move to " << waypoint_.x   << " " << waypoint_.y 
+//               << " from "   << this->get_x() << " " << this->get_y() << std::endl;
+// #endif
+    printf("moving to %d %d from %f %f\n", waypoint_.x, waypoint_.y, this->get_x(), this->get_y());
+    // TODO: fix comparing 'point' objects
     if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
     {
         this->update_way(map_);
-#ifdef DEBUG
-        clog << "current position " << get_x() << " " << get_y() << std::endl;
         printf("movecase 1\n");
-#endif DEBUG
+// #ifdef DEBUG
+//         std::clog << "movecase 1\ncurrent position " << get_x() << " " << get_y() << std::endl;
+// #endif
     }
     else if (abs(waypoint_.x - this->get_x()) < 0.1 && abs(waypoint_.y - this->get_y()) < 0.1)
     {
         set_position(waypoint_.x, waypoint_.y);
-#ifdef DEBUG
         printf("movecase 2\n");
-#endif DEBUG
     }
     else
     {
@@ -80,25 +81,25 @@ void Unit::move(float dt)
             this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
             this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
         );
-#ifdef DEBUG
         printf("movecase 3\n");
-#endif DEBUG
     }
 }
 
 void Unit::draw() const
 {
-    CommonElement::draw();
+    if(this->alive_)
+        CommonElement::draw();
 }
 
 void Unit::act(float dt)
 {
-    this->move(dt);
+    if(this->alive_)
+        this->move(dt);
 }
 
 void Unit::update(float dt)
 {
-    //
+    // if(this->alive_)
 }
 
 void Unit::hurt(double damage)
