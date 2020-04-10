@@ -52,6 +52,11 @@ Level::~Level()
         delete wave;
 }
 
+void Level::damage_hq(int n)
+{
+    this->hq_health_ -= n;
+}
+
 void Level::draw() const
 {
     this->map_.draw();

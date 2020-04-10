@@ -1,5 +1,0 @@
-callgrind*
-
-*.vscode
-*.o
-obj*

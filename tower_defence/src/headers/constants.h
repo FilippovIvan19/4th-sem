@@ -77,7 +77,7 @@ struct point {
 };
 
 
-const point END_POINT{ -666, -666 }; // POISON for units
+const point END_POINT{ -1, -1 }; // POISON for units
 
 
 
