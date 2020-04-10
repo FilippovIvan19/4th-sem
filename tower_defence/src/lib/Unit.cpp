@@ -20,6 +20,7 @@ cur_waypoint_ ( 0 )
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Map* map) :
+        // TODO: change use of x0 y0
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
 health_ ( health ),
@@ -86,17 +87,19 @@ void Unit::move(float dt)
 
 void Unit::draw() const
 {
-    CommonElement::draw();
+    if(this->alive_)
+        CommonElement::draw();
 }
 
 void Unit::act(float dt)
 {
-    this->move(dt);
+    if(this->alive_)
+        this->move(dt);
 }
 
 void Unit::update(float dt)
 {
-    //
+    // if(this->alive_)
 }
 
 void Unit::hurt(double damage)
