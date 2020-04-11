@@ -28,7 +28,6 @@ int main(int argc, char const *argv[])
 
     GameManager manager(&window, &event, &main_clock, &sprites);
 
-    manager.level_menu();
     manager.main_cycle();
 
 

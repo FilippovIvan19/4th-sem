@@ -23,21 +23,22 @@ public:
     GameManager();
    ~GameManager();
     
-    void draw() const; //ready
-    void update(float dt); //ready
-    void act(float dt); //ready
+    void draw() const;
+    void update(float dt);
+    void act(float dt);
 
-    point get_coordinates(); //ready
+    point get_coordinates();
 
-    int get_cur_lvl_pos(); //ready
-    int level_menu(); // main_menu //ready
-    void pause(); // wait for tap on play //ready
-    void set_speed(); // set coef for dt arg //ready
-    void input_handler(); // poll event etc
-    void add_tower(point coords); //ready
-    void quit_game();
+    int get_cur_lvl_pos();
+    GameCodes level_menu();
+    void pause();
+    void set_speed();
+    GameCodes input_handler();
+    void add_tower(point coords);
     void save_result();
-    void load_level(); // calls level constructor //ready
-    void restart_level(); // reloads level //ready
-    void main_cycle(); //ready
+    void load_level();
+    void restart_level();
+    GameCodes level_cycle();
+    GameCodes main_cycle();
+    void clear_state();
 };

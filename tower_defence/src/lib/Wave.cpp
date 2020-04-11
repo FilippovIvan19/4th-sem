@@ -52,3 +52,16 @@ void Wave::update(float dt)
         pack->update(dt);
 }
 
+bool Wave::is_alive() const
+{
+    // printf("1\n");
+    for (auto pack : this->packs_)
+    {
+        // printf("pack->is_alive() %d\n", pack->is_alive());
+        if (pack->is_alive())
+            return true;
+    }
+    // printf("2\n");
+
+    return false;
+}

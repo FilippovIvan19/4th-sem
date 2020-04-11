@@ -21,4 +21,5 @@ public:
     void act(float dt);
 
     void run_wave(int wave_num);
+    GameCodes check_wave();
 };

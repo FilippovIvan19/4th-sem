@@ -75,6 +75,24 @@ void Level::update(float dt)
 
 void Level::run_wave(int wave_num)
 {
+
     this->cur_wave_num_ = wave_num;
-    this->entity_manager_.set_wave(this->waves_[wave_num]);
+    if (wave_num >= this->waves_.size())
+        this->entity_manager_.set_wave(nullptr);
+    else
+        this->entity_manager_.set_wave(this->waves_[wave_num]);
+}
+
+GameCodes Level::check_wave()
+{
+    // printf("check wave\n");
+    if (!this->entity_manager_.is_cur_wave_alive())
+    {
+        this->run_wave(this->cur_wave_num_ + 1);
+        printf("run next wave %d\n", this->cur_wave_num_);
+    }
+    if (this->cur_wave_num_ == this->waves_.size())
+        return GameCodes::LEVEL_COMPLETED;
+    else
+        return GameCodes::NOTHING;
 }

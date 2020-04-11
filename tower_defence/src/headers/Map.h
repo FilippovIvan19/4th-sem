@@ -13,6 +13,7 @@ private:
   std::set<point> free_places_;
   std::set<point> busy_places_;
   std::vector<point> turn_vector_;
+  int hp_;
 
 public:
   Cell cell_array_[MAP_WIDTH][MAP_HEIGHT];
@@ -36,4 +37,5 @@ public:
   bool check_corner(int col, int row) const;
   bool check_turn(Direction turn) const;
   bool is_free(point cell);
+  void damage_hq(int hp = 1);
 };

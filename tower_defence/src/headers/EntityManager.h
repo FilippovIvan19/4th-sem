@@ -19,4 +19,5 @@ public:
 
     void add(Tower *tower);
     void set_wave(Wave *wave);
+    bool is_cur_wave_alive();
 };

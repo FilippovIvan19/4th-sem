@@ -61,7 +61,7 @@ void Unitpack::delay(float dt)
         return;
 
     this->delayed_ += dt;
-    int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_);
+    int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_ + 1);
     if (new_count < 0)
         new_count = 0;
     if (new_count > this->units_.size())
@@ -69,4 +69,14 @@ void Unitpack::delay(float dt)
     for (int i = this->spawned_count_; i < new_count; i++)
         this->units_[i]->spawn();
     this->spawned_count_ = new_count;
+}
+
+bool Unitpack::is_alive() const
+{
+    if (this->delayed_ <= this->spawn_delay_)
+        return true;
+    for (auto unit : this->units_)
+        if (unit->is_alive())
+            return true;
+    return false;
 }

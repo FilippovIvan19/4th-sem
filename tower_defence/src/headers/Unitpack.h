@@ -22,4 +22,5 @@ public:
     void act(float dt);
 
     void delay(float dt);
+    bool is_alive() const;
 };

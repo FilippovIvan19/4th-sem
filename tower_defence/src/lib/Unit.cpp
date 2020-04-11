@@ -45,7 +45,7 @@ void Unit::update_way(Map* map)
     if (this->waypoint_ == END_POINT)
     {
         this->hurt(this->health_);
-        // this->level_->damage_hq();
+        this->map_->damage_hq();
     }
 }
 

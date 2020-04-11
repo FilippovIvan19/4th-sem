@@ -52,7 +52,7 @@ void GameManager::update(float dt)
 GameManager::~GameManager()
 {}
 
-int GameManager::level_menu()
+GameCodes GameManager::level_menu()
 {
     LevelIcon *level[LEVEL_COUNT + 1];
     for (int i = 0; i < LEVEL_COUNT; ++i)
@@ -84,8 +84,7 @@ int GameManager::level_menu()
         {
             if (this->event_->type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                this->window_->close();
-                return 0;
+                return GameCodes::EXIT_APP;
             }
             else if (this->event_->type == sf::Event::MouseButtonPressed && 
                      sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -99,13 +98,13 @@ int GameManager::level_menu()
         if (level_num != LEVEL_COUNT)
             level[level_num]->set_frame(0, 0); // move sprite rect to left
     }
-    // printf("%d level chosen\n", level_num);
+    printf("%d level chosen\n", level_num);
     for (int i = 0; i < LEVEL_COUNT; ++i)
         delete level[i];
 
     this->level_num_ = level_num + 1;
     this->load_level();
-    return this->level_num_;
+    return GameCodes::NOTHING;
 }
 
 int GameManager::get_cur_lvl_pos()
@@ -137,15 +136,48 @@ void GameManager::load_level()
     this->level_->run_wave(0);
 }
 
-void GameManager::main_cycle()
+GameCodes GameManager::main_cycle()
 {
+    GameCodes retval = GameCodes::NOTHING;
+    while (true)
+    {
+        retval = this->level_menu();
+        if (retval == GameCodes::EXIT_APP)
+        {
+            this->window_->close();
+            return GameCodes::EXIT_APP;
+        }
+
+        retval = this->level_cycle();
+        switch (retval)
+        {
+            case GameCodes::LEVEL_COMPLETED:
+                this->clear_state();
+                break;
+
+            case GameCodes::EXIT_APP:
+                this->window_->close();
+                return GameCodes::EXIT_APP;
+                break;
+            
+            default:
+                break;
+        }
+    }
+}
+
+GameCodes GameManager::level_cycle()
+{
+    GameCodes retval = GameCodes::NOTHING;
     this->main_clock_->restart();
     float dt = 0;
     this->draw();
 
     while (this->window_->isOpen())
     {
-        this->input_handler();
+        retval = this->input_handler();
+        if (retval == GameCodes::EXIT_APP || retval == GameCodes::EXIT_LEVEL)
+            return retval;
 
         dt = this->main_clock_->getElapsedTime().asMicroseconds();
         this->main_clock_->restart();
@@ -159,10 +191,15 @@ void GameManager::main_cycle()
         }
 
         this->draw();
+
+        retval = this->level_->check_wave();
+        if (retval == GameCodes::EXIT_APP || retval == GameCodes::LEVEL_COMPLETED)
+            return retval;
     }
+    return GameCodes::EXIT_APP;
 }
 
-void GameManager::input_handler()
+GameCodes GameManager::input_handler()
 {
     while (this->window_->pollEvent(*this->event_))
     {
@@ -170,16 +207,14 @@ void GameManager::input_handler()
         switch (this->event_->type)
         {
             case sf::Event::Closed:
-                this->window_->close();
-                return;
+                return GameCodes::EXIT_APP;
                 break;
 
             case sf::Event::KeyPressed:
                 switch (this->event_->key.code)
                 {
                     case sf::Keyboard::Escape:
-                        this->window_->close();
-                        return;
+                        return GameCodes::EXIT_APP;
                         break;
 
                     case sf::Keyboard::R:
@@ -210,8 +245,7 @@ void GameManager::input_handler()
                             break;
 
                         case Buttons::Order::Exit:
-                            this->window_->close();
-                            return;
+                            return GameCodes::EXIT_APP;
                             break;
 
                         case Buttons::Order::Restart:
@@ -269,12 +303,12 @@ void GameManager::set_speed()
     else
     {
         this->buttons_.highlight(Buttons::Order::SpeedUp);
-        this->time_coef_ = 3;
+        this->time_coef_ = 7;
     }
     this->is_speed_up_ = !this->is_speed_up_;
 }
 
-void GameManager::restart_level()
+void GameManager::clear_state()
 {
     if (this->is_speed_up_)
         this->set_speed();
@@ -287,9 +321,11 @@ void GameManager::restart_level()
     while (this->window_->pollEvent(*this->event_));
     
     this->main_clock_->restart();
-    float dt = 0;
-    this->draw();
+}
 
+void GameManager::restart_level()
+{
+    this->clear_state();
     this->load_level();
 }
 
@@ -340,11 +376,6 @@ void GameManager::add_tower(point coords)
             this->level_->entity_manager_.add(tower);
         }
     }
-}
-
-void GameManager::quit_game()
-{
-
 }
 
 void GameManager::save_result()

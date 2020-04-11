@@ -17,4 +17,6 @@ public:
     void draw() const;
     void update(float dt);
     void act(float dt);
+
+    bool is_alive() const;
 };
