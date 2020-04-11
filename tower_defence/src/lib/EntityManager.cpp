@@ -40,3 +40,8 @@ void EntityManager::add(Tower *tower)
 {
     this->towers_.insert(tower);
 }
+
+void EntityManager::set_wave(Wave *wave)
+{
+    this->cur_wave_ = wave;
+}

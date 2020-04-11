@@ -1,14 +1,13 @@
 #pragma once
 
-#include "Map.h"
 #include "EntityManager.h"
-#include "Wave.h"
 
 
 class Level
 {
 private:
     std::vector<Wave*> waves_;
+    int cur_wave_num_;
 public:
     Map map_;
     EntityManager entity_manager_;

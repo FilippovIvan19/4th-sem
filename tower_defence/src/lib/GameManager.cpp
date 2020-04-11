@@ -14,12 +14,12 @@ level_num_(-1),
 time_coef_(1),
 is_pause_(false),
 is_speed_up_(false),
-// is_tower_chosen_(false)
 chosen_tower_(-1)
 {
     this->pause();
 }
 
+//add initialisation
 GameManager::GameManager() :
 level_(nullptr),
 buttons_()
@@ -104,6 +104,7 @@ int GameManager::level_menu()
         delete level[i];
 
     this->level_num_ = level_num + 1;
+    this->load_level();
     return this->level_num_;
 }
 
@@ -129,7 +130,11 @@ void GameManager::load_level()
 {
     if (this->level_)
         delete this->level_;
+    if (this->level_num_ < 1)
+        printf("wrong level number");
     this->level_ = new Level(this->window_, this->sprites_, this->level_num_);
+    
+    this->level_->run_wave(0);
 }
 
 void GameManager::main_cycle()
@@ -142,12 +147,12 @@ void GameManager::main_cycle()
     {
         this->input_handler();
 
+        dt = this->main_clock_->getElapsedTime().asMicroseconds();
+        this->main_clock_->restart();
+
         if (!this->is_pause_)
         {
-            dt = this->main_clock_->getElapsedTime().asMicroseconds();
-            this->main_clock_->restart();
-
-            dt *= this->time_coef_;
+            dt *= this->time_coef_ / 1e6;
 
             this->act(dt);
             this->update(dt);
@@ -271,7 +276,21 @@ void GameManager::set_speed()
 
 void GameManager::restart_level()
 {
+    if (this->is_speed_up_)
+        this->set_speed();
+    if (!this->is_pause_)
+        this->pause();
+    if (this->chosen_tower_ != -1)
+        this->buttons_.darken(this->chosen_tower_);
+    this->chosen_tower_ = -1;
+    
+    while (this->window_->pollEvent(*this->event_));
+    
+    this->main_clock_->restart();
+    float dt = 0;
+    this->draw();
 
+    this->load_level();
 }
 
 void GameManager::add_tower(point coords)
@@ -319,13 +338,8 @@ void GameManager::add_tower(point coords)
             this->level_->map_.mark_busy(coords);
             this->level_->map_.cell_array_[coords.x][coords.y].tower_ = tower;
             this->level_->entity_manager_.add(tower);
-
-            // this->chosen_tower_ = -1;
-            // this->buttons_.darken(coords.y);
         }
-        
     }
-    
 }
 
 void GameManager::quit_game()
