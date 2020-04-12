@@ -1,6 +1,6 @@
 #1
 BacteriaUnit 4 0.5 0
-BacteriaUnit 10 0.2 0
+BacteriaUnit 10 0.2 3
 #2
 BacteriaUnit 8 0.5 0
 BacteriaUnit 20 0.2 0

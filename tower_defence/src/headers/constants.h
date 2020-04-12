@@ -152,3 +152,14 @@ enum class Direction {
     LU_INT_ROADSIDE = 'b'
 
 };
+
+enum class GameCodes
+{
+    WAVE_ENDED,
+    LEVEL_COMPLETED,
+    LEVEL_FAILED,
+    EXIT_LEVEL,
+    EXIT_APP,
+    NOTHING,
+
+};

@@ -17,28 +17,28 @@ private:
     float time_coef_;
     bool is_pause_;
     bool is_speed_up_;
-    // bool is_tower_chosen_;
     int chosen_tower_;
 public:
     GameManager(sf::RenderWindow *window, sf::Event *event, sf::Clock *main_clock, all_sprites *sprites);
     GameManager();
    ~GameManager();
     
-    void draw() const; //ready
-    void update(float dt); //ready
-    void act(float dt); //ready
+    void draw() const;
+    void update(float dt);
+    void act(float dt);
 
     point get_coordinates();
 
-    int get_cur_lvl_pos(); //ready
-    int level_menu(); // main_menu //ready
-    void pause(); // wait for tap on play
-    void set_speed(); // set coef for dt arg
-    void input_handler(); // poll event etc
+    int get_cur_lvl_pos();
+    GameCodes level_menu();
+    void pause();
+    void set_speed();
+    GameCodes input_handler();
     void add_tower(point coords);
-    void quit_game();
     void save_result();
-    void load_level(); // calls level constructor //ready
-    void restart_level(); // reloads level
-    void main_cycle(); //ready
+    void load_level();
+    void restart_level();
+    GameCodes level_cycle();
+    GameCodes main_cycle();
+    void clear_state();
 };
