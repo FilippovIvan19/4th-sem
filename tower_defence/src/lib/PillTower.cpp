@@ -16,5 +16,5 @@ Tower()
 PillTower::~PillTower()
 {}
 
-void PillTower::shoot(CommonElement *target)
-{}
+// void PillTower::shoot(Unit *target)
+// {}

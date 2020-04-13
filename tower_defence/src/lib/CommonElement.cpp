@@ -61,6 +61,16 @@ float CommonElement::get_y() const
     return this->y_;
 }
 
+float CommonElement::get_center_x() const
+{
+    return this->x_ + this->sprite_.getGlobalBounds().width / 2;
+}
+
+float CommonElement::get_center_y() const
+{
+    return this->y_ + this->sprite_.getGlobalBounds().height / 2;
+}
+
 void CommonElement::set_origin_center()
 {
     this->sprite_.setOrigin(this->sprite_.getTextureRect().width / 2,

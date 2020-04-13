@@ -20,11 +20,12 @@ extern float GLOBAL_SCALE_COEF;
 const int CELL_PIC_SIZE = 100;
 
 // PillTower constants
+#define BULLET_SPEED (CELL_SIZE * 20)
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 55;
-#define PILL_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 20)
-#define PILL_TOWER_RANGE (int)(GLOBAL_SCALE_COEF * 150)
+#define PILL_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 10)
+#define PILL_TOWER_RANGE (int)(CELL_SIZE * 10)
 const int RANK_PIC_SIZE = 100;
 #define RANK_SIZE (int)(GLOBAL_SCALE_COEF * 30)
 

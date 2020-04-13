@@ -7,8 +7,8 @@
 class Wave
 {
 private:
-    std::vector<Unitpack*> packs_;
 public:
+    std::vector<Unitpack*> packs_;
 
     Wave(sf::RenderWindow *window, all_sprites *sprites, Map *map, std::string &wave_info);
     Wave();

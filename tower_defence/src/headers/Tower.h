@@ -1,6 +1,7 @@
 #pragma once
 
-#include "CommonElement.h"
+// #include "CommonElement.h"
+#include "Wave.h"
 
 
 class Gun : public CommonElement
@@ -11,7 +12,7 @@ public:
     Gun();
    ~Gun();
     
-    void rotate(CommonElement *target);
+    void rotate(Unit *target);
 
     // void    act(float dt) override;
     // void update(float dt) override;
@@ -31,7 +32,10 @@ private:
     float shoot_ago_;
     float attack_range_;
     Tower_kind kind_;
-    CommonElement *target_;
+    Unit *target_;
+    Unit *bullet_target_;
+    bool is_shooting_;
+    int power_;
 public:
     Tower(sf::RenderWindow *window, Tower_kind kind, float attack_range, float x0, float y0,
         sf::Sprite   base_sprite, int   base_frame_width, int   base_frame_height,
@@ -44,7 +48,9 @@ public:
     void    act(float dt) override; //shooting
     void update(float dt) override; //gun rotation
     void draw() const override;
-    void find_target();
+    void find_target(Wave *wave);
 
-    virtual void shoot(CommonElement *target) = 0;
+    virtual void shoot();
+    bool is_available(Unit *target);
+    void move_bullet(float dt);
 };

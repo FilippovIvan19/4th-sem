@@ -10,5 +10,5 @@ public:
     PillTower();
    ~PillTower();
     
-    void shoot(CommonElement *target) override;
+    // void shoot(Unit *target) override;
 };

@@ -29,6 +29,8 @@ public:
     void set_scale(float factorX, float factorY);
     float get_x() const;
     float get_y() const;
+    float get_center_x() const;
+    float get_center_y() const;
 
     virtual void draw() const;
     virtual void    act(float dt); //all inner logic & calls functions like moving, shooting etc

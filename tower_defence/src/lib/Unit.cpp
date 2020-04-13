@@ -118,3 +118,8 @@ void Unit::update(float dt)
 {
     // if (this->alive_)
 }
+
+float Unit::cur_waypoint_distance()
+{
+    return abs(this->waypoint_.x - this->get_x() + this->waypoint_.y - this->get_y());
+}
