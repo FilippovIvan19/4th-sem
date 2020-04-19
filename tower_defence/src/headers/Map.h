@@ -13,7 +13,7 @@ private:
   std::set<point> free_places_;
   std::set<point> busy_places_;
   std::vector<point> turn_vector_;
-  int hp_;
+  int hq_health_;
 
 public:
   Cell cell_array_[MAP_WIDTH][MAP_HEIGHT];

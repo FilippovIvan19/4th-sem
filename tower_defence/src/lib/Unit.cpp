@@ -29,9 +29,7 @@ alive_ ( false ),
 cur_waypoint_ ( -1 ),
 map_ (map)
 {
-        // printf("qwerty\n");
     this->update_way(this->map_);
-        // printf("qwerty\n");
 }
 
 Unit::~Unit()

@@ -5,7 +5,7 @@ Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename):
 turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
-hp_(100)
+hq_health_(100)
 {
     int elem_in_vector = 0;
   int row = 0;
@@ -117,7 +117,7 @@ Map::Map():
 turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
-hp_(0)
+hq_health_(0)
 {}
 
 Map::~Map()
@@ -384,6 +384,6 @@ bool Map::is_free(point cell)
 
 void Map::damage_hq(int hp)
 {
-    this->hp_ -= hp;
-    printf("hp %d\n", this->hp_);
+    this->hq_health_ -= hp;
+    printf("hp %d\n", this->hq_health_);
 }
