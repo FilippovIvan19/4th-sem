@@ -4,7 +4,6 @@
 
 
 class Buttons // just for drawing button icons
-
 {
 private:
     Cell button_array_[MAP_HEIGHT];

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CommonElement.h"
-#include "Level.h"
+#include "Map.h"
 #include "constants.h"
 
 
