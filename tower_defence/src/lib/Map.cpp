@@ -1,4 +1,5 @@
 #include "../headers/Map.h"
+#include <fstream>
 
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename):

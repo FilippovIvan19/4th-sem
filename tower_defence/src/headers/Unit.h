@@ -1,8 +1,9 @@
 #pragma once
 
 #include "CommonElement.h"
-#include "Map.h"
+// #include "Map.h"
 #include "constants.h"
+class Map;
 
 
 class Unit : public CommonElement

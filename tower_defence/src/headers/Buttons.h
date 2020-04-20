@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Cell.h"
+#include "constants.h"
 
 
 class Buttons // just for drawing button icons

@@ -1,7 +1,10 @@
 #pragma once
 
-#include "Unitpack.h"
-#include "Map.h"
+// #include "Unitpack.h"
+// #include "Map.h"
+#include "constants.h"
+class Unitpack;
+class Map;
 
 
 class Wave

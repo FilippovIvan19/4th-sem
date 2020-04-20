@@ -1,6 +1,9 @@
 #pragma once
 
 #include "EntityManager.h"
+#include "Map.h"
+#include "constants.h"
+class Wave;
 
 
 class Level

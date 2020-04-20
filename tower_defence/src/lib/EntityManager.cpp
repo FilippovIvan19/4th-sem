@@ -1,4 +1,6 @@
 #include "../headers/EntityManager.h"
+#include "../headers/Wave.h"
+#include "../headers/Tower.h"
 
 
 EntityManager::EntityManager() :

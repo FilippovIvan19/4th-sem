@@ -1,4 +1,7 @@
 #include "../headers/Tower.h"
+#include "../headers/Unit.h"
+#include "../headers/Wave.h"
+#include "../headers/Unitpack.h"
 #include <math.h>
 
 Gun::Gun(sf::RenderWindow *window, float x0, float y0,
@@ -41,7 +44,7 @@ kind_(kind),
 target_(nullptr),
 attack_range_(attack_range),
 is_shooting_(false),
-power_(0)
+power_(10000)
 {
     this->rank_.set_position(this->get_x() + RANK_SPRITE_OFFSET_X,
                              this->get_y() + RANK_SPRITE_OFFSET_Y);
@@ -49,7 +52,7 @@ power_(0)
     this->bullet_.set_origin_center();
     this->   gun_.set_position(x0 + CELL_SIZE / 2, y0 + CELL_SIZE / 2);
     this->bullet_.set_visibility(false);
-    this->bullet_.set_position(this->get_x(), this->get_y());
+    this->bullet_.set_position(this->get_center_x(), this->get_center_y());
 }
 
 Tower::Tower():

@@ -1,7 +1,9 @@
 #pragma once
 
-// #include "CommonElement.h"
-#include "Wave.h"
+#include "CommonElement.h"
+#include "constants.h"
+class Unit;
+class Wave;
 
 
 class Gun : public CommonElement

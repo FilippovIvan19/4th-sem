@@ -1,4 +1,5 @@
 #include "../headers/Cell.h"
+#include "../headers/Tower.h"
 
 Cell::Cell(sf::RenderWindow* window, sf::Sprite sprite,
   int col, int row, Direction cell_type):

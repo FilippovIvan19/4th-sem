@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Cell.h"
-#include "stdio.h"
-#include <fstream>
-#include <iostream>
-#include <list>
+// #include "stdio.h"
+// #include <fstream>
+// #include <iostream>
+// #include <list>
 
-#include <utility> // added
+// #include <utility> // added
 
 class Map {
 private:

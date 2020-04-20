@@ -1,7 +1,10 @@
 #include "../headers/Wave.h"
+#include "../headers/Unitpack.h"
+// #include "../headers/Wave.h"
 
 #include <string>
 #include <sstream>
+#include <iostream>
 
 
 Wave::Wave(sf::RenderWindow *window, all_sprites *sprites, Map *map, std::string &wave_info) :

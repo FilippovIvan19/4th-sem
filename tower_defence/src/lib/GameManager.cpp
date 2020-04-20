@@ -1,6 +1,7 @@
 #include "../headers/GameManager.h"
 #include "../headers/LevelIcon.h"
 #include "../headers/PillTower.h"
+#include "../headers/Level.h"
 
 
 GameManager::GameManager(sf::RenderWindow *window, sf::Event *event, sf::Clock *main_clock, all_sprites *sprites) :

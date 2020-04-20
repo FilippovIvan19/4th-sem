@@ -1,5 +1,7 @@
 #include "../headers/Level.h"
+#include "../headers/Wave.h"
 #include "string.h"
+#include <fstream>
 
 
 #define  MAP_FILE(num) (std::string("maps/")   + std::to_string(num) + std::string(".txt")).c_str()

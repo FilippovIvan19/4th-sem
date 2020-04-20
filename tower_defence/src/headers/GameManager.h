@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Level.h"
+// #include "Level.h"
 #include "Buttons.h"
+class Level;
 
 
 class GameManager

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Unit.h"
+#include "constants.h"
+class Map;
+class Unit;
 
 
 class Unitpack
