@@ -1,5 +1,5 @@
 #include "../headers/Unit.h"
-#include "../headers/Map.h"
+#include "../headers/Level.h"
 
 
 Unit::Unit() :
@@ -20,7 +20,7 @@ cur_waypoint_ ( 0 )
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, float x0, float y0,
-        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Map *map) :
+        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level) :
         // TODO: change use of x0 y0
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
@@ -28,9 +28,9 @@ health_ ( health ),
 velocity_ ( velocity ),
 alive_ ( false ),
 cur_waypoint_ ( -1 ),
-map_ (map)
+level_ (level)
 {
-    this->update_way(this->map_);
+    this->update_way();
 }
 
 Unit::~Unit()
@@ -38,13 +38,13 @@ Unit::~Unit()
 
 bool Unit::is_alive() const { return this->alive_; }
 
-void Unit::update_way(Map* map)
+void Unit::update_way()
 {
-    this->waypoint_ = map->next_turn(this->cur_waypoint_++);
+    this->waypoint_ = this->level_->map_.next_turn(this->cur_waypoint_++);
     if (this->waypoint_ == END_POINT)
     {
         this->hurt(this->health_);
-        this->map_->damage_hq();
+        this->level_->damage_hq();
     }
 }
 
@@ -64,7 +64,7 @@ void Unit::move(float dt)
     // TODO: fix comparing 'point' objects
     if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
     {
-        this->update_way(this->map_);
+        this->update_way();
         // printf("movecase 1\n");
 // #ifdef DEBUG
 //         std::clog << "movecase 1\ncurrent position " << get_x() << " " << get_y() << std::endl;

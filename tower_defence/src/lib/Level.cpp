@@ -14,7 +14,8 @@ Level::Level(sf::RenderWindow *window, all_sprites *sprites, int num) :
 map_(window, *sprites->map_sprite, MAP_FILE(num)),
 entity_manager_(),
 waves_(std::vector<Wave*> ()),
-cur_wave_num_(-1)
+cur_wave_num_(-1),
+hq_health_(100)
 {
     std::ifstream fin;
     fin.open(WAVE_FILE(num));
@@ -35,7 +36,7 @@ cur_wave_num_(-1)
         if (str[strlen(str) - 1] == '\n')
             str[strlen(str) - 1] = '\0';
         std::string wave_info = std::string(str);
-        this->waves_.push_back(new Wave(window, sprites, &this->map_, wave_info));
+        this->waves_.push_back(new Wave(window, sprites, this, wave_info));
         fin.getline(str, MAX_STR_SIZE + 1);
     }
 
@@ -50,7 +51,8 @@ Level::Level() :
 map_(),
 entity_manager_(),
 waves_(std::vector<Wave*> ()),
-cur_wave_num_(-1)
+cur_wave_num_(-1),
+hq_health_(0)
 {}
 
 Level::~Level()
@@ -97,4 +99,10 @@ GameCodes Level::check_wave()
         return GameCodes::LEVEL_COMPLETED;
     else
         return GameCodes::NOTHING;
+}
+
+void Level::damage_hq(int hp)
+{
+    this->hq_health_ -= hp;
+    printf("hp %d\n", this->hq_health_);
 }

@@ -4,7 +4,7 @@
 #include <math.h>
 
 
-Unitpack::Unitpack(sf::RenderWindow *window, all_sprites *sprites, Map *map,
+Unitpack::Unitpack(sf::RenderWindow *window, all_sprites *sprites, Level *level,
     std::string &unit_name, int unit_count, float spawn_delta, float spawn_delay) :
 spawn_delta_(spawn_delta),
 spawn_delay_(spawn_delay),
@@ -16,7 +16,7 @@ delayed_(0)
     if (unit_name == "BacteriaUnit")
         for (int i = 0; i < unit_count; i++)
         {
-            Unit *unit = new BacteriaUnit(window, 0, 0, 100, 0.5, *sprites->bacteria_sprite, map);
+            Unit *unit = new BacteriaUnit(window, 0, 0, 100, 0.5, *sprites->bacteria_sprite, level);
             this->units_.push_back(unit);
         }
     else

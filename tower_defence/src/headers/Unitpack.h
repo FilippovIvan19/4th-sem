@@ -1,7 +1,7 @@
 #pragma once
 
 #include "constants.h"
-class Map;
+class Level;
 class Unit;
 
 
@@ -15,7 +15,7 @@ private:
 public:
     std::vector<Unit*> units_;
 
-    Unitpack(sf::RenderWindow *window, all_sprites *sprites, Map *map,
+    Unitpack(sf::RenderWindow *window, all_sprites *sprites, Level *level,
         std::string &unit_name, int unit_count, float spawn_delta, float spawn_delay);
     Unitpack();
    ~Unitpack(); // should delete every unit inside

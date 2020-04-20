@@ -7,7 +7,7 @@
 #include <iostream>
 
 
-Wave::Wave(sf::RenderWindow *window, all_sprites *sprites, Map *map, std::string &wave_info) :
+Wave::Wave(sf::RenderWindow *window, all_sprites *sprites, Level *level, std::string &wave_info) :
 packs_(std::vector<Unitpack*> ())
 {
     // printf("wave info: %s\n\n", wave_info.c_str());
@@ -20,7 +20,7 @@ packs_(std::vector<Unitpack*> ())
     {
         stream >> unit_name >> unit_count >> spawn_delta >> spawn_delay;
         std::cout << unit_name << unit_count << spawn_delta << spawn_delay << std::endl; 
-        Unitpack *unit_pack = new Unitpack(window, sprites, map,
+        Unitpack *unit_pack = new Unitpack(window, sprites, level,
             unit_name, unit_count, spawn_delta, spawn_delay);
         this->packs_.push_back(unit_pack);
     }

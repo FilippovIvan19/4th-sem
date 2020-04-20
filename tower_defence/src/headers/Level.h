@@ -11,6 +11,7 @@ class Level
 private:
     std::vector<Wave*> waves_;
     int cur_wave_num_;
+    int hq_health_;
 public:
     Map map_;
     EntityManager entity_manager_;
@@ -20,7 +21,7 @@ public:
    ~Level(); //should delete every wave
 
     void run_wave(int wave_num);
-    void damage_hq(int n = 1);
+    void damage_hq(int hp = 1);
     
     void draw() const;
     void update(float dt);
