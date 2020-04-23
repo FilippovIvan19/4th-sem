@@ -6,7 +6,7 @@
 
 Gun::Gun(sf::RenderWindow *window, float x0, float y0,
     sf::Sprite sprite, int pic_frame_width, int pic_frame_height):
-CommonElement(window, x0, y0,   sprite,   pic_frame_width,   pic_frame_height)
+CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height)
 {}
 
 Gun::Gun():
@@ -28,37 +28,66 @@ void Gun::rotate(Unit *target)
 }
 
 
-Tower::Tower(sf::RenderWindow *window, Tower_kind kind, float attack_range, float x0, float y0,
+Bullet::Bullet(sf::RenderWindow *window, float x0, float y0,
+    sf::Sprite sprite, int pic_frame_width, int pic_frame_height):
+CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
+target_(nullptr)
+{
+    this->set_origin_center();
+    this->set_visibility(false);
+}
+
+Bullet::Bullet():
+CommonElement(),
+target_(nullptr)
+{}
+
+Bullet::~Bullet()
+{}
+
+
+Tower::Tower(sf::RenderWindow *window, Tower_kind kind, float attack_range,
+    float shoot_period, double power, float x0, float y0,
     sf::Sprite   base_sprite, int   base_frame_width, int   base_frame_height,
     sf::Sprite    gun_sprite, int    gun_frame_width, int    gun_frame_height,
     sf::Sprite bullet_sprite, int bullet_frame_width, int bullet_frame_height,
     sf::Sprite   rank_sprite, int   rank_frame_width, int   rank_frame_height):
 CommonElement(window, x0, y0,   base_sprite,   base_frame_width,   base_frame_height),
 gun_(         window, x0, y0,    gun_sprite,    gun_frame_width,    gun_frame_height),
-bullet_(      window, x0, y0, bullet_sprite, bullet_frame_width, bullet_frame_height),
 rank_(        window, x0, y0,   rank_sprite,   rank_frame_width,   rank_frame_height),
+free_bullets_(std::queue<Bullet*> ()),
+active_bullets_(std::set<Bullet*> ()),
 rank_num_(0),
-shoot_period_(3),
+shoot_period_(shoot_period),
 shoot_ago_(0),
 kind_(kind),
 target_(nullptr),
 attack_range_(attack_range),
-is_shooting_(false),
-power_(10000)
+power_(power)
 {
     this->rank_.set_position(this->get_x() + RANK_SPRITE_OFFSET_X,
                              this->get_y() + RANK_SPRITE_OFFSET_Y);
     this->gun_.set_origin_center();
-    this->bullet_.set_origin_center();
     this->   gun_.set_position(x0 + CELL_SIZE / 2, y0 + CELL_SIZE / 2);
-    this->bullet_.set_visibility(false);
-    this->bullet_.set_position(this->get_center_x(), this->get_center_y());
+
+    int bullet_count = this->attack_range_ / BULLET_SPEED / this->shoot_period_ + 3;
+
+    for (int i = 0; i < bullet_count; i++)
+    {
+        
+        Bullet *bullet = new Bullet(window, this->get_center_x(), this->get_center_y(),
+            bullet_sprite, bullet_frame_width, bullet_frame_height);
+        this->free_bullets_.push(bullet);
+    }
+    
+
 }
 
 Tower::Tower():
 CommonElement(),
 gun_(),
-bullet_(),
+free_bullets_(std::queue<Bullet*> ()),
+active_bullets_(std::set<Bullet*> ()),
 rank_(),
 rank_num_(0),
 shoot_period_(0),
@@ -66,12 +95,14 @@ shoot_ago_(0),
 kind_((Tower_kind)0),
 target_(nullptr),
 attack_range_(0),
-is_shooting_(false),
 power_(0)
 {}
 
 Tower::~Tower()
-{}
+{
+    for (auto *bullet : this->active_bullets_)
+        delete bullet;
+}
 
 void Tower::act(float dt)
 {
@@ -82,8 +113,7 @@ void Tower::act(float dt)
         this->shoot_ago_ = 0;
     }
 
-    if (this->is_shooting_)
-        this->move_bullet(dt);
+    this->move_bullets(dt);
     /*
     this->gun_.act(dt);
     this->bullet_.act(dt);
@@ -105,7 +135,8 @@ void Tower::update(float dt)
 void Tower::draw() const
 {
     CommonElement::draw();
-    this->bullet_.draw();
+    for (auto *bullet : this->active_bullets_)
+        bullet->draw();
     this->gun_.draw();
     // this->rank_.draw();
 }
@@ -170,34 +201,45 @@ bool Tower::is_available(Unit *target)
 
 void Tower::shoot()
 {
-    this->bullet_target_ = this->target_;
-    this->is_shooting_ = true;
-    this->bullet_.set_visibility(true);
+    Bullet *bullet = this->free_bullets_.front();
+    this->free_bullets_.pop();
+    bullet->target_ = this->target_;
+    bullet->set_visibility(true);
+    this->active_bullets_.insert(bullet);
 }
 
-void Tower::move_bullet(float dt)
+void Tower::move_bullets(float dt)
 {
-    float x = this->bullet_.get_x();
-    float y = this->bullet_.get_y();
-    float x1 = this->bullet_target_->get_center_x();
-    float y1 = this->bullet_target_->get_center_y();
+    std::set<Bullet*> deactive;
 
-    float r = sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
-
-    if (r <= this->bullet_.get_center_x() - this->bullet_.get_x())
+    for (auto *bullet : this->active_bullets_)
     {
-        this->bullet_.set_position(this->get_center_x(), this->get_center_y());
-        this->bullet_.set_visibility(false);
-        this->is_shooting_ = false;
-        this->bullet_target_->hurt(this->power_);
-    }
-    else
-    {
-        this->bullet_.set_position(
-            this->bullet_.get_x() + BULLET_SPEED * dt / r * (x1 - x),
-            this->bullet_.get_y() + BULLET_SPEED * dt / r * (y1 - y)
-        );
-    }
+        float x = bullet->get_x();
+        float y = bullet->get_y();
+        float x1 = bullet->target_->get_center_x();
+        float y1 = bullet->target_->get_center_y();
 
+        float r = sqrt((x - x1) * (x - x1) + (y - y1) * (y - y1));
+
+        if (r <= bullet->get_center_x() - bullet->get_x())
+        {
+            bullet->set_position(this->get_center_x(), this->get_center_y());
+            bullet->set_visibility(false);
+            bullet->target_->hurt(this->power_);
+            deactive.insert(bullet);
+        }
+        else
+        {
+            bullet->set_position(
+                bullet->get_x() + BULLET_SPEED * dt / r * (x1 - x),
+                bullet->get_y() + BULLET_SPEED * dt / r * (y1 - y)
+            );
+        }
+    }
     
+    for (auto *bullet : deactive)
+    {
+        this->active_bullets_.erase(bullet);
+        this->free_bullets_.push(bullet);
+    }
 }

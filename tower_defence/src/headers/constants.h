@@ -23,6 +23,8 @@ const int HEART_PIC_SIZE = 400;
 
 // PillTower constants
 #define BULLET_SPEED (CELL_SIZE * 20)
+const float PILL_TOWER_SHOOT_PERIOD = 0.7;
+const int PILL_TOWER_POWER = 20;
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 55;
