@@ -8,7 +8,6 @@ free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
 heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 {
-    int elem_in_vector = 0;
   int row = 0;
   int col = 0;
   char str[MAP_WIDTH];
@@ -22,31 +21,20 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
   while(!fin.eof() && row < MAP_HEIGHT) {
     fin.getline(str, MAP_WIDTH + 1);
     for (col = 0; col < MAP_WIDTH; col++) {
-
-      if       (str[col] == 'S') { // spawn point
-          this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////
-          elem_in_vector++;
-          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::SPAWN_POINT);
-      }
-      else if (str[col] == '.') { // no road
-          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::COMMON_POINT);
-      }
-      else if (str[col] == 'O') { // main road
-          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::ROAD_POINT);
-      }
-      else if (str[col] == 'P') { // tower placing available
-          this->free_places_.insert( point{col, row} );
-          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::FREE_PLACE);
-      }
-      else if (str[col] == 'T') { // turn point
-          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::TURN_POINT);
-      }
-      else if (str[col] == 'E') { // end of road
-          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::END_POINT);
-      }
-      else {
-          this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::ERR);
-          printf("Map: undefined map symbol.\n");
+      if (str[col] == (char)Direction::SPAWN_POINT)
+        this->turn_vector_.push_back( point{col, row} );
+      else if (str[col] == (char)Direction::FREE_PLACE)
+        this->free_places_.insert( point{col, row} );
+      
+      if (   str[col] != (char)Direction::END_POINT
+          && str[col] != (char)Direction::COMMON_POINT
+          && str[col] != (char)Direction::ROAD_POINT
+          && str[col] != (char)Direction::SPAWN_POINT
+          && str[col] != (char)Direction::FREE_PLACE) {
+        this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::ERR);
+        printf("Map: undefined map symbol.\n");
+      } else {
+        this->cell_array_[col][row] = Cell(window, map_sprite, col, row, (Direction)str[col]);
       }
     }
     row++;
@@ -78,20 +66,17 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
       Direction cur_type = this->cell_array_[col + dx][row + dy].get_type();
       if (cur_type == Direction::TURN_POINT || cur_type == Direction::ROAD_POINT || cur_type == Direction::END_POINT) {
 
-          make_roadside(col, row, turn_info(prev_dx, prev_dy, dx, dy, 1));
+          make_roadside(col, row, turn_info(prev_dx, prev_dy, dx, dy));
           if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { //road turn
-              this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////
+              this->turn_vector_.push_back( point{col, row} );
               this->cell_array_[col][row].set_type(Direction::TURN_POINT);
-              elem_in_vector++;
-              printf("turn = (%d ; %d)\n", col, row);
+              // printf("turn = (%d ; %d)\n", col, row);
           }
 
 
           col += dx;
           row += dy;
 
-
-          //turn_info(prev_dx, prev_dy, dx, dy);
 
           prev_dx = dx;
           prev_dy = dy;
@@ -100,19 +85,13 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
     }
   }
   
-  // who is here? please, change message to more appropriate. 
-  //    i can guess, that's about map initialization
-  printf("I'm here!\n");
   
   make_roadside(col, row, turn_info(prev_dx, prev_dy, prev_dx, prev_dy));
   // maybe should be deleted
   //turn_info(prev_dx, prev_dy, prev_dx, prev_dy);
   //make_roadside();
-  this->turn_vector_.push_back( point{col, row} ); //////////////////////////////////////
-  elem_in_vector++;
+  this->turn_vector_.push_back( point{col, row} );
   
-  printf("T + s + e = (25) = %d\n", elem_in_vector);
-
   this->heart_.set_origin_center();
   this->heart_.set_position((col + 0.5) * CELL_SIZE, (row + 0.5) * CELL_SIZE);
 }
@@ -131,9 +110,7 @@ void Map::draw() const {
   for (int row = 0; row < MAP_HEIGHT; row++) {
     for (int col = 0; col < MAP_WIDTH; col++) {
       cell_array_[col][row].draw();
-      // printf("%c", cell_array_[col][row].get_type());
     }
-    // printf("\n");
   }
 
   this->heart_.draw();
