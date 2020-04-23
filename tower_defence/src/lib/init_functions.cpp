@@ -64,3 +64,15 @@ void load_sprites(all_sprites *sprites, all_textures *textures)
 
 #undef TEXTURE_DEFINE
 #undef SET_SCALE
+
+
+#define FONT_DEFINE(obj) \
+fonts->obj##_font = new sf::Font;                        \
+fonts->obj##_font->loadFromFile("fonts/" #obj ".ttf");
+
+void load_fonts(all_fonts *fonts)
+{
+    #include "../headers/fonts_list.h"
+}
+
+#undef FONT_DEFINE

@@ -16,7 +16,8 @@ public:
     std::vector<Unit*> units_;
 
     Unitpack(sf::RenderWindow *window, all_sprites *sprites, Level *level,
-        std::string &unit_name, int unit_count, float spawn_delta, float spawn_delay);
+        std::string &unit_name, int unit_count, float spawn_delta,
+        float spawn_delay, float speed, int unit_cost, float health);
     Unitpack();
    ~Unitpack(); // should delete every unit inside
     

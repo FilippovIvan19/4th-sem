@@ -8,7 +8,8 @@ kind_ ( (Unit_kind)0 ),
 health_ ( 0 ),
 velocity_ ( 0 ),
 alive_ ( false ),
-cur_waypoint_ ( 0 )
+cur_waypoint_ ( 0 ),
+cost_(0)
 {}
 
 // experimental
@@ -19,16 +20,17 @@ cur_waypoint_ ( 0 )
 // }
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, float x0, float y0,
+        double health, float velocity, int cost, float x0, float y0,
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level) :
         // TODO: change use of x0 y0
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
 health_ ( health ),
-velocity_ ( velocity ),
+velocity_ ( velocity * CELL_SIZE ),
 alive_ ( false ),
 cur_waypoint_ ( -1 ),
-level_ (level)
+level_ (level),
+cost_(cost)
 {
     this->update_way();
 }
@@ -43,7 +45,7 @@ void Unit::update_way()
     this->waypoint_ = this->level_->map_.next_turn(this->cur_waypoint_++);
     if (this->waypoint_ == END_POINT)
     {
-        this->hurt(this->health_);
+        this->die();
         this->level_->damage_hq();
     }
 }
@@ -90,9 +92,16 @@ void Unit::hurt(double damage)
     this->health_ -= damage;
     if (this->health_ <= 0)
     {
-        this->set_visibility(false);
-        this->alive_ = false;
+        if (this->alive_)
+            this->level_->add_coins(this->cost_);
+        this->die();
     }
+}
+
+void Unit::die()
+{
+    this->set_visibility(false);
+    this->alive_ = false;
 }
 
 void Unit::spawn()

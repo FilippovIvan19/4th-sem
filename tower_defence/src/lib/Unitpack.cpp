@@ -5,7 +5,8 @@
 
 
 Unitpack::Unitpack(sf::RenderWindow *window, all_sprites *sprites, Level *level,
-    std::string &unit_name, int unit_count, float spawn_delta, float spawn_delay) :
+    std::string &unit_name, int unit_count, float spawn_delta,
+    float spawn_delay, float speed, int unit_cost, float health) :
 spawn_delta_(spawn_delta),
 spawn_delay_(spawn_delay),
 units_(std::vector<Unit*> ()),
@@ -16,7 +17,9 @@ delayed_(0)
     if (unit_name == "BacteriaUnit")
         for (int i = 0; i < unit_count; i++)
         {
-            Unit *unit = new BacteriaUnit(window, 0, 0, 100, 0.5, *sprites->bacteria_sprite, level);
+            Unit *unit = new BacteriaUnit(window, 0, 0, health, speed,
+                unit_cost, *sprites->bacteria_sprite, level);
+            
             this->units_.push_back(unit);
         }
     else
@@ -24,8 +27,8 @@ delayed_(0)
 }
 
 Unitpack::Unitpack() :
-spawn_delta_(-1),
-spawn_delay_(-1),
+spawn_delta_(0),
+spawn_delay_(0),
 units_(std::vector<Unit*> ()),
 spawned_count_(0),
 delayed_(0)

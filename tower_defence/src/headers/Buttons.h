@@ -9,7 +9,9 @@ class Buttons // just for drawing button icons
 private:
     Cell button_array_[MAP_HEIGHT];
     Cell background_[MAP_HEIGHT];
-    // create enum to use as index instead of numbers e.g.:
+    sf::Text labels_[MAP_HEIGHT];
+    sf::RenderWindow* window_;
+    static sf::Text make_coins_text(std::string str, sf::Font *font, int row);
 
 public:
     enum Order {
@@ -19,16 +21,21 @@ public:
         PillTower = 3,
         CapsuleTower,
 
+        Coins = 6,
+        Health = 8,
+
         Restart = MAP_HEIGHT - 3,
         Menu,
         Exit,
     };
 
     Buttons();
-    Buttons(sf::RenderWindow* window, sf::Sprite buttons_sprite);
+    Buttons(sf::RenderWindow* window, sf::Sprite buttons_sprite, sf::Font *font);
    ~Buttons();
 
     void draw() const;
     void highlight(int num);
     void darken(int num);
+    void set_coins(int count);
+    void set_health(int count);
 };

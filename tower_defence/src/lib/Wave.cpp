@@ -13,15 +13,18 @@ packs_(std::vector<Unitpack*> ())
     // printf("wave info: %s\n\n", wave_info.c_str());
     std::istringstream stream(wave_info);
     std::string unit_name;
-    int unit_count = -1;
-    float spawn_delta = -1;
-    float spawn_delay = -1;
+    int unit_count = 0;
+    float spawn_delta = 0;
+    float spawn_delay = 0;
+    float speed = 0;
+    int unit_cost = 0;
+    float health = 0;
     while (!stream.eof())
     {
-        stream >> unit_name >> unit_count >> spawn_delta >> spawn_delay;
-        std::cout << unit_name << unit_count << spawn_delta << spawn_delay << std::endl; 
+        stream >> unit_name >> unit_count >> spawn_delta >> spawn_delay >> speed >> unit_cost >> health;
+        // std::cout << unit_name << unit_count << spawn_delta << spawn_delay << speed << unit_cost << health << std::endl; 
         Unitpack *unit_pack = new Unitpack(window, sprites, level,
-            unit_name, unit_count, spawn_delta, spawn_delay);
+            unit_name, unit_count, spawn_delta, spawn_delay, speed, unit_cost, health);
         this->packs_.push_back(unit_pack);
     }
     // printf("packs count %d\n", this->packs_.size());

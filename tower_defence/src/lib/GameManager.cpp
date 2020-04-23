@@ -6,9 +6,9 @@
 
 
 GameManager::GameManager(sf::RenderWindow *window, sf::Event *event,
-    sf::Clock *main_clock, all_sprites *sprites, sf::Font *font) :
+    sf::Clock *main_clock, all_sprites *sprites, all_fonts *fonts) :
 level_(nullptr),
-buttons_(window, *sprites->buttons_sprite),
+buttons_(window, *sprites->buttons_sprite, fonts->coins_font),
 window_(window),
 event_(event),
 main_clock_(main_clock),
@@ -18,7 +18,7 @@ time_coef_(1),
 is_pause_(false),
 is_speed_up_(false),
 chosen_tower_(-1),
-font_(font)
+fonts_(fonts)
 {
     this->pause();
 }
@@ -34,10 +34,10 @@ void GameManager::draw() const
 {
     this->window_->clear();
 
-    this->buttons_.draw();
     if (this->level_)
         this->level_->draw();
 
+    this->buttons_.draw();
     this->window_->display();
 }
 
@@ -49,6 +49,8 @@ void GameManager::act(float dt)
 
 void GameManager::update(float dt)
 {
+    this->update_coins();
+    this->update_health();
     if (this->level_)
         this->level_->update(dt);
 }
@@ -155,6 +157,9 @@ void GameManager::load_level()
         printf("wrong level number");
     this->level_ = new Level(this->window_, this->sprites_, this->level_num_);
     
+    this->window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_));
+    this->update_coins();
+    this->update_health();
     this->level_->run_wave(0);
 }
 
@@ -413,23 +418,44 @@ void GameManager::add_tower(point coords)
         {
             printf("case4\n");
             Tower *tower;
+            bool placed = false;
             switch (this->chosen_tower_)
             {
                 // case Buttons::Order::CapsuleTower:
                 //     tower = new CapsuleTower();
                 //     break;
                 case Buttons::Order::PillTower:
-                    tower = new PillTower(this->window_, coords.x * CELL_SIZE, coords.y * CELL_SIZE, this->sprites_);
+                    if (this->level_->get_coins() >= PILL_TOWER_COST)
+                    {
+                        tower = new PillTower(this->window_, coords.x * CELL_SIZE, coords.y * CELL_SIZE, this->sprites_);
+                        placed = true;
+                        this->level_->add_coins(-PILL_TOWER_COST);
+                        this->update_coins();
+                    }
                     break;
                 
                 default:
                     break;
             }
-            this->level_->map_.mark_busy(coords);
-            this->level_->map_.cell_array_[coords.x][coords.y].tower_ = tower;
-            this->level_->entity_manager_.add(tower);
+            if (placed)
+            {
+                this->level_->map_.mark_busy(coords);
+                this->level_->map_.cell_array_[coords.x][coords.y].tower_ = tower;
+                this->level_->entity_manager_.add(tower);
+            }
         }
     }
+}
+
+void GameManager::update_coins()
+{
+    this->buttons_.set_coins(this->level_->get_coins());
+}
+
+void GameManager::update_health()
+{
+    int hp = this->level_->get_health();
+    this->buttons_.set_health( (hp >= 0) ? hp : 0 );
 }
 
 void GameManager::save_result()
@@ -458,7 +484,7 @@ GameCodes GameManager::level_end(GameCodes option)
     level_end_buttonds[2]->scale(-1, 1);
     
     sf::Text text;
-    text.setFont(*this->font_);
+    text.setFont(*this->fonts_->level_end_font);
     text.setCharacterSize(80 * GLOBAL_SCALE_COEF);
     text.setOutlineThickness(5 * GLOBAL_SCALE_COEF);
     text.setOutlineColor(sf::Color::White);

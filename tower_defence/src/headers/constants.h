@@ -22,8 +22,9 @@ const int HEART_PIC_SIZE = 400;
 #define HEART_SIZE (int)(CELL_SIZE * 5)
 
 // PillTower constants
+const int PILL_TOWER_COST = 20;
 #define BULLET_SPEED (CELL_SIZE * 20)
-const float PILL_TOWER_SHOOT_PERIOD = 0.7;
+const float PILL_TOWER_SHOOT_PERIOD = 0.4;
 const int PILL_TOWER_POWER = 20;
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
@@ -42,8 +43,8 @@ const int MAP_WIDTH = 31;
 
 // BacteriaUnit constants
 const int BACTERIA_UNIT_PIC_SIZE = 100;
-const int BACTERIA_UNIT_HEALTH = 100;
-#define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 200)
+// const int BACTERIA_UNIT_HEALTH = 100;
+// #define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 200)
 
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 300;
@@ -131,6 +132,16 @@ struct all_sprites
 };
 
 #undef TEXTURE_DEFINE
+
+
+#define FONT_DEFINE(obj) sf::Font *obj##_font;
+
+struct all_fonts
+{
+    #include "fonts_list.h"
+};
+
+#undef FONT_DEFINE
 
 enum class Direction {
     U,

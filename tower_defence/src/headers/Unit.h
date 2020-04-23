@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CommonElement.h"
-// #include "Level.h"
 #include "constants.h"
 class Level;
 
@@ -14,12 +13,13 @@ private:
     bool alive_;
     Unit_kind kind_;
     Level *level_;
+    int cost_;
 public:
     point waypoint_;
     int cur_waypoint_;
 
     Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, float x0, float y0,
+        double health, float velocity, int cost, float x0, float y0,
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level);
     // Unit(Unit_kind kind); // experimental
     Unit();
@@ -28,6 +28,7 @@ public:
     bool is_alive() const;
     
     void spawn();
+    void die();
     void update_way();
     void hurt (double damage);
     void move (float dt);
