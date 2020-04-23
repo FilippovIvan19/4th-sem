@@ -23,13 +23,12 @@ public:
 
 class Tower : public CommonElement
 {
-private:
+protected:
     Gun gun_;
-    
-    int rank_num_;
     CommonElement rank_;
     CommonElement bullet_;
-
+private:
+    int rank_num_;
     float shoot_period_;
     float shoot_ago_;
     float attack_range_;

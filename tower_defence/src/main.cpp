@@ -1,6 +1,5 @@
 #include "headers/tower_defence_headers.h"
 
-
 float get_screen_scale(float scale = 0)
 {
     sf::VideoMode fullscreen = sf::VideoMode::getDesktopMode();
@@ -19,6 +18,8 @@ int main(int argc, char const *argv[])
     all_textures textures;
     all_sprites  sprites;
 
+    sf::Font font;
+    font.loadFromFile("fonts/font.otf");
     load_textures(&textures);
     load_sprites(&sprites, &textures);
     
@@ -26,7 +27,7 @@ int main(int argc, char const *argv[])
     sf::Event event;
     sf::Clock main_clock;
 
-    GameManager manager(&window, &event, &main_clock, &sprites);
+    GameManager manager(&window, &event, &main_clock, &sprites, &font);
 
     manager.main_cycle();
 

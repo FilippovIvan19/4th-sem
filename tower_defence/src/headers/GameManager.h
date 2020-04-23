@@ -19,8 +19,10 @@ private:
     bool is_pause_;
     bool is_speed_up_;
     int chosen_tower_;
+    sf::Font *font_;
 public:
-    GameManager(sf::RenderWindow *window, sf::Event *event, sf::Clock *main_clock, all_sprites *sprites);
+    GameManager(sf::RenderWindow *window, sf::Event *event,
+        sf::Clock *main_clock, all_sprites *sprites, sf::Font *font);
     GameManager();
    ~GameManager();
     
@@ -42,4 +44,6 @@ public:
     GameCodes level_cycle();
     GameCodes main_cycle();
     void clear_state();
+    GameCodes level_end(GameCodes option);
+    int get_end_button_num();
 };

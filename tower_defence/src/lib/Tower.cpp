@@ -105,9 +105,9 @@ void Tower::update(float dt)
 void Tower::draw() const
 {
     CommonElement::draw();
-    this->gun_.draw();
     this->bullet_.draw();
-    this->rank_.draw();
+    this->gun_.draw();
+    // this->rank_.draw();
 }
 
 void Tower::find_target(Wave *wave)

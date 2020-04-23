@@ -2,9 +2,11 @@
 #include "../headers/LevelIcon.h"
 #include "../headers/PillTower.h"
 #include "../headers/Level.h"
+#include <string.h>
 
 
-GameManager::GameManager(sf::RenderWindow *window, sf::Event *event, sf::Clock *main_clock, all_sprites *sprites) :
+GameManager::GameManager(sf::RenderWindow *window, sf::Event *event,
+    sf::Clock *main_clock, all_sprites *sprites, sf::Font *font) :
 level_(nullptr),
 buttons_(window, *sprites->buttons_sprite),
 window_(window),
@@ -15,7 +17,8 @@ level_num_(-1),
 time_coef_(1),
 is_pause_(false),
 is_speed_up_(false),
-chosen_tower_(-1)
+chosen_tower_(-1),
+font_(font)
 {
     this->pause();
 }
@@ -34,7 +37,7 @@ void GameManager::draw() const
     this->buttons_.draw();
     if (this->level_)
         this->level_->draw();
-    
+
     this->window_->display();
 }
 
@@ -126,6 +129,24 @@ int GameManager::get_cur_lvl_pos()
     return position;
 }
 
+int GameManager::get_end_button_num()
+{
+    int num = -1;
+
+    for (int i = 0; i < LEVEL_END_BUTTONS_COUNT; ++i)
+    {
+        if (sf::IntRect(LEVEL_END_BUTTONS_X0 + (LEVEL_END_BUTTONS_OFFSET_X + LEVEL_END_BUTTONS_SIZE) * i,
+            LEVEL_END_BUTTONS_Y0 - LEVEL_END_BUTTONS_SIZE / 2, LEVEL_END_BUTTONS_SIZE, LEVEL_END_BUTTONS_SIZE)
+            .contains(sf::Mouse::getPosition(*this->window_)))
+        {
+            num = i;
+            break;
+        }
+    }
+    
+    return num;
+}
+
 void GameManager::load_level()
 {
     if (this->level_)
@@ -139,31 +160,56 @@ void GameManager::load_level()
 
 GameCodes GameManager::main_cycle()
 {
-    GameCodes retval = GameCodes::NOTHING;
+    GameCodes retval = GameCodes::EXIT_LEVEL;
     while (true)
     {
-        retval = this->level_menu();
+        if (retval == GameCodes::EXIT_LEVEL)
+        {
+            retval = this->level_menu();
+            if (retval == GameCodes::EXIT_APP)
+            {
+                this->window_->close();
+                return GameCodes::EXIT_APP;
+            }
+        }
+
+
+        retval = this->level_cycle();
+        this->clear_state();
+        
         if (retval == GameCodes::EXIT_APP)
         {
             this->window_->close();
             return GameCodes::EXIT_APP;
         }
-
-        retval = this->level_cycle();
-        switch (retval)
+        if (retval != GameCodes::EXIT_LEVEL)
         {
-            case GameCodes::LEVEL_COMPLETED:
-                this->clear_state();
-                break;
+            retval = this->level_end(GameCodes::LEVEL_FAILED);
 
-            case GameCodes::EXIT_APP:
-                this->window_->close();
-                return GameCodes::EXIT_APP;
-                break;
-            
-            default:
-                break;
+            switch (retval)
+            {
+                case GameCodes::LEVEL_COMPLETED:
+                    this->level_num_++; // todo add overflow check
+                    this->load_level();
+                    break;
+
+                case GameCodes::LEVEL_FAILED:
+                    this->restart_level();
+                    break;
+
+                case GameCodes::EXIT_LEVEL:
+                    break;
+
+                case GameCodes::EXIT_APP:
+                    this->window_->close();
+                    return GameCodes::EXIT_APP;
+                    break;
+                
+                default:
+                    break;
+            }
         }
+
     }
 }
 
@@ -194,8 +240,11 @@ GameCodes GameManager::level_cycle()
         this->draw();
 
         retval = this->level_->check_wave();
-        if (retval == GameCodes::EXIT_APP || retval == GameCodes::LEVEL_COMPLETED)
+        if (retval == GameCodes::EXIT_APP || retval == GameCodes::LEVEL_COMPLETED
+            || retval == GameCodes::LEVEL_FAILED)
+        {
             return retval;
+        }
     }
     return GameCodes::EXIT_APP;
 }
@@ -255,6 +304,10 @@ GameCodes GameManager::input_handler()
 
                         case Buttons::Order::SpeedUp:
                             this->set_speed();
+                            break;
+
+                        case Buttons::Order::Menu:
+                            return GameCodes::EXIT_LEVEL;
                             break;
 
                         case Buttons::Order::CapsuleTower:
@@ -382,4 +435,106 @@ void GameManager::add_tower(point coords)
 void GameManager::save_result()
 {
 
+}
+
+GameCodes GameManager::level_end(GameCodes option)
+{
+    CommonElement banner(this->window_, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, *this->sprites_->level_completed_sprite,
+        LEVEL_COMPLETED_PIC_WIDTH, LEVEL_COMPLETED_PIC_HEIGHT);
+    banner.set_origin_center();
+    
+    CommonElement *level_end_buttonds[LEVEL_END_BUTTONS_COUNT];
+    for (int i = 0; i < LEVEL_END_BUTTONS_COUNT; ++i)
+    {
+        level_end_buttonds[i] = new CommonElement(this->window_,
+            LEVEL_END_BUTTONS_X0 + (LEVEL_END_BUTTONS_OFFSET_X + LEVEL_END_BUTTONS_SIZE) * i + LEVEL_END_BUTTONS_SIZE / 2,
+            LEVEL_END_BUTTONS_Y0, *this->sprites_->buttons_sprite, CELL_PIC_SIZE, CELL_PIC_SIZE);
+        level_end_buttonds[i]->scale(LEVEL_END_BUTTONS_SCALE_COEF, LEVEL_END_BUTTONS_SCALE_COEF);
+        level_end_buttonds[i]->set_origin_center();
+    }
+    level_end_buttonds[0]->set_frame(5, 0);//restart
+    level_end_buttonds[1]->set_frame(2, 0);//menu
+    level_end_buttonds[2]->set_frame(4, 0);//next
+    level_end_buttonds[2]->scale(-1, 1);
+    
+    sf::Text text;
+    text.setFont(*this->font_);
+    text.setCharacterSize(80 * GLOBAL_SCALE_COEF);
+    text.setOutlineThickness(5 * GLOBAL_SCALE_COEF);
+    text.setOutlineColor(sf::Color::White);
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(WINDOW_WIDTH / 3, WINDOW_HEIGHT / 5);
+
+    switch (option)
+    {
+        case GameCodes::LEVEL_COMPLETED:
+            text.setString("LEVEL COMPLETED");
+            break;
+
+        case GameCodes::LEVEL_FAILED:
+            banner.scale(1, -1);
+            text.setString("LEVEL FAILED");
+            // level_end_buttonds[LEVEL_END_BUTTONS_COUNT - 1]->set_visibility(false);
+            break;
+
+        default:
+            break;
+    }
+
+
+    bool is_menu = true;
+    int button_num;
+
+    while(is_menu)
+    {
+        button_num = this->get_end_button_num();
+        if (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1
+            || button_num == LEVEL_END_BUTTONS_COUNT - 1 && option == GameCodes::LEVEL_COMPLETED)
+        {
+            level_end_buttonds[button_num]->scale(1.2, 1.2);
+        }
+
+        this->window_->clear();
+            this->buttons_.draw();
+            if (this->level_)
+                this->level_->draw();
+            banner.draw();
+            this->window_->draw(text);
+            for(int i = 0; i < LEVEL_END_BUTTONS_COUNT; ++i)
+                level_end_buttonds[i]->draw();
+        this->window_->display();
+
+        while (this->window_->pollEvent(*this->event_))
+        {
+            if (this->event_->type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                return GameCodes::EXIT_APP;
+            else if (this->event_->type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                if (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1
+                    || button_num == LEVEL_END_BUTTONS_COUNT - 1 && option == GameCodes::LEVEL_COMPLETED)
+                {
+                    is_menu = false;
+                }
+        }
+
+        if (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1
+            || button_num == LEVEL_END_BUTTONS_COUNT - 1 && option == GameCodes::LEVEL_COMPLETED)
+        {
+            level_end_buttonds[button_num]->scale(1 / 1.2, 1 / 1.2);
+        }
+    }
+    printf("%d button chosen\n", button_num);
+    for (int i = 0; i < LEVEL_END_BUTTONS_COUNT; ++i)
+        delete level_end_buttonds[i];
+
+    switch (button_num)
+    {
+        case 0:
+            return GameCodes::LEVEL_FAILED;
+        case 1:
+            return GameCodes::EXIT_LEVEL;
+        case 2:
+            return GameCodes::LEVEL_COMPLETED;
+    }
+
+    return GameCodes::NOTHING;
 }

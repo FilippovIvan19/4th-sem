@@ -2,10 +2,11 @@
 #include <fstream>
 
 
-Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename):
+Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::Sprite heart_sprite, const char* filename):
 turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
-busy_places_(std::set<point> ())
+busy_places_(std::set<point> ()),
+heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 {
     int elem_in_vector = 0;
   int row = 0;
@@ -111,12 +112,16 @@ busy_places_(std::set<point> ())
   elem_in_vector++;
   
   printf("T + s + e = (25) = %d\n", elem_in_vector);
+
+  this->heart_.set_origin_center();
+  this->heart_.set_position((col + 0.5) * CELL_SIZE, (row + 0.5) * CELL_SIZE);
 }
 
 Map::Map():
 turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
-busy_places_(std::set<point> ())
+busy_places_(std::set<point> ()),
+heart_()
 {}
 
 Map::~Map()
@@ -130,6 +135,8 @@ void Map::draw() const {
     }
     // printf("\n");
   }
+
+  this->heart_.draw();
 }
 
 void Map::highlight_free() {

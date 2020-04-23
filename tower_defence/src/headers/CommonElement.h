@@ -25,8 +25,8 @@ public:
     void set_frame(int x, int y);
     void set_position(float x, float y);
     void set_origin_center();
-    void set_origin_zero();
-    void set_scale(float factorX, float factorY);
+    void set_origin_zero(float new_x = 0, float new_y = 0);
+    void scale(float factorX, float factorY);
     float get_x() const;
     float get_y() const;
     float get_center_x() const;

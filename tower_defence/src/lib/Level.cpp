@@ -11,7 +11,7 @@ const int MAX_STR_SIZE = 1024;
 
 
 Level::Level(sf::RenderWindow *window, all_sprites *sprites, int num) :
-map_(window, *sprites->map_sprite, MAP_FILE(num)),
+map_(window, *sprites->map_sprite, *sprites->heart_sprite, MAP_FILE(num)),
 entity_manager_(),
 waves_(std::vector<Wave*> ()),
 cur_wave_num_(-1),
@@ -89,7 +89,8 @@ void Level::run_wave(int wave_num)
 
 GameCodes Level::check_wave()
 {
-    // printf("check wave\n");
+    if (this->hq_health_ <= 0)
+        return GameCodes::LEVEL_FAILED;
     if (!this->entity_manager_.is_cur_wave_alive())
     {
         this->run_wave(this->cur_wave_num_ + 1);
