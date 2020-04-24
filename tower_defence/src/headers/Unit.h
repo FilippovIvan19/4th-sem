@@ -14,6 +14,8 @@ private:
     Unit_kind kind_;
     Level *level_;
     int cost_;
+    float prev_dist_x_;
+    float prev_dist_y_;
 public:
     point waypoint_;
     int cur_waypoint_;

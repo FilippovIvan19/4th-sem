@@ -1,6 +1,7 @@
 #include "../headers/Unit.h"
 #include "../headers/Level.h"
 
+#include <iostream>
 
 Unit::Unit() :
 CommonElement(),
@@ -9,7 +10,9 @@ health_ ( 0 ),
 velocity_ ( 0 ),
 alive_ ( false ),
 cur_waypoint_ ( 0 ),
-cost_(0)
+cost_(0),
+prev_dist_x_(0),
+prev_dist_y_(0)
 {}
 
 // experimental
@@ -30,7 +33,9 @@ velocity_ ( velocity * CELL_SIZE ),
 alive_ ( false ),
 cur_waypoint_ ( -1 ),
 level_ (level),
-cost_(cost)
+cost_(cost),
+prev_dist_x_(0),
+prev_dist_y_(0)
 {
     this->update_way();
 }
@@ -53,38 +58,28 @@ void Unit::update_way()
 // TODO(optional): find alternative in c++ std lib
 int sign(double exp)
 {
-    return exp == 0 ? 0 : exp/abs(exp);
+    return exp == 0 ? 0 : exp/std::abs(exp);
 }
 
 void Unit::move(float dt)
 {
-// #ifdef DEBUG
-//     std::clog << "move to " << waypoint_.x   << " " << waypoint_.y 
-//               << " from "   << this->get_x() << " " << this->get_y() << std::endl;
-// #endif
-    // printf("moving to %d %d from %f %f\n", waypoint_.x, waypoint_.y, this->get_x(), this->get_y());
-    // TODO: fix comparing 'point' objects
-    if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
+    float dist_x = waypoint_.x - this->get_x();
+    float dist_y = waypoint_.y - this->get_y();
+    
+    if (dist_x * prev_dist_x_ + dist_y * prev_dist_y_ < 0 || dist_x + dist_y == 0)
     {
+        this->set_position(waypoint_.x, waypoint_.y);
         this->update_way();
-        // printf("movecase 1\n");
-// #ifdef DEBUG
-//         std::clog << "movecase 1\ncurrent position " << get_x() << " " << get_y() << std::endl;
-// #endif
+        dt += std::abs(dist_x + dist_y) / this->velocity_;
     }
-    else if (abs(waypoint_.x - this->get_x()) < 0.1 && abs(waypoint_.y - this->get_y()) < 0.1)
-    {
-        set_position(waypoint_.x, waypoint_.y);
-        // printf("movecase 2\n");
-    }
-    else
-    {
-        set_position(
-            this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
-            this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
-        );
-        // printf("movecase 3\n");
-    }
+
+    set_position(
+        this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
+        this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
+    );
+
+    prev_dist_x_ = dist_x;
+    prev_dist_y_ = dist_y;
 }
 
 void Unit::hurt(double damage)
@@ -129,5 +124,5 @@ void Unit::update(float dt)
 
 float Unit::cur_waypoint_distance()
 {
-    return abs(this->waypoint_.x - this->get_x() + this->waypoint_.y - this->get_y());
+    return std::abs(this->waypoint_.x - this->get_x() + this->waypoint_.y - this->get_y());
 }
