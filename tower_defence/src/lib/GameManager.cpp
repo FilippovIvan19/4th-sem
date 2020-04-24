@@ -26,7 +26,17 @@ fonts_(fonts)
 //add initialisation
 GameManager::GameManager() :
 level_(nullptr),
-buttons_()
+buttons_(),
+window_(nullptr),
+event_(nullptr),
+main_clock_(nullptr),
+sprites_(nullptr),
+level_num_(-1),
+time_coef_(0),
+is_pause_(false),
+is_speed_up_(false),
+chosen_tower_(-1),
+fonts_(nullptr)
 {}
 
 
@@ -60,11 +70,11 @@ GameManager::~GameManager()
 
 GameCodes GameManager::level_menu()
 {
-    LevelIcon *level[LEVEL_COUNT + 1];
-    for (int i = 0; i < LEVEL_COUNT; ++i)
+    LevelIcon *level[PAGE_LEVEL_COUNT + 1];
+    for (int i = 0; i < PAGE_LEVEL_COUNT; ++i)
     {
-        level[i] = new LevelIcon(this->window_, LEVEL_GRID_X0 + LEVEL_OFFSET_X * (i % LEVEL_COUNT_X),
-         LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * (i / LEVEL_COUNT_X), *this->sprites_->level_icon_sprite,
+        level[i] = new LevelIcon(this->window_, LEVEL_GRID_X0 + LEVEL_OFFSET_X * (i % PAGE_LEVEL_COUNT_X),
+         LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * (i / PAGE_LEVEL_COUNT_X), this->sprites_,
          i, LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE);
     }
     level[0]->set_lock(false);
@@ -77,12 +87,12 @@ GameCodes GameManager::level_menu()
     while(is_menu)
     {
         level_num = this->get_cur_lvl_pos();
-        if (level_num != LEVEL_COUNT)
+        if (level_num != PAGE_LEVEL_COUNT && !level[level_num]->is_locked())
             level[level_num]->set_frame(1, 0); // move sprite rect to right
 
         this->window_->clear();
         menu.draw();
-        for(int i = 0; i < LEVEL_COUNT; ++i)
+        for(int i = 0; i < PAGE_LEVEL_COUNT; ++i)
             level[i]->draw();
         this->window_->display();
 
@@ -94,18 +104,18 @@ GameCodes GameManager::level_menu()
             }
             else if (this->event_->type == sf::Event::MouseButtonPressed && 
                      sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                if(level_num > -1 && level_num < LEVEL_COUNT)
+                if(level_num > -1 && level_num < PAGE_LEVEL_COUNT)
                 {
                     if(!level[level_num]->is_locked())
                         is_menu = false;
                 }
         }
 
-        if (level_num != LEVEL_COUNT)
+        if (level_num != PAGE_LEVEL_COUNT && !level[level_num]->is_locked())
             level[level_num]->set_frame(0, 0); // move sprite rect to left
     }
     printf("%d level chosen\n", level_num);
-    for (int i = 0; i < LEVEL_COUNT; ++i)
+    for (int i = 0; i < PAGE_LEVEL_COUNT; ++i)
         delete level[i];
 
     this->level_num_ = level_num + 1;
@@ -115,12 +125,12 @@ GameCodes GameManager::level_menu()
 
 int GameManager::get_cur_lvl_pos()
 {
-    int position = LEVEL_COUNT; // LEVEL_COUNT is a default case value
+    int position = PAGE_LEVEL_COUNT; // PAGE_LEVEL_COUNT is a default case value
 
-    for (int i = 0; i < LEVEL_COUNT; ++i)
+    for (int i = 0; i < PAGE_LEVEL_COUNT; ++i)
     {
-        if (sf::IntRect(LEVEL_GRID_X0 + LEVEL_OFFSET_X * (i % LEVEL_COUNT_X),
-         LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * (i / LEVEL_COUNT_X),
+        if (sf::IntRect(LEVEL_GRID_X0 + LEVEL_OFFSET_X * (i % PAGE_LEVEL_COUNT_X),
+         LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * (i / PAGE_LEVEL_COUNT_X),
          LEVEL_ICON_SIZE, LEVEL_ICON_SIZE).contains(sf::Mouse::getPosition(*this->window_)))
         {
             position = i;
@@ -189,7 +199,7 @@ GameCodes GameManager::main_cycle()
         }
         if (retval != GameCodes::EXIT_LEVEL)
         {
-            retval = this->level_end(GameCodes::LEVEL_FAILED);
+            retval = this->level_end(retval);
 
             switch (retval)
             {
@@ -248,7 +258,10 @@ GameCodes GameManager::level_cycle()
         if (retval == GameCodes::EXIT_APP || retval == GameCodes::LEVEL_COMPLETED
             || retval == GameCodes::LEVEL_FAILED)
         {
-            return retval;
+            if (retval == GameCodes::LEVEL_COMPLETED && this->level_num_ == READY_LEVEL_COUNT)
+                return GameCodes::LAST_LEVEL_COMPLETED;
+            else
+                return retval;
         }
     }
     return GameCodes::EXIT_APP;
@@ -463,8 +476,20 @@ void GameManager::save_result()
 
 }
 
+bool GameManager::is_level_end_button_active(GameCodes option, int button_num)
+{
+    return (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1) // all button except next
+            || (button_num == LEVEL_END_BUTTONS_COUNT - 1
+            && (option == GameCodes::LEVEL_COMPLETED));
+}
+
 GameCodes GameManager::level_end(GameCodes option)
 {
+    if (option == GameCodes::LEVEL_COMPLETED)
+    {
+        // this->opened_levels_num_++;
+    }
+    
     CommonElement banner(this->window_, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, *this->sprites_->level_completed_sprite,
         LEVEL_COMPLETED_PIC_WIDTH, LEVEL_COMPLETED_PIC_HEIGHT);
     banner.set_origin_center();
@@ -489,17 +514,19 @@ GameCodes GameManager::level_end(GameCodes option)
     text.setOutlineThickness(5 * GLOBAL_SCALE_COEF);
     text.setOutlineColor(sf::Color::White);
     text.setFillColor(sf::Color::Red);
-    text.setPosition(WINDOW_WIDTH / 3, WINDOW_HEIGHT / 5);
 
     switch (option)
     {
         case GameCodes::LEVEL_COMPLETED:
+        case GameCodes::LAST_LEVEL_COMPLETED:
             text.setString("LEVEL COMPLETED");
+            text.setPosition(WINDOW_WIDTH / 4, WINDOW_HEIGHT / 5);
             break;
 
         case GameCodes::LEVEL_FAILED:
             banner.scale(1, -1);
             text.setString("LEVEL FAILED");
+            text.setPosition(WINDOW_WIDTH / 3, WINDOW_HEIGHT / 5);
             // level_end_buttonds[LEVEL_END_BUTTONS_COUNT - 1]->set_visibility(false);
             break;
 
@@ -514,8 +541,7 @@ GameCodes GameManager::level_end(GameCodes option)
     while(is_menu)
     {
         button_num = this->get_end_button_num();
-        if (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1
-            || button_num == LEVEL_END_BUTTONS_COUNT - 1 && option == GameCodes::LEVEL_COMPLETED)
+        if (is_level_end_button_active(option, button_num))
         {
             level_end_buttonds[button_num]->scale(1.2, 1.2);
         }
@@ -535,19 +561,18 @@ GameCodes GameManager::level_end(GameCodes option)
             if (this->event_->type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 return GameCodes::EXIT_APP;
             else if (this->event_->type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                if (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1
-                    || button_num == LEVEL_END_BUTTONS_COUNT - 1 && option == GameCodes::LEVEL_COMPLETED)
+                if (is_level_end_button_active(option, button_num))
                 {
                     is_menu = false;
                 }
         }
 
-        if (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1
-            || button_num == LEVEL_END_BUTTONS_COUNT - 1 && option == GameCodes::LEVEL_COMPLETED)
+        if (is_level_end_button_active(option, button_num))
         {
             level_end_buttonds[button_num]->scale(1 / 1.2, 1 / 1.2);
         }
     }
+
     printf("%d button chosen\n", button_num);
     for (int i = 0; i < LEVEL_END_BUTTONS_COUNT; ++i)
         delete level_end_buttonds[i];

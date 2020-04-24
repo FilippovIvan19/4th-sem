@@ -1,6 +1,6 @@
 #pragma once 
 
-// #include "constants.h"
+#include "constants.h"
 #include "CommonElement.h"
 
 
@@ -11,11 +11,12 @@ private:
     int score_;
     bool locked_;
 
-    sf::Sprite number_sprite_;
-    sf::Sprite score_sprite_;
+    CommonElement number_elem_;
+    CommonElement score_elem_;
+    CommonElement lock_elem_;
 public:
     LevelIcon();
-    LevelIcon(sf::RenderWindow *window, float x0, float y0, sf::Sprite sprite,
+    LevelIcon(sf::RenderWindow *window, float x0, float y0, all_sprites *sprites,
         int number, int pic_frame_width, int pic_frame_height);
    ~LevelIcon();
 

@@ -60,6 +60,9 @@ void load_sprites(all_sprites *sprites, all_textures *textures)
     SET_SCALE(heart, (float)HEART_SIZE / HEART_PIC_SIZE,
                      (float)HEART_SIZE / HEART_PIC_SIZE)
 
+    SET_SCALE(lock,  (float)LEVEL_LOCK_SIZE / LEVEL_LOCK_PIC_SIZE,
+                     (float)LEVEL_LOCK_SIZE / LEVEL_LOCK_PIC_SIZE)
+
 }
 
 #undef TEXTURE_DEFINE

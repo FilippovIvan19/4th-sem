@@ -12,7 +12,11 @@
     #define printf(...) ;
 #endif
 
+#include "structs.h"
+
 extern float GLOBAL_SCALE_COEF;
+
+const int READY_LEVEL_COUNT = 2;
 
 #define RANK_SPRITE_OFFSET_X (int)(GLOBAL_SCALE_COEF * 0)
 #define RANK_SPRITE_OFFSET_Y (int)(GLOBAL_SCALE_COEF * 0)
@@ -49,6 +53,8 @@ const int BACTERIA_UNIT_PIC_SIZE = 100;
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 300;
 #define LEVEL_ICON_SIZE (int)(GLOBAL_SCALE_COEF * 100)
+const int LEVEL_LOCK_PIC_SIZE = 500;
+#define LEVEL_LOCK_SIZE (int)(GLOBAL_SCALE_COEF * 60)
 
 // Menu constants
 
@@ -59,11 +65,11 @@ const int LEVEL_COMPLETED_PIC_HEIGHT = 1080;
 // #define MENU_WIDTH  WINDOW_WIDTH
 // #define MENU_HEIGHT WINDOW_HEIGHT
 
-const int LEVEL_COUNT_X = 4;
-const int LEVEL_COUNT_Y = 3;
-const int LEVEL_COUNT = LEVEL_COUNT_X * LEVEL_COUNT_Y;
-#define LEVEL_OFFSET_X (int)((WINDOW_WIDTH  + LEVEL_ICON_SIZE) / (LEVEL_COUNT_X + 1))
-#define LEVEL_OFFSET_Y (int)((WINDOW_HEIGHT + LEVEL_ICON_SIZE) / (LEVEL_COUNT_Y + 1))
+const int PAGE_LEVEL_COUNT_X = 4;
+const int PAGE_LEVEL_COUNT_Y = 3;
+const int PAGE_LEVEL_COUNT = PAGE_LEVEL_COUNT_X * PAGE_LEVEL_COUNT_Y;
+#define LEVEL_OFFSET_X (int)((WINDOW_WIDTH  + LEVEL_ICON_SIZE) / (PAGE_LEVEL_COUNT_X + 1))
+#define LEVEL_OFFSET_Y (int)((WINDOW_HEIGHT + LEVEL_ICON_SIZE) / (PAGE_LEVEL_COUNT_Y + 1))
 #define LEVEL_GRID_X0 (LEVEL_OFFSET_X - LEVEL_ICON_SIZE)
 #define LEVEL_GRID_Y0 (LEVEL_OFFSET_Y - LEVEL_ICON_SIZE)
 
@@ -75,24 +81,6 @@ const int LEVEL_END_BUTTONS_COUNT = 3;
 #define LEVEL_END_BUTTONS_X0 (int)((WINDOW_WIDTH - LEVEL_END_BUTTONS_OFFSET_X * (LEVEL_END_BUTTONS_COUNT - 1)\
     - LEVEL_END_BUTTONS_SIZE * LEVEL_END_BUTTONS_COUNT) / 2)
 #define LEVEL_END_BUTTONS_Y0 (int)(GLOBAL_SCALE_COEF * 500)
-
-struct point {
-    int x;
-    int y;
-
-    bool operator<(const point& other) const
-    {
-        if (this->x != other.x)
-            return this->x < other.x;
-        else
-            return this->y < other.y;
-    }
-
-    bool operator==(const point& other) const
-    {
-        return (this->x == other.x) && (this->y == other.y);
-    }
-};
 
 
 const point END_POINT{ -1, -1 }; // POISON for units
@@ -113,35 +101,6 @@ enum Unit_kind
     Simple_virus,
 };
 
-
-#define TEXTURE_DEFINE(obj) sf::Texture *obj##_texture;
-
-struct all_textures
-{
-    #include "textures_list.h"
-};
-
-#undef TEXTURE_DEFINE
-
-
-#define TEXTURE_DEFINE(obj) sf::Sprite *obj##_sprite;
-
-struct all_sprites
-{
-    #include "textures_list.h"
-};
-
-#undef TEXTURE_DEFINE
-
-
-#define FONT_DEFINE(obj) sf::Font *obj##_font;
-
-struct all_fonts
-{
-    #include "fonts_list.h"
-};
-
-#undef FONT_DEFINE
 
 enum class Direction {
     U,
@@ -185,6 +144,7 @@ enum class GameCodes
 {
     WAVE_ENDED,
     LEVEL_COMPLETED,
+    LAST_LEVEL_COMPLETED,
     LEVEL_FAILED,
     EXIT_LEVEL,
     EXIT_APP,
