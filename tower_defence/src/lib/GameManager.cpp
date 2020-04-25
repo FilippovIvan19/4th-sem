@@ -81,7 +81,7 @@ GameCodes GameManager::level_menu()
          i, LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE);
 
         LevelProgress info = this->read_info(i + 1);
-        level[i]->set_lock(!info.enabled);
+        level[i]->set_lock(!(info.enabled && i < READY_LEVEL_COUNT));
     }
 
     CommonElement menu(this->window_, 0, 0, *this->sprites_->menu_background_sprite, MENU_PIC_WIDTH, MENU_PIC_HEIGHT);

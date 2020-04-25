@@ -4,6 +4,6 @@ prompt: unit_name >> unit_count >> spawn_delta >> spawn_delay >> speed >> unit_c
 initial_coins 4000
 #1
 Bacteria 4 0.5 0.0 4.0 1 100
-Virus 10 0.2 3.0 4.0 2 100
+Virus 1 0.2 3.0 4.0 2 100
 #2
-Bacteria 20 0.02 0.0 6.5 5 50
+Bacteria 2 0.02 0.0 6.5 5 50
