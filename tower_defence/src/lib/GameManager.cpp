@@ -1,6 +1,7 @@
 #include "../headers/GameManager.h"
 #include "../headers/LevelIcon.h"
 #include "../headers/PillTower.h"
+#include "../headers/CapsuleTower.h"
 #include "../headers/Level.h"
 #include <string.h>
 
@@ -70,6 +71,8 @@ GameManager::~GameManager()
 
 GameCodes GameManager::level_menu()
 {
+    this->window_->setTitle("TOWER DEFENCE");
+
     LevelIcon *level[PAGE_LEVEL_COUNT + 1];
     for (int i = 0; i < PAGE_LEVEL_COUNT; ++i)
     {
@@ -167,10 +170,15 @@ void GameManager::load_level()
         printf("wrong level number");
     this->level_ = new Level(this->window_, this->sprites_, this->level_num_);
     
-    this->window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_));
+    // this->window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_));
     this->update_coins();
     this->update_health();
     this->level_->run_wave(0);
+
+    std::pair<int, int> wave_num = this->level_->get_wave_num();
+    this->window_->setTitle(std::string("LEVEL ") + std::to_string(this->level_num_) + 
+        std::string("    WAVE ") + std::to_string(wave_num.first + 1) +
+        "/" + std::to_string(wave_num.second));
 }
 
 GameCodes GameManager::main_cycle()
@@ -189,7 +197,9 @@ GameCodes GameManager::main_cycle()
         }
 
 
+            // printf("000\n");
         retval = this->level_cycle();
+            // printf("999\n");
         this->clear_state();
         
         if (retval == GameCodes::EXIT_APP)
@@ -199,12 +209,13 @@ GameCodes GameManager::main_cycle()
         }
         if (retval != GameCodes::EXIT_LEVEL)
         {
+            // printf("222\n");
             retval = this->level_end(retval);
 
             switch (retval)
             {
                 case GameCodes::LEVEL_COMPLETED:
-                    this->level_num_++; // todo add overflow check
+                    this->level_num_++;
                     this->load_level();
                     break;
 
@@ -254,7 +265,9 @@ GameCodes GameManager::level_cycle()
 
         this->draw();
 
+    // printf("111\n");
         retval = this->level_->check_wave();
+    // printf("222\n");
         if (retval == GameCodes::EXIT_APP || retval == GameCodes::LEVEL_COMPLETED
             || retval == GameCodes::LEVEL_FAILED)
         {
@@ -262,8 +275,20 @@ GameCodes GameManager::level_cycle()
                 return GameCodes::LAST_LEVEL_COMPLETED;
             else
                 return retval;
+    // printf("333\n");
         }
+        else if (retval == GameCodes::WAVE_ENDED)
+        {
+            std::pair<int, int> wave_num = this->level_->get_wave_num();
+            this->window_->setTitle(std::string("LEVEL ") + std::to_string(this->level_num_) + 
+                std::string("    WAVE ") + std::to_string(wave_num.first + 1) +
+                "/" + std::to_string(wave_num.second));
+                // return retval;
+    // printf("555\n");
+        }
+    // printf("777\n");
     }
+    // printf("888\n");
     return GameCodes::EXIT_APP;
 }
 
@@ -409,7 +434,6 @@ void GameManager::add_tower(point coords)
         {
             this->chosen_tower_ = -1;
             this->buttons_.darken(coords.y);
-            printf("case1\n");
         }
         else
         {
@@ -417,32 +441,36 @@ void GameManager::add_tower(point coords)
                 this->buttons_.darken(this->chosen_tower_);
             this->chosen_tower_ = coords.y;
             this->buttons_.highlight(this->chosen_tower_);
-            printf("case2\n");
         }
     }
     else
     {
         if (this->chosen_tower_ == -1 || !this->level_->map_.is_free(coords))
         {
-            printf("case3\n");
             return;
         }
         else
         {
-            printf("case4\n");
             Tower *tower;
             bool placed = false;
             switch (this->chosen_tower_)
             {
-                // case Buttons::Order::CapsuleTower:
-                //     tower = new CapsuleTower();
-                //     break;
                 case Buttons::Order::PillTower:
                     if (this->level_->get_coins() >= PILL_TOWER_COST)
                     {
                         tower = new PillTower(this->window_, coords.x * CELL_SIZE, coords.y * CELL_SIZE, this->sprites_);
                         placed = true;
                         this->level_->add_coins(-PILL_TOWER_COST);
+                        this->update_coins();
+                    }
+                    break;
+                
+                case Buttons::Order::CapsuleTower:
+                    if (this->level_->get_coins() >= CAPSULE_TOWER_COST)
+                    {
+                        tower = new CapsuleTower(this->window_, coords.x * CELL_SIZE, coords.y * CELL_SIZE, this->sprites_);
+                        placed = true;
+                        this->level_->add_coins(-CAPSULE_TOWER_COST);
                         this->update_coins();
                     }
                     break;
