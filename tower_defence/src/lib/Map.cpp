@@ -7,7 +7,7 @@ free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
 hp_(100)
 {
-    int elem_in_vector = 0;
+  int elem_in_vector = 0;
   int row = 0;
   int col = 0;
   char str[MAP_WIDTH];
@@ -386,4 +386,9 @@ void Map::damage_hq(int hp)
 {
     this->hp_ -= hp;
     printf("hp %d\n", this->hp_);
+}
+
+int Map::get_health() const
+{
+    return this->hp_;
 }

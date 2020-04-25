@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EntityManager.h"
+#include <fstream>
 
 
 class Level

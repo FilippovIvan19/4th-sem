@@ -60,8 +60,10 @@ GameCodes GameManager::level_menu()
         level[i] = new LevelIcon(this->window_, LEVEL_GRID_X0 + LEVEL_OFFSET_X * (i % LEVEL_COUNT_X),
          LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * (i / LEVEL_COUNT_X), *this->sprites_->level_icon_sprite,
          i, LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE);
+
+        LevelProgress info = this->read_info(i + 1);
+        level[i]->set_lock(!info.enabled);
     }
-    level[0]->set_lock(false);
 
     CommonElement menu(this->window_, 0, 0, *this->sprites_->menu_background_sprite, MENU_PIC_WIDTH, MENU_PIC_HEIGHT);
     bool is_menu = true;
@@ -152,6 +154,7 @@ GameCodes GameManager::main_cycle()
         switch (retval)
         {
             case GameCodes::LEVEL_COMPLETED:
+            case GameCodes::LEVEL_FAILED:
                 this->clear_state();
                 break;
 
@@ -193,8 +196,13 @@ GameCodes GameManager::level_cycle()
         this->draw();
 
         retval = this->level_->check_wave();
-        if (retval == GameCodes::EXIT_APP || retval == GameCodes::LEVEL_COMPLETED)
+        if (retval == GameCodes::EXIT_APP ||
+            retval == GameCodes::LEVEL_COMPLETED ||
+            retval == GameCodes::LEVEL_FAILED)
+        {
+            this->save_result(100); // fix hp
             return retval;
+        }
     }
     return GameCodes::EXIT_APP;
 }
@@ -378,7 +386,79 @@ void GameManager::add_tower(point coords)
     }
 }
 
-void GameManager::save_result()
+LevelProgress GameManager::read_info(int level_num)
 {
+    std::ifstream file;
+    file.open("levels/progress.txt");
+    if (!file.is_open())
+    {
+        printf("Progress file not found!");
+        LevelProgress tmp {0, false, false };
+        return tmp;
+    }
 
+    const int STR_LENGTH = 36;
+    const int SCORE_POS = 9;
+    const int ENABLED_POS = 17;
+    const int PASSED_POS = 27;
+
+    LevelProgress info;
+
+    int buf;
+    std::string str;
+
+    file.seekg((level_num + 1) * STR_LENGTH + SCORE_POS);
+    file >> buf;
+    info.score = buf;
+    file.seekg((level_num + 1) * STR_LENGTH + ENABLED_POS);
+    file >> buf;
+    info.enabled = buf == 1 ? true : false;
+    file.seekg((level_num + 1) * STR_LENGTH + PASSED_POS);
+    file >> buf;
+    info.passed = buf == 1 ? true : false;
+
+    return info;
+}
+
+void GameManager::save_result(int score)
+{
+    if (score == 0)
+        return;
+
+    std::fstream file;
+    file.open("levels/progress.txt");
+    if (!file.is_open())
+    {
+        printf("Progress file not found!");
+        return;
+    }
+
+    const int STR_LENGTH = 36;
+    const int SCORE_POS = 9;
+    const int ENABLED_POS = 17;
+    const int PASSED_POS = 27;
+
+    int record = this->read_info(this->level_num_).score;
+    if (record < score)
+    {
+        file.seekp((this->level_num_ + 1) * STR_LENGTH + SCORE_POS);
+        file.write(std::to_string(score).c_str(), std::to_string(score).length());
+
+        if (record == 0)
+        {
+            file.seekp((this->level_num_ + 1) * STR_LENGTH + PASSED_POS);
+            file.write("1", 1);
+
+            if (this->level_num_ < 12)
+            {
+                file.seekp((this->level_num_ + 2) * STR_LENGTH + ENABLED_POS);
+                file.write("1", 1);
+            }
+        }
+
+    }
+    else
+        return;
+
+    file.close();
 }

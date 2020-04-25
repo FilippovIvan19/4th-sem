@@ -1,7 +1,17 @@
 #pragma once
 
+#include <fstream>
+#include <string.h>
+
 #include "Level.h"
 #include "Buttons.h"
+
+struct LevelProgress 
+{
+    int score;
+    bool enabled;
+    bool passed;
+};
 
 
 class GameManager
@@ -35,7 +45,8 @@ public:
     void set_speed();
     GameCodes input_handler();
     void add_tower(point coords);
-    void save_result();
+    void save_result(int score);
+    LevelProgress read_info(int level_num);
     void load_level();
     void restart_level();
     GameCodes level_cycle();

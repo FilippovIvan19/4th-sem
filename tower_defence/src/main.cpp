@@ -30,6 +30,5 @@ int main(int argc, char const *argv[])
 
     manager.main_cycle();
 
-
     return 0;
 }

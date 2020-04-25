@@ -58,6 +58,8 @@ const int LEVEL_COUNT = LEVEL_COUNT_X * LEVEL_COUNT_Y;
 #define LEVEL_GRID_X0 (LEVEL_OFFSET_X - LEVEL_ICON_SIZE)
 #define LEVEL_GRID_Y0 (LEVEL_OFFSET_Y - LEVEL_ICON_SIZE)
 
+const int MAX_STR_SIZE = 1024;
+
 struct point {
     int x;
     int y;

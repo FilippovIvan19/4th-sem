@@ -38,4 +38,5 @@ public:
   bool check_turn(Direction turn) const;
   bool is_free(point cell);
   void damage_hq(int hp = 1);
+  int  get_health() const;
 };
