@@ -5,6 +5,18 @@
 class Level;
 
 
+class HealthBar : public CommonElement
+{
+private:
+    int health_perc_;
+public:
+    HealthBar(sf::RenderWindow *window, float x0, float y0,
+    sf::Sprite sprite, int pic_frame_width, int pic_frame_height);
+    HealthBar();
+   ~HealthBar();
+};
+
+
 class Unit : public CommonElement
 {
 private:
@@ -17,13 +29,14 @@ private:
     float prev_dist_x_;
     float prev_dist_y_;
     int power_;
+    HealthBar health_bar_;
 public:
     point waypoint_;
     int cur_waypoint_;
 
     Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, int cost, int power, float x0, float y0,
-        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level);
+        sf::Sprite sprite, sf::Sprite health_sprite, int pic_frame_width, int pic_frame_height, Level *level);
     // Unit(Unit_kind kind); // experimental
     Unit();
    ~Unit();

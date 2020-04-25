@@ -24,7 +24,6 @@ fonts_(fonts)
     this->pause();
 }
 
-//add initialisation
 GameManager::GameManager() :
 level_(nullptr),
 buttons_(),

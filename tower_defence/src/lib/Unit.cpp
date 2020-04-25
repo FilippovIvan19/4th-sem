@@ -3,8 +3,26 @@
 
 #include <iostream>
 
+
+
+
+HealthBar::HealthBar(sf::RenderWindow *window, float x0, float y0,
+    sf::Sprite sprite, int pic_frame_width, int pic_frame_height) :
+CommonElement()
+{
+}
+
+HealthBar::HealthBar()
+{}
+
+HealthBar::~HealthBar()
+{}
+
+
+
 Unit::Unit() :
 CommonElement(),
+health_bar_(),
 kind_ ( (Unit_kind)0 ),
 health_ ( 0 ),
 velocity_ ( 0 ),
@@ -25,9 +43,10 @@ power_(0)
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
         double health, float velocity, int cost, int power, float x0, float y0,
-        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level) :
+        sf::Sprite sprite, sf::Sprite health_sprite, int pic_frame_width, int pic_frame_height, Level *level) :
         // TODO: change use of x0 y0
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
+health_bar_(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
 health_ ( health ),
 velocity_ ( velocity * CELL_SIZE ),
