@@ -1,10 +1,11 @@
 #pragma once
 
+#include <fstream>
 #include "EntityManager.h"
 #include "Map.h"
 #include "constants.h"
-class Wave;
 
+class Wave;
 
 class Level
 {

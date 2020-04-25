@@ -1,7 +1,10 @@
 #pragma once
 
-// #include "Level.h"
+#include <fstream>
+#include <string.h>
+
 #include "Buttons.h"
+
 class Level;
 
 
@@ -38,7 +41,8 @@ public:
     void set_speed();
     GameCodes input_handler();
     void add_tower(point coords);
-    void save_result();
+    void save_result(int score);
+    LevelProgress read_info(int level_num);
     void load_level();
     void restart_level();
     GameCodes level_cycle();
