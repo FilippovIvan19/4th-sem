@@ -73,6 +73,8 @@ const int PAGE_LEVEL_COUNT = PAGE_LEVEL_COUNT_X * PAGE_LEVEL_COUNT_Y;
 #define LEVEL_GRID_X0 (LEVEL_OFFSET_X - LEVEL_ICON_SIZE)
 #define LEVEL_GRID_Y0 (LEVEL_OFFSET_Y - LEVEL_ICON_SIZE)
 
+const int MAX_STR_SIZE = 1024;
+
 // end level menu
 const int LEVEL_END_BUTTONS_SCALE_COEF = 5;
 const int LEVEL_END_BUTTONS_COUNT = 3;
@@ -82,10 +84,7 @@ const int LEVEL_END_BUTTONS_COUNT = 3;
     - LEVEL_END_BUTTONS_SIZE * LEVEL_END_BUTTONS_COUNT) / 2)
 #define LEVEL_END_BUTTONS_Y0 (int)(GLOBAL_SCALE_COEF * 500)
 
-
 const point END_POINT{ -1, -1 }; // POISON for units
-
-
 
 enum class Tower_kind
 {

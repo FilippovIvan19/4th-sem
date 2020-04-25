@@ -6,11 +6,8 @@
 #include <sstream>
 // #include <iostream>
 
-
 #define  MAP_FILE(num) (std::string("maps/")   + std::to_string(num) + std::string(".txt")).c_str()
 #define WAVE_FILE(num) (std::string("levels/") + std::to_string(num) + std::string(".txt")).c_str()
-
-const int MAX_STR_SIZE = 1024;
 
 
 Level::Level(sf::RenderWindow *window, all_sprites *sprites, int num) :
@@ -116,7 +113,12 @@ GameCodes Level::check_wave()
         printf("run next wave %d\n", this->cur_wave_num_);
     }
     if (this->cur_wave_num_ == this->waves_.size())
-        return GameCodes::LEVEL_COMPLETED;
+    {
+        if (this->get_health() <= 0)
+            return GameCodes::LEVEL_FAILED;
+        else
+            return GameCodes::LEVEL_COMPLETED;
+    }
     else
         return GameCodes::NOTHING;
 }
