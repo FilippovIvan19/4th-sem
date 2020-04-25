@@ -7,13 +7,6 @@
 
 class Level;
 
-struct LevelProgress 
-{
-    int score;
-    bool enabled;
-    bool passed;
-};
-
 
 class GameManager
 {

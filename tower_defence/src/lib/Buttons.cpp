@@ -30,6 +30,7 @@ window_(window)
                 break;
             case Buttons::Order::CapsuleTower :
                 this->button_array_[i].set_frame(9, 0);
+                this->labels_[i] = make_coins_text(std::to_string(CAPSULE_TOWER_COST), font, i);
                 break;
             case Buttons::Order::PillTower :
                 this->button_array_[i].set_frame(10, 0);

@@ -1,6 +1,7 @@
 #include "../headers/Unitpack.h"
 #include "../headers/Unit.h"
 #include "../headers/BacteriaUnit.h"
+#include "../headers/VirusUnit.h"
 #include <math.h>
 
 
@@ -14,11 +15,19 @@ spawned_count_(0),
 delayed_(0)
 {
 
-    if (unit_name == "BacteriaUnit")
+    if (unit_name == "Bacteria")
         for (int i = 0; i < unit_count; i++)
         {
             Unit *unit = new BacteriaUnit(window, 0, 0, health, speed,
                 unit_cost, *sprites->bacteria_sprite, level);
+            
+            this->units_.push_back(unit);
+        }
+    else if (unit_name == "Virus")
+        for (int i = 0; i < unit_count; i++)
+        {
+            Unit *unit = new VirusUnit(window, 0, 0, health, speed,
+                unit_cost, *sprites->virus_sprite, level);
             
             this->units_.push_back(unit);
         }

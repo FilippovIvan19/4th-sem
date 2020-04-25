@@ -31,6 +31,7 @@ public:
     void draw() const;
     void update(float dt);
     void act(float dt);
+    std::pair<int, int> get_wave_num();
 
     GameCodes check_wave();
 };

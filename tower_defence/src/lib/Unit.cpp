@@ -12,7 +12,8 @@ alive_ ( false ),
 cur_waypoint_ ( 0 ),
 cost_(0),
 prev_dist_x_(0),
-prev_dist_y_(0)
+prev_dist_y_(0),
+power_(0)
 {}
 
 // experimental
@@ -23,7 +24,7 @@ prev_dist_y_(0)
 // }
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, int cost, float x0, float y0,
+        double health, float velocity, int cost, int power, float x0, float y0,
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level) :
         // TODO: change use of x0 y0
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
@@ -35,7 +36,8 @@ cur_waypoint_ ( -1 ),
 level_ (level),
 cost_(cost),
 prev_dist_x_(0),
-prev_dist_y_(0)
+prev_dist_y_(0),
+power_(power)
 {
     this->update_way();
 }
@@ -51,7 +53,7 @@ void Unit::update_way()
     if (this->waypoint_ == END_POINT)
     {
         this->die();
-        this->level_->damage_hq();
+        this->level_->damage_hq(this->power_);
     }
 }
 
