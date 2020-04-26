@@ -75,7 +75,7 @@ void load_sprites(all_sprites *sprites, all_textures *textures)
     SET_SCALE(lock,  (float)LEVEL_LOCK_SIZE / LEVEL_LOCK_PIC_SIZE,
                      (float)LEVEL_LOCK_SIZE / LEVEL_LOCK_PIC_SIZE)
 
-    SET_SCALE(health_bar, (float)HEALTH_BAR_WIDTH / HEALTH_BAR_PIC_WIDTH,
+    SET_SCALE(health_bar, (float)HEALTH_BAR_WIDTH  / HEALTH_BAR_PIC_WIDTH,
                           (float)HEALTH_BAR_HEIGHT / HEALTH_BAR_PIC_HEIGHT)
 
 }

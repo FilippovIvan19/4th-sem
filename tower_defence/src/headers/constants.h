@@ -36,11 +36,11 @@ const int PILL_TOWER_BULLET_PIC_SIZE = 55;
 #define PILL_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 10)
 #define PILL_TOWER_GUN_SIZE (int)(CELL_SIZE * 1.7)
 #define PILL_TOWER_RANGE (int)(CELL_SIZE * 10)
-#define PILL_TOWER_BASE_SIZE (int)(CELL_SIZE * 0.9)
+#define PILL_TOWER_BASE_SIZE (int)(CELL_SIZE)
 const int RANK_PIC_SIZE = 100;
 #define RANK_SIZE (int)(GLOBAL_SCALE_COEF * 30)
 
-// CAapsuleTower constants
+// CapsuleTower constants
 const int CAPSULE_TOWER_COST = 80;
 const float CAPSULE_TOWER_SHOOT_PERIOD = 1;
 const int CAPSULE_TOWER_POWER = 50;
@@ -48,9 +48,9 @@ const int CAPSULE_TOWER_BASE_PIC_SIZE   = 100;
 const int CAPSULE_TOWER_GUN_PIC_SIZE    = 120;
 const int CAPSULE_TOWER_BULLET_PIC_SIZE = 60;
 #define CAPSULE_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 20)
-#define CAPSULE_TOWER_GUN_SIZE (int)(CELL_SIZE * 1.7)
+#define CAPSULE_TOWER_GUN_SIZE (int)(CELL_SIZE * 1.5)
 #define CAPSULE_TOWER_RANGE (int)(CELL_SIZE * 7)
-#define CAPSULE_TOWER_BASE_SIZE (int)(CELL_SIZE * 0.9)
+#define CAPSULE_TOWER_BASE_SIZE (int)(CELL_SIZE)
 
 // Window constants
 const int MAP_HEIGHT = 18;
@@ -63,8 +63,8 @@ const int BACTERIA_UNIT_PIC_SIZE = 100;
 const int VIRUS_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_POWER = 1;
 const int VIRUS_UNIT_POWER = 5;
-const int HEALTH_BAR_PIC_WIDTH  = 200;
-const int HEALTH_BAR_PIC_HEIGHT = 200;
+const int HEALTH_BAR_PIC_WIDTH  = 100;
+const int HEALTH_BAR_PIC_HEIGHT = 10;
 #define HEALTH_BAR_WIDTH  (int)(CELL_SIZE * 0.9)
 #define HEALTH_BAR_HEIGHT (int)(CELL_SIZE * 0.1)
 // const int BACTERIA_UNIT_HEALTH = 100;

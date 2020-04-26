@@ -8,12 +8,14 @@ class Level;
 class HealthBar : public CommonElement
 {
 private:
-    int health_perc_;
+    int health_percent_;
 public:
     HealthBar(sf::RenderWindow *window, float x0, float y0,
     sf::Sprite sprite, int pic_frame_width, int pic_frame_height);
     HealthBar();
    ~HealthBar();
+    
+    void set_percent(int percent);
 };
 
 
@@ -22,6 +24,7 @@ class Unit : public CommonElement
 private:
     float velocity_;
     double health_;
+    double spawn_health_;
     bool alive_;
     Unit_kind kind_;
     Level *level_;
@@ -51,6 +54,7 @@ public:
     float cur_waypoint_distance();
 
     void draw () const override;
+    void draw_bar() const;
     void    act (float dt) override; // moving, dying
     void update (float dt) override; // only visual
 };
