@@ -27,7 +27,7 @@ public:
   void darken_free();
   void mark_busy(point cell);
   void mark_free(point cell);
-  point next_turn(unsigned int n) const;
+  point next_turn(int n) const;
   // what does this function stand for? it commented everywhere. 
   //    it can be marked as #ifdef DEBUG .. #endif
   //        vvvvvvvvv
