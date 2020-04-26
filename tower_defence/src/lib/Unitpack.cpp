@@ -19,7 +19,7 @@ delayed_(0)
         for (int i = 0; i < unit_count; i++)
         {
             Unit *unit = new BacteriaUnit(window, 0, 0, health, speed,
-                unit_cost, *sprites->bacteria_sprite, level);
+                unit_cost, *sprites->bacteria_sprite, *sprites->health_bar_sprite, level);
             
             this->units_.push_back(unit);
         }
@@ -27,7 +27,7 @@ delayed_(0)
         for (int i = 0; i < unit_count; i++)
         {
             Unit *unit = new VirusUnit(window, 0, 0, health, speed,
-                unit_cost, *sprites->virus_sprite, level);
+                unit_cost, *sprites->virus_sprite, *sprites->health_bar_sprite, level);
             
             this->units_.push_back(unit);
         }
@@ -53,6 +53,8 @@ void Unitpack::draw() const
 {
     for (auto unit : this->units_)
         unit->draw();
+    for (auto unit : this->units_)
+        unit->draw_bar();
 }
 
 void Unitpack::act(float dt)
