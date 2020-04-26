@@ -94,7 +94,7 @@ void Level::update(float dt)
     this->entity_manager_.update(dt);
 }
 
-void Level::run_wave(int wave_num)
+void Level::run_wave(unsigned int wave_num)
 {
     this->cur_wave_num_ = wave_num;
     if (wave_num >= this->waves_.size())
@@ -110,23 +110,32 @@ GameCodes Level::check_wave()
     if (!this->entity_manager_.is_cur_wave_alive())
     {
         this->run_wave(this->cur_wave_num_ + 1);
+        if (this->cur_wave_num_ == this->waves_.size())
+        {
+            return GameCodes::LEVEL_COMPLETED;
+            printf("completed\n");
+        }
+        else
+        {
+            return GameCodes::WAVE_ENDED;
+            printf("ended\n");
+        }
+            // this->map_. window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_) + 
+            //     std::string("WAVE") + std);
         printf("run next wave %d\n", this->cur_wave_num_);
     }
-    if (this->cur_wave_num_ == this->waves_.size())
-    {
-        if (this->get_health() <= 0)
-            return GameCodes::LEVEL_FAILED;
-        else
-            return GameCodes::LEVEL_COMPLETED;
-    }
-    else
-        return GameCodes::NOTHING;
+    return GameCodes::NOTHING;
+}
+
+std::pair<int, int> Level::get_wave_num()
+{
+    return std::pair<int, int>(this->cur_wave_num_, this->waves_.size());
 }
 
 void Level::damage_hq(int hp)
 {
     this->hq_health_ -= hp;
-    printf("hp %d\n", this->hq_health_);
+    // printf("hp %d\n", this->hq_health_);
 }
 
 void Level::add_coins(int count)

@@ -45,3 +45,10 @@ struct all_fonts
 };
 
 #undef FONT_DEFINE
+
+struct LevelProgress
+{
+    int score;
+    bool enabled;
+    bool passed;
+};

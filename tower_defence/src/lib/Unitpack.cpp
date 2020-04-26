@@ -1,6 +1,7 @@
 #include "../headers/Unitpack.h"
 #include "../headers/Unit.h"
 #include "../headers/BacteriaUnit.h"
+#include "../headers/VirusUnit.h"
 #include <math.h>
 
 
@@ -14,11 +15,19 @@ spawned_count_(0),
 delayed_(0)
 {
 
-    if (unit_name == "BacteriaUnit")
+    if (unit_name == "Bacteria")
         for (int i = 0; i < unit_count; i++)
         {
             Unit *unit = new BacteriaUnit(window, 0, 0, health, speed,
-                unit_cost, *sprites->bacteria_sprite, level);
+                unit_cost, *sprites->bacteria_sprite, *sprites->health_bar_sprite, level);
+            
+            this->units_.push_back(unit);
+        }
+    else if (unit_name == "Virus")
+        for (int i = 0; i < unit_count; i++)
+        {
+            Unit *unit = new VirusUnit(window, 0, 0, health, speed,
+                unit_cost, *sprites->virus_sprite, *sprites->health_bar_sprite, level);
             
             this->units_.push_back(unit);
         }
@@ -44,6 +53,8 @@ void Unitpack::draw() const
 {
     for (auto unit : this->units_)
         unit->draw();
+    for (auto unit : this->units_)
+        unit->draw_bar();
 }
 
 void Unitpack::act(float dt)
@@ -65,12 +76,12 @@ void Unitpack::delay(float dt)
         return;
 
     this->delayed_ += dt;
-    int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_ + 1);
+    unsigned int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_ + 1);
     if (new_count < 0)
         new_count = 0;
     if (new_count > this->units_.size())
         new_count = this->units_.size();
-    for (int i = this->spawned_count_; i < new_count; i++)
+    for (unsigned int i = this->spawned_count_; i < new_count; i++)
         this->units_[i]->spawn();
     this->spawned_count_ = new_count;
 }

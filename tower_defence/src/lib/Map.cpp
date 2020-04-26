@@ -55,7 +55,7 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
     for (int dy = -1; dy <= 1 && !break_flag; dy++) {
 
      if (
-        !(dx || dy) || dx * dy ||
+        !(dx || dy) || (dx * dy != 0) ||
         dx == -prev_dx && dy == -prev_dy ||
         col + dx >= MAP_WIDTH || row + dy >= MAP_HEIGHT  ||
         col + dx < 0 || row + dy < 0
@@ -353,7 +353,7 @@ bool Map::check_turn(Direction turn) const {
     return 0;
 }
 
-point Map::next_turn(int n) const {
+point Map::next_turn(unsigned int n) const {
   return n != turn_vector_.size() - 1 ? 
   (point){turn_vector_[n + 1].x * CELL_SIZE,
           turn_vector_[n + 1].y * CELL_SIZE} : 

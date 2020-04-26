@@ -46,11 +46,10 @@ private:
     float shoot_period_;
     float shoot_ago_;
     float attack_range_;
-    Tower_kind kind_;
     Unit *target_;
     int power_;
 public:
-    Tower(sf::RenderWindow *window, Tower_kind kind, float attack_range,
+    Tower(sf::RenderWindow *window, float attack_range,
         float shoot_period, double power, float x0, float y0,
         sf::Sprite   base_sprite, int   base_frame_width, int   base_frame_height,
         sf::Sprite    gun_sprite, int    gun_frame_width, int    gun_frame_height,

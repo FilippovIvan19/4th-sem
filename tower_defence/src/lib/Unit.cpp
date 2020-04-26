@@ -3,41 +3,67 @@
 
 #include <iostream>
 
+
+
+
+HealthBar::HealthBar(sf::RenderWindow *window, float x0, float y0,
+    sf::Sprite sprite, int pic_frame_width, int pic_frame_height) :
+CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
+health_percent_(0)
+{
+    this->set_origin_zero(this->sprite_.getTextureRect().width / 2, this->sprite_.getTextureRect().height);
+}
+
+HealthBar::HealthBar() :
+CommonElement(),
+health_percent_(0)
+{}
+
+HealthBar::~HealthBar()
+{}
+
+void HealthBar::set_percent(int percent)
+{
+    this->health_percent_ = percent;
+    
+    this->sprite_.setTextureRect(sf::IntRect((100 - percent) * this->sprite_.getTextureRect().width / 100, 0,
+        this->sprite_.getTextureRect().width, this->sprite_.getTextureRect().height));
+}
+
+
+
 Unit::Unit() :
 CommonElement(),
-kind_ ( (Unit_kind)0 ),
+health_bar_(),
 health_ ( 0 ),
+spawn_health_ ( 0 ),
 velocity_ ( 0 ),
 alive_ ( false ),
 cur_waypoint_ ( 0 ),
 cost_(0),
 prev_dist_x_(0),
-prev_dist_y_(0)
+prev_dist_y_(0),
+power_(0)
 {}
 
-// experimental
-// Unit::Unit(Unit_kind kind) :
-// Unit()
-// {
-//     kind_ = kind;
-// }
-
-Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, int cost, float x0, float y0,
-        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level) :
-        // TODO: change use of x0 y0
+Unit::Unit(sf::RenderWindow *window, double health, float velocity, int cost,
+         int power, float x0, float y0, sf::Sprite sprite, sf::Sprite health_sprite, 
+         int pic_frame_width, int pic_frame_height, Level *level) :
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
-kind_ ( kind ),
+health_bar_(window, x0, y0, health_sprite, HEALTH_BAR_PIC_WIDTH, HEALTH_BAR_PIC_HEIGHT),\
 health_ ( health ),
+spawn_health_ ( health ),
 velocity_ ( velocity * CELL_SIZE ),
 alive_ ( false ),
 cur_waypoint_ ( -1 ),
 level_ (level),
 cost_(cost),
 prev_dist_x_(0),
-prev_dist_y_(0)
+prev_dist_y_(0),
+power_(power)
 {
     this->update_way();
+    this->health_bar_.set_position(this->get_center_x(), this->get_y());
 }
 
 Unit::~Unit()
@@ -51,7 +77,7 @@ void Unit::update_way()
     if (this->waypoint_ == END_POINT)
     {
         this->die();
-        this->level_->damage_hq();
+        this->level_->damage_hq(this->power_);
     }
 }
 
@@ -77,6 +103,7 @@ void Unit::move(float dt)
         this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
         this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
     );
+    this->health_bar_.set_position(this->get_center_x(), this->get_y());
 
     prev_dist_x_ = dist_x;
     prev_dist_y_ = dist_y;
@@ -85,6 +112,9 @@ void Unit::move(float dt)
 void Unit::hurt(double damage)
 {
     this->health_ -= damage;
+    if (this->health_ <= 0)
+        this->health_ = 0;
+    this->health_bar_.set_percent((int)(this->health_ * 100 / this->spawn_health_));
     if (this->health_ <= 0)
     {
         if (this->alive_)
@@ -108,7 +138,17 @@ void Unit::spawn()
 void Unit::draw() const
 {
     if (this->alive_)
+    {
         CommonElement::draw();
+    }
+}
+
+void Unit::draw_bar() const
+{
+    if (this->alive_)
+    {
+        this->health_bar_.draw();
+    }
 }
 
 void Unit::act(float dt)

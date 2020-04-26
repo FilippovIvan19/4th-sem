@@ -2,6 +2,7 @@
 
 #include "CommonElement.h"
 #include "constants.h"
+
 class Tower;
 
 class Cell : public CommonElement {
