@@ -3,9 +3,9 @@
 
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::Sprite heart_sprite, const char* filename):
-turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
+turn_vector_(std::vector<point> ()),
 heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 {
   int row = 0;
@@ -56,7 +56,7 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 
      if (
         !(dx || dy) || (dx * dy != 0) ||
-        dx == -prev_dx && dy == -prev_dy ||
+        (dx == -prev_dx && dy == -prev_dy) ||
         col + dx >= MAP_WIDTH || row + dy >= MAP_HEIGHT  ||
         col + dx < 0 || row + dy < 0
       ) {
@@ -97,9 +97,9 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 }
 
 Map::Map():
-turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
+turn_vector_(std::vector<point> ()),
 heart_()
 {}
 
@@ -353,8 +353,8 @@ bool Map::check_turn(Direction turn) const {
     return 0;
 }
 
-point Map::next_turn(unsigned int n) const {
-  return n != turn_vector_.size() - 1 ? 
+point Map::next_turn(int n) const {
+  return n != (int)(turn_vector_.size() - 1) ? 
   (point){turn_vector_[n + 1].x * CELL_SIZE,
           turn_vector_[n + 1].y * CELL_SIZE} : 
   END_POINT;

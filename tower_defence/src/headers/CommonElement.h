@@ -8,10 +8,9 @@
 class CommonElement
 {
 private:
+    sf::RenderWindow *window_;
     float x_;
     float y_;
-    // float frame_chanched_ago_;
-    sf::RenderWindow *window_;
     bool visibility_;
 protected:
     sf::Sprite sprite_;

@@ -31,6 +31,25 @@ void HealthBar::set_percent(int percent)
 }
 
 
+Unit::Unit(sf::RenderWindow *window, double health, float velocity, int cost,
+         int power, float x0, float y0, sf::Sprite sprite, sf::Sprite health_sprite, 
+         int pic_frame_width, int pic_frame_height, Level *level) :
+CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
+health_bar_(window, x0, y0, health_sprite, HEALTH_BAR_PIC_WIDTH, HEALTH_BAR_PIC_HEIGHT),
+health_ ( health ),
+spawn_health_ ( health ),
+velocity_ ( velocity * CELL_SIZE ),
+alive_ ( false ),
+level_ ( level ),
+cost_( cost ),
+prev_dist_x_( 0 ),
+prev_dist_y_( 0 ),
+power_( power ),
+cur_waypoint_ ( -1 )
+{
+    this->update_way();
+    this->health_bar_.set_position(this->get_center_x(), this->get_y());
+}
 
 Unit::Unit() :
 CommonElement(),
@@ -39,32 +58,13 @@ health_ ( 0 ),
 spawn_health_ ( 0 ),
 velocity_ ( 0 ),
 alive_ ( false ),
-cur_waypoint_ ( 0 ),
-cost_(0),
-prev_dist_x_(0),
-prev_dist_y_(0),
-power_(0)
+cost_( 0 ),
+prev_dist_x_( 0 ),
+prev_dist_y_( 0 ),
+power_( 0 ),
+cur_waypoint_ ( 0 )
 {}
 
-Unit::Unit(sf::RenderWindow *window, double health, float velocity, int cost,
-         int power, float x0, float y0, sf::Sprite sprite, sf::Sprite health_sprite, 
-         int pic_frame_width, int pic_frame_height, Level *level) :
-CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
-health_bar_(window, x0, y0, health_sprite, HEALTH_BAR_PIC_WIDTH, HEALTH_BAR_PIC_HEIGHT),\
-health_ ( health ),
-spawn_health_ ( health ),
-velocity_ ( velocity * CELL_SIZE ),
-alive_ ( false ),
-cur_waypoint_ ( -1 ),
-level_ (level),
-cost_(cost),
-prev_dist_x_(0),
-prev_dist_y_(0),
-power_(power)
-{
-    this->update_way();
-    this->health_bar_.set_position(this->get_center_x(), this->get_y());
-}
 
 Unit::~Unit()
 {}
