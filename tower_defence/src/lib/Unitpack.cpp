@@ -76,12 +76,12 @@ void Unitpack::delay(float dt)
         return;
 
     this->delayed_ += dt;
-    int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_ + 1);
+    unsigned int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_ + 1);
     if (new_count < 0)
         new_count = 0;
     if (new_count > this->units_.size())
         new_count = this->units_.size();
-    for (int i = this->spawned_count_; i < new_count; i++)
+    for (unsigned int i = this->spawned_count_; i < new_count; i++)
         this->units_[i]->spawn();
     this->spawned_count_ = new_count;
 }

@@ -9,7 +9,7 @@ SRCS = $(wildcard $(LIB_DIR)/*.cpp)
 PROG_OBJ = $(patsubst $(LIB_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 
 CC = g++
-# CXXFLAGS = -Wall
+CXXFLAGS = -Wall
 
 
 all: depend $(PROG)

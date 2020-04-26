@@ -1,8 +1,6 @@
 #pragma once
 
-// class Level;
 #include "Unit.h"
-
 
 class VirusUnit : public Unit 
 {

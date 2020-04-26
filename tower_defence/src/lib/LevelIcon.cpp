@@ -3,8 +3,8 @@
 LevelIcon::LevelIcon() :
 CommonElement(),
 number_ ( 0 ),
-locked_ (true),
-score_ ( 0 )
+locked_ (true)
+// score_ ( 0 )
 {}
 
 LevelIcon::LevelIcon(sf::RenderWindow *window, float x0, float y0, all_sprites *sprites,
@@ -12,7 +12,7 @@ LevelIcon::LevelIcon(sf::RenderWindow *window, float x0, float y0, all_sprites *
 CommonElement(window, x0, y0, *sprites->level_icon_sprite, pic_frame_width, pic_frame_height), 
 number_ (number),
 locked_ (true),
-score_ ( 0 ),
+// score_ ( 0 ),
 lock_elem_(window, x0 + LEVEL_ICON_SIZE / 2, y0 + LEVEL_ICON_SIZE / 2,
     *sprites->lock_sprite, LEVEL_LOCK_PIC_SIZE, LEVEL_LOCK_PIC_SIZE)
 {
@@ -22,10 +22,10 @@ lock_elem_(window, x0 + LEVEL_ICON_SIZE / 2, y0 + LEVEL_ICON_SIZE / 2,
 
 LevelIcon::~LevelIcon() {}
 
-void LevelIcon::set_score(int score)
-{
-    this->score_ = score;
-}
+// void LevelIcon::set_score(int score)
+// {
+//     this->score_ = score;
+// }
 
 void LevelIcon::draw() const
 {

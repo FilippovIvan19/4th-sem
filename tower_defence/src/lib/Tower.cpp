@@ -46,12 +46,12 @@ Bullet::~Bullet()
 {}
 
 
-Tower::Tower(sf::RenderWindow *window, Tower_kind kind, float attack_range,
+Tower::Tower(sf::RenderWindow *window, float attack_range,
     float shoot_period, double power, float x0, float y0,
     sf::Sprite   base_sprite, int   base_frame_width, int   base_frame_height,
     sf::Sprite    gun_sprite, int    gun_frame_width, int    gun_frame_height,
     sf::Sprite bullet_sprite, int bullet_frame_width, int bullet_frame_height,
-    sf::Sprite   rank_sprite, int   rank_frame_width, int   rank_frame_height):
+    sf::Sprite   rank_sprite, int   rank_frame_width, int   rank_frame_height) :
 CommonElement(window, x0, y0,   base_sprite,   base_frame_width,   base_frame_height),
 gun_(         window, x0, y0,    gun_sprite,    gun_frame_width,    gun_frame_height),
 rank_(        window, x0, y0,   rank_sprite,   rank_frame_width,   rank_frame_height),
@@ -60,7 +60,6 @@ active_bullets_(std::set<Bullet*> ()),
 rank_num_(0),
 shoot_period_(shoot_period),
 shoot_ago_(0),
-kind_(kind),
 target_(nullptr),
 attack_range_(attack_range),
 power_(power)
@@ -92,7 +91,6 @@ rank_(),
 rank_num_(0),
 shoot_period_(0),
 shoot_ago_(0),
-kind_((Tower_kind)0),
 target_(nullptr),
 attack_range_(0),
 power_(0)
@@ -151,7 +149,7 @@ void Tower::find_target(Wave *wave)
     for (int i = 0; i < count; i++)
     {
         Unitpack *cur_pack = wave->packs_[i];
-        for (int j = 0; j < cur_pack->units_.size(); j++)
+        for (unsigned int j = 0; j < cur_pack->units_.size(); j++)
         {
             Unit *cur_unit = cur_pack->units_[j];
             if (cur_unit->is_alive() && this->is_available(cur_unit))

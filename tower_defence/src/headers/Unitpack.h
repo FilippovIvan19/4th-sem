@@ -10,7 +10,7 @@ class Unitpack
 private:
     float spawn_delta_;
     float spawn_delay_;
-    int spawned_count_;
+    unsigned int spawned_count_;
     float delayed_;
 public:
     std::vector<Unit*> units_;

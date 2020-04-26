@@ -94,7 +94,7 @@ void Level::update(float dt)
     this->entity_manager_.update(dt);
 }
 
-void Level::run_wave(int wave_num)
+void Level::run_wave(unsigned int wave_num)
 {
     this->cur_wave_num_ = wave_num;
     if (wave_num >= this->waves_.size())

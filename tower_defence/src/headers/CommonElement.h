@@ -19,6 +19,7 @@ public:
     CommonElement(sf::RenderWindow *window, float x0, float y0, 
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height);
     CommonElement();
+    virtual
    ~CommonElement();
 
     void set_visibility(bool visibility);

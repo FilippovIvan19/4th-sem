@@ -373,6 +373,7 @@ GameCodes GameManager::input_handler()
                 break;
         }
     }
+    return GameCodes::NOTHING;
 }
 
 point GameManager::get_coordinates()

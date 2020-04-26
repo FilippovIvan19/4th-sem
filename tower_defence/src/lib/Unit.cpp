@@ -35,7 +35,6 @@ void HealthBar::set_percent(int percent)
 Unit::Unit() :
 CommonElement(),
 health_bar_(),
-kind_ ( (Unit_kind)0 ),
 health_ ( 0 ),
 spawn_health_ ( 0 ),
 velocity_ ( 0 ),
@@ -47,20 +46,11 @@ prev_dist_y_(0),
 power_(0)
 {}
 
-// experimental
-// Unit::Unit(Unit_kind kind) :
-// Unit()
-// {
-//     kind_ = kind;
-// }
-
-Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, int cost, int power, float x0, float y0,
-        sf::Sprite sprite, sf::Sprite health_sprite, int pic_frame_width, int pic_frame_height, Level *level) :
-        // TODO: change use of x0 y0
+Unit::Unit(sf::RenderWindow *window, double health, float velocity, int cost,
+         int power, float x0, float y0, sf::Sprite sprite, sf::Sprite health_sprite, 
+         int pic_frame_width, int pic_frame_height, Level *level) :
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
-health_bar_(window, x0, y0, health_sprite, HEALTH_BAR_PIC_WIDTH, HEALTH_BAR_PIC_HEIGHT),
-kind_ ( kind ),
+health_bar_(window, x0, y0, health_sprite, HEALTH_BAR_PIC_WIDTH, HEALTH_BAR_PIC_HEIGHT),\
 health_ ( health ),
 spawn_health_ ( health ),
 velocity_ ( velocity * CELL_SIZE ),

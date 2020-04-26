@@ -106,21 +106,6 @@ const int LEVEL_END_BUTTONS_COUNT = 3;
 
 const point END_POINT{ -1, -1 }; // POISON for units
 
-enum class Tower_kind
-{
-    Pill,
-    Capsule,
-    Mixture,
-};
-
-
-enum Unit_kind
-{
-    Bacteria,
-    Simple_virus,
-};
-
-
 enum class Direction {
     U,
     D,
