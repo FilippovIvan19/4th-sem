@@ -1,8 +1,8 @@
 #pragma once
 
 #include "CommonElement.h"
-#include "Map.h"
 #include "constants.h"
+class Level;
 
 
 class Unit : public CommonElement
@@ -12,13 +12,17 @@ private:
     double health_;
     bool alive_;
     Unit_kind kind_;
-    Map *map_;
+    Level *level_;
+    int cost_;
+    float prev_dist_x_;
+    float prev_dist_y_;
+public:
     point waypoint_;
     int cur_waypoint_;
-public:
+
     Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, float x0, float y0,
-        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Map *map);
+        double health, float velocity, int cost, float x0, float y0,
+        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level);
     // Unit(Unit_kind kind); // experimental
     Unit();
    ~Unit();
@@ -26,9 +30,11 @@ public:
     bool is_alive() const;
     
     void spawn();
-    void update_way(Map* map);
+    void die();
+    void update_way();
     void hurt (double damage);
     void move (float dt);
+    float cur_waypoint_distance();
 
     void draw () const override;
     void    act (float dt) override; // moving, dying

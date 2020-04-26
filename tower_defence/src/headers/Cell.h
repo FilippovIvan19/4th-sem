@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Tower.h"
+#include "CommonElement.h"
+#include "constants.h"
+class Tower;
 
 class Cell : public CommonElement {
 private:

@@ -1,5 +1,7 @@
 #include "../headers/Unit.h"
+#include "../headers/Level.h"
 
+#include <iostream>
 
 Unit::Unit() :
 CommonElement(),
@@ -7,7 +9,10 @@ kind_ ( (Unit_kind)0 ),
 health_ ( 0 ),
 velocity_ ( 0 ),
 alive_ ( false ),
-cur_waypoint_ ( 0 )
+cur_waypoint_ ( 0 ),
+cost_(0),
+prev_dist_x_(0),
+prev_dist_y_(0)
 {}
 
 // experimental
@@ -18,20 +23,21 @@ cur_waypoint_ ( 0 )
 // }
 
 Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, float x0, float y0,
-        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Map* map) :
+        double health, float velocity, int cost, float x0, float y0,
+        sf::Sprite sprite, int pic_frame_width, int pic_frame_height, Level *level) :
         // TODO: change use of x0 y0
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 kind_ ( kind ),
 health_ ( health ),
-velocity_ ( velocity ),
+velocity_ ( velocity * CELL_SIZE ),
 alive_ ( false ),
 cur_waypoint_ ( -1 ),
-map_ (map)
+level_ (level),
+cost_(cost),
+prev_dist_x_(0),
+prev_dist_y_(0)
 {
-        // printf("qwerty\n");
-    this->update_way(this->map_);
-        // printf("qwerty\n");
+    this->update_way();
 }
 
 Unit::~Unit()
@@ -39,51 +45,41 @@ Unit::~Unit()
 
 bool Unit::is_alive() const { return this->alive_; }
 
-void Unit::update_way(Map* map)
+void Unit::update_way()
 {
-    this->waypoint_ = map->next_turn(this->cur_waypoint_++);
+    this->waypoint_ = this->level_->map_.next_turn(this->cur_waypoint_++);
     if (this->waypoint_ == END_POINT)
     {
-        this->hurt(this->health_);
-        this->map_->damage_hq();
+        this->die();
+        this->level_->damage_hq();
     }
 }
 
 // TODO(optional): find alternative in c++ std lib
 int sign(double exp)
 {
-    return exp == 0 ? 0 : exp/abs(exp);
+    return exp == 0 ? 0 : exp/std::abs(exp);
 }
 
 void Unit::move(float dt)
 {
-// #ifdef DEBUG
-//     std::clog << "move to " << waypoint_.x   << " " << waypoint_.y 
-//               << " from "   << this->get_x() << " " << this->get_y() << std::endl;
-// #endif
-    // printf("moving to %d %d from %f %f\n", waypoint_.x, waypoint_.y, this->get_x(), this->get_y());
-    // TODO: fix comparing 'point' objects
-    if (waypoint_.x == this->get_x() && waypoint_.y == this->get_y())
+    float dist_x = waypoint_.x - this->get_x();
+    float dist_y = waypoint_.y - this->get_y();
+    
+    if (dist_x * prev_dist_x_ + dist_y * prev_dist_y_ < 0 || dist_x + dist_y == 0)
     {
-        this->update_way(this->map_);
-        // printf("movecase 1\n");
-// #ifdef DEBUG
-//         std::clog << "movecase 1\ncurrent position " << get_x() << " " << get_y() << std::endl;
-// #endif
+        this->set_position(waypoint_.x, waypoint_.y);
+        this->update_way();
+        dt += std::abs(dist_x + dist_y) / this->velocity_;
     }
-    else if (abs(waypoint_.x - this->get_x()) < 0.1 && abs(waypoint_.y - this->get_y()) < 0.1)
-    {
-        set_position(waypoint_.x, waypoint_.y);
-        // printf("movecase 2\n");
-    }
-    else
-    {
-        set_position(
-            this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
-            this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
-        );
-        // printf("movecase 3\n");
-    }
+
+    set_position(
+        this->get_x() + sign(waypoint_.x - this->get_x()) * this->velocity_ * dt,
+        this->get_y() + sign(waypoint_.y - this->get_y()) * this->velocity_ * dt
+    );
+
+    prev_dist_x_ = dist_x;
+    prev_dist_y_ = dist_y;
 }
 
 void Unit::hurt(double damage)
@@ -91,9 +87,16 @@ void Unit::hurt(double damage)
     this->health_ -= damage;
     if (this->health_ <= 0)
     {
-        this->set_visibility(false);
-        this->alive_ = false;
+        if (this->alive_)
+            this->level_->add_coins(this->cost_);
+        this->die();
     }
+}
+
+void Unit::die()
+{
+    this->set_visibility(false);
+    this->alive_ = false;
 }
 
 void Unit::spawn()
@@ -117,4 +120,9 @@ void Unit::act(float dt)
 void Unit::update(float dt)
 {
     // if (this->alive_)
+}
+
+float Unit::cur_waypoint_distance()
+{
+    return std::abs(this->waypoint_.x - this->get_x() + this->waypoint_.y - this->get_y());
 }

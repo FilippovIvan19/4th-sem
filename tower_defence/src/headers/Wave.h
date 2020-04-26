@@ -1,16 +1,19 @@
 #pragma once
 
-#include "Unitpack.h"
-#include "Map.h"
+// #include "Unitpack.h"
+// #include "Level.h"
+#include "constants.h"
+class Unitpack;
+class Level;
 
 
 class Wave
 {
 private:
-    std::vector<Unitpack*> packs_;
 public:
+    std::vector<Unitpack*> packs_;
 
-    Wave(sf::RenderWindow *window, all_sprites *sprites, Map *map, std::string &wave_info);
+    Wave(sf::RenderWindow *window, all_sprites *sprites, Level *level, std::string &wave_info);
     Wave();
    ~Wave(); // should delete every unitpack inside
     

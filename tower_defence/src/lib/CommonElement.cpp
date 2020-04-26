@@ -17,7 +17,7 @@ CommonElement::CommonElement():
 x_(0),
 y_(0),
 sprite_(sf::Sprite()),
-visibility_(true),
+visibility_(false),
 window_(nullptr)
 {
     this->sprite_.setPosition(0, 0);
@@ -61,20 +61,30 @@ float CommonElement::get_y() const
     return this->y_;
 }
 
+float CommonElement::get_center_x() const
+{
+    return this->x_ + this->sprite_.getGlobalBounds().width / 2;
+}
+
+float CommonElement::get_center_y() const
+{
+    return this->y_ + this->sprite_.getGlobalBounds().height / 2;
+}
+
 void CommonElement::set_origin_center()
 {
     this->sprite_.setOrigin(this->sprite_.getTextureRect().width / 2,
         this->sprite_.getTextureRect().height / 2);
 }
 
-void CommonElement::set_origin_zero()
+void CommonElement::set_origin_zero(float new_x, float new_y)
 {
-    this->sprite_.setOrigin(0, 0);
+    this->sprite_.setOrigin(new_x, new_y);
 }
 
-void CommonElement::set_scale(float factorX, float factorY)
+void CommonElement::scale(float factorX, float factorY)
 {
-    this->sprite_.setScale(factorX, factorY);
+    this->sprite_.scale(factorX, factorY);
 }
 
 void CommonElement::update(float dt)

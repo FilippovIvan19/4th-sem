@@ -3,8 +3,9 @@
 #include <fstream>
 #include <string.h>
 
-#include "Level.h"
 #include "Buttons.h"
+
+class Level;
 
 struct LevelProgress 
 {
@@ -28,8 +29,10 @@ private:
     bool is_pause_;
     bool is_speed_up_;
     int chosen_tower_;
+    all_fonts *fonts_;
 public:
-    GameManager(sf::RenderWindow *window, sf::Event *event, sf::Clock *main_clock, all_sprites *sprites);
+    GameManager(sf::RenderWindow *window, sf::Event *event,
+        sf::Clock *main_clock, all_sprites *sprites, all_fonts *fonts);
     GameManager();
    ~GameManager();
     
@@ -52,4 +55,9 @@ public:
     GameCodes level_cycle();
     GameCodes main_cycle();
     void clear_state();
+    GameCodes level_end(GameCodes option);
+    int get_end_button_num();
+    void update_coins();
+    void update_health();
+    bool is_level_end_button_active(GameCodes option, int button_num);
 };

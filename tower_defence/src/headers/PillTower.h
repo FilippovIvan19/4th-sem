@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tower.h"
+#include "constants.h"
 
 
 class PillTower : public Tower
@@ -10,5 +11,5 @@ public:
     PillTower();
    ~PillTower();
     
-    void shoot(CommonElement *target) override;
+    // void shoot(Unit *target) override;
 };
