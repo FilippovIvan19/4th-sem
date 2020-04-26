@@ -1,8 +1,7 @@
 #pragma once
 
-// #include "Unitpack.h"
-// #include "Level.h"
 #include "constants.h"
+
 class Unitpack;
 class Level;
 

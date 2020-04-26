@@ -4,8 +4,6 @@
 #include <iostream>
 
 
-
-
 HealthBar::HealthBar(sf::RenderWindow *window, float x0, float y0,
     sf::Sprite sprite, int pic_frame_width, int pic_frame_height) :
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
@@ -31,53 +29,43 @@ void HealthBar::set_percent(int percent)
 }
 
 
-
-Unit::Unit() :
-CommonElement(),
-health_bar_(),
-kind_ ( (Unit_kind)0 ),
-health_ ( 0 ),
-spawn_health_ ( 0 ),
-velocity_ ( 0 ),
-alive_ ( false ),
-cur_waypoint_ ( 0 ),
-cost_(0),
-prev_dist_x_(0),
-prev_dist_y_(0),
-power_(0)
-{}
-
-// experimental
-// Unit::Unit(Unit_kind kind) :
-// Unit()
-// {
-//     kind_ = kind;
-// }
-
-Unit::Unit(sf::RenderWindow *window, Unit_kind kind,
-        double health, float velocity, int cost, int power, float x0, float y0,
-        sf::Sprite sprite, sf::Sprite health_sprite, int pic_frame_width, int pic_frame_height, Level *level) :
-        // TODO: change use of x0 y0
+Unit::Unit(sf::RenderWindow *window, double health, float velocity, int cost,
+         int power, float x0, float y0, sf::Sprite sprite, sf::Sprite health_sprite, 
+         int pic_frame_width, int pic_frame_height, Level *level) :
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 health_bar_(window, x0, y0, health_sprite, HEALTH_BAR_PIC_WIDTH, HEALTH_BAR_PIC_HEIGHT),
-kind_ ( kind ),
 health_ ( health ),
 spawn_health_ ( health ),
 velocity_ ( velocity * CELL_SIZE ),
 alive_ ( false ),
-cur_waypoint_ ( -1 ),
-level_ (level),
-cost_(cost),
-prev_dist_x_(0),
-prev_dist_y_(0),
-power_(power)
+level_ ( level ),
+cost_( cost ),
+prev_dist_x_( 0 ),
+prev_dist_y_( 0 ),
+power_( power ),
+cur_waypoint_ ( -1 )
 {
     this->update_way();
     this->health_bar_.set_position(this->get_center_x(), this->get_y());
 }
 
+Unit::Unit() :
+CommonElement(),
+health_bar_(),
+health_ ( 0 ),
+spawn_health_ ( 0 ),
+velocity_ ( 0 ),
+alive_ ( false ),
+cost_( 0 ),
+prev_dist_x_( 0 ),
+prev_dist_y_( 0 ),
+power_( 0 ),
+cur_waypoint_ ( 0 )
+{}
+
 Unit::~Unit()
 {}
+
 
 bool Unit::is_alive() const { return this->alive_; }
 
@@ -91,7 +79,6 @@ void Unit::update_way()
     }
 }
 
-// TODO(optional): find alternative in c++ std lib
 int sign(double exp)
 {
     return exp == 0 ? 0 : exp/std::abs(exp);
@@ -172,7 +159,12 @@ void Unit::update(float dt)
     // if (this->alive_)
 }
 
-float Unit::cur_waypoint_distance()
+float Unit::cur_waypoint_distance() const
 {
     return std::abs(this->waypoint_.x - this->get_x() + this->waypoint_.y - this->get_y());
+}
+
+int Unit::waypoint_num() const
+{
+    return this->cur_waypoint_;
 }

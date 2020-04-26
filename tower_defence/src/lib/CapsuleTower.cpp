@@ -2,7 +2,7 @@
 
 
 CapsuleTower::CapsuleTower(sf::RenderWindow *window, float x0, float y0, all_sprites *sprites):
-Tower(window, Tower_kind::Capsule, CAPSULE_TOWER_RANGE, CAPSULE_TOWER_SHOOT_PERIOD, CAPSULE_TOWER_POWER, x0, y0,
+Tower(window, CAPSULE_TOWER_RANGE, CAPSULE_TOWER_SHOOT_PERIOD, CAPSULE_TOWER_POWER, x0, y0,
     *sprites->capsule_tower_base_sprite, CAPSULE_TOWER_BASE_PIC_SIZE, CAPSULE_TOWER_BASE_PIC_SIZE,
     *sprites->capsule_tower_gun_sprite, CAPSULE_TOWER_GUN_PIC_SIZE, CAPSULE_TOWER_BASE_PIC_SIZE,
     *sprites->capsule_tower_bullet_sprite, CAPSULE_TOWER_BULLET_PIC_SIZE, CAPSULE_TOWER_BULLET_PIC_SIZE,
@@ -18,6 +18,3 @@ Tower()
 
 CapsuleTower::~CapsuleTower()
 {}
-
-// void CapsuleTower::shoot(Unit *target)
-// {}

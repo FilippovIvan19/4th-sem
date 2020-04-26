@@ -2,16 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-// #include "constants.h"
 
 
 class CommonElement
 {
 private:
+    sf::RenderWindow *window_;
     float x_;
     float y_;
-    // float frame_chanched_ago_;
-    sf::RenderWindow *window_;
     bool visibility_;
 protected:
     sf::Sprite sprite_;
@@ -19,6 +17,7 @@ public:
     CommonElement(sf::RenderWindow *window, float x0, float y0, 
         sf::Sprite sprite, int pic_frame_width, int pic_frame_height);
     CommonElement();
+    virtual
    ~CommonElement();
 
     void set_visibility(bool visibility);

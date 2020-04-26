@@ -75,7 +75,6 @@ void Buttons::draw() const
 
 void Buttons::highlight(int num)
 {
-    // printf("high\n");
     this->background_[num].set_frame(8, 0);
     if (num == Buttons::Order::Pause)
         this->button_array_[num].set_frame(0, 0);
@@ -96,7 +95,6 @@ sf::Text Buttons::make_coins_text(std::string str, sf::Font *font, int row)
     text.setOutlineColor(sf::Color::Red);
     text.setOutlineThickness(1);
     text.setScale(1.2, 1);
-    // text.setStyle(sf::Text::Bold);
     return text;
 }
 

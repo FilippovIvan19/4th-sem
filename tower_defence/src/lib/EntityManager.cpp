@@ -51,7 +51,7 @@ void EntityManager::set_wave(Wave *wave)
     this->cur_wave_ = wave;
 }
 
-bool EntityManager::is_cur_wave_alive()
+bool EntityManager::is_cur_wave_alive() const
 {
     return this->cur_wave_->is_alive();
 }

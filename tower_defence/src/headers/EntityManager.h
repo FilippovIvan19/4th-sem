@@ -1,7 +1,5 @@
 #pragma once
 
-// #include "Wave.h"
-// #include "Tower.h"
 class Wave;
 class Tower;
 #include <set>
@@ -14,7 +12,7 @@ private:
     Wave *cur_wave_;
 public:
     EntityManager();
-   ~EntityManager(); // should delete every tower
+   ~EntityManager();
     
     void draw() const;
     void update(float dt);
@@ -22,5 +20,5 @@ public:
 
     void add(Tower *tower);
     void set_wave(Wave *wave);
-    bool is_cur_wave_alive();
+    bool is_cur_wave_alive() const;
 };

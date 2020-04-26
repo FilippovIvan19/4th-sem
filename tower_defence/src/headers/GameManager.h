@@ -7,11 +7,10 @@
 
 class Level;
 
-
 class GameManager
 {
 private:
-    Level *level_; // should be deleted soc it's a pointer
+    Level *level_; // should be deleted
     Buttons buttons_;
     sf::RenderWindow *window_;
     sf::Event *event_;
@@ -33,24 +32,24 @@ public:
     void update(float dt);
     void act(float dt);
 
-    point get_coordinates();
+    point get_coordinates() const;
 
-    int get_cur_lvl_pos();
+    int get_cur_lvl_pos() const;
     GameCodes level_menu();
     void pause();
     void set_speed();
     GameCodes input_handler();
     void add_tower(point coords);
     void save_result(int score);
-    LevelProgress read_info(int level_num);
+    LevelProgress read_info(int level_num) const;
     void load_level();
     void restart_level();
     GameCodes level_cycle();
     GameCodes main_cycle();
     void clear_state();
     GameCodes level_end(GameCodes option);
-    int get_end_button_num();
+    int get_end_button_num() const;
     void update_coins();
     void update_health();
-    bool is_level_end_button_active(GameCodes option, int button_num);
+    bool is_level_end_button_active(GameCodes option, int button_num) const;
 };

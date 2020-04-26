@@ -8,7 +8,6 @@ class LevelIcon : public CommonElement
 {
 private:
     int number_;
-    int score_;
     bool locked_;
 
     CommonElement number_elem_;
@@ -23,5 +22,4 @@ public:
     void draw() const override;
     void set_lock(bool value);
     bool is_locked() const;
-    void set_score(int score);
 };

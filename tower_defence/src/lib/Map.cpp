@@ -3,9 +3,9 @@
 
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::Sprite heart_sprite, const char* filename):
-turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
+turn_vector_(std::vector<point> ()),
 heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 {
   int row = 0;
@@ -55,8 +55,8 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
     for (int dy = -1; dy <= 1 && !break_flag; dy++) {
 
      if (
-        !(dx || dy) || dx * dy ||
-        dx == -prev_dx && dy == -prev_dy ||
+        !(dx || dy) || (dx * dy != 0) ||
+        (dx == -prev_dx && dy == -prev_dy) ||
         col + dx >= MAP_WIDTH || row + dy >= MAP_HEIGHT  ||
         col + dx < 0 || row + dy < 0
       ) {
@@ -67,10 +67,9 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
       if (cur_type == Direction::TURN_POINT || cur_type == Direction::ROAD_POINT || cur_type == Direction::END_POINT) {
 
           make_roadside(col, row, turn_info(prev_dx, prev_dy, dx, dy));
-          if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { //road turn
+          if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { 
               this->turn_vector_.push_back( point{col, row} );
               this->cell_array_[col][row].set_type(Direction::TURN_POINT);
-              // printf("turn = (%d ; %d)\n", col, row);
           }
 
 
@@ -87,9 +86,6 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
   
   
   make_roadside(col, row, turn_info(prev_dx, prev_dy, prev_dx, prev_dy));
-  // maybe should be deleted
-  //turn_info(prev_dx, prev_dy, prev_dx, prev_dy);
-  //make_roadside();
   this->turn_vector_.push_back( point{col, row} );
   
   this->heart_.set_origin_center();
@@ -97,9 +93,9 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 }
 
 Map::Map():
-turn_vector_(std::vector<point> ()),
 free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
+turn_vector_(std::vector<point> ()),
 heart_()
 {}
 
@@ -236,7 +232,6 @@ Direction Map::turn_info(const int x0, const int y0, const int x, const int y, b
         }
     }
 
-
     printf("Error: unknown direction or wrong arguments!\n");
     return Direction::ERR;
 }
@@ -264,7 +259,7 @@ void Map::make_roadside(int col, int row, Direction type) {
 
     if (type == Direction::UL || type == Direction::RD) {
         if (col - 1 >= 0 && row + 1 < MAP_HEIGHT) {
-            this->cell_array_[col - 1][row + 1].set_type(Direction::LD_INT_ROADSIDE); //a
+            this->cell_array_[col - 1][row + 1].set_type(Direction::LD_INT_ROADSIDE); // a
         }
         if (col + 1 < MAP_WIDTH && row - 1 >= 0)
             this->cell_array_[col + 1][row - 1].set_type(Direction::RU_EXT_ROADSIDE);
@@ -277,7 +272,7 @@ void Map::make_roadside(int col, int row, Direction type) {
 
     if (type == Direction::RU || type == Direction::DL) {
         if (col - 1 >= 0 && row - 1 >= 0) {
-            this->cell_array_[col - 1][row - 1].set_type(Direction::LU_INT_ROADSIDE); //b
+            this->cell_array_[col - 1][row - 1].set_type(Direction::LU_INT_ROADSIDE); // b
         }
         if (col + 1 < MAP_WIDTH && row + 1 < MAP_HEIGHT)
             this->cell_array_[col + 1][row + 1].set_type(Direction::RD_EXT_ROADSIDE);
@@ -327,10 +322,9 @@ bool Map::check_corner(int col, int row) const {
         case Direction::RD_EXT_ROADSIDE:
         case Direction::LU_EXT_ROADSIDE:
         case Direction::LD_EXT_ROADSIDE:
-        //printf("it's_corner!\n");
-        return 1;
+            return 1;
         default:
-        return 0;
+            return 0;
     }
     return 0;
 }
@@ -345,7 +339,6 @@ bool Map::check_turn(Direction turn) const {
         case Direction::DR:
         case Direction::UL:
         case Direction::DL:
-        //printf("it's_turn!\n");
         return 1;
         default:
         return 0;
@@ -354,13 +347,13 @@ bool Map::check_turn(Direction turn) const {
 }
 
 point Map::next_turn(int n) const {
-  return n != turn_vector_.size() - 1 ? 
+  return n != (int)(turn_vector_.size() - 1) ? 
   (point){turn_vector_[n + 1].x * CELL_SIZE,
           turn_vector_[n + 1].y * CELL_SIZE} : 
   END_POINT;
 }
 
-bool Map::is_free(point cell)
+bool Map::is_free(point cell) const
 {
-  return this->free_places_.count(cell);
+  return (bool)this->free_places_.count(cell);
 }
