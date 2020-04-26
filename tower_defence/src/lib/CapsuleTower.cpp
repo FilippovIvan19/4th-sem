@@ -9,7 +9,7 @@ Tower(window, Tower_kind::Capsule, CAPSULE_TOWER_RANGE, CAPSULE_TOWER_SHOOT_PERI
     *sprites->rank_sprite, RANK_PIC_SIZE, RANK_PIC_SIZE)
 {
     this->gun_.set_position(x0 + 0.5 * CELL_SIZE, y0 + 0.5 * CELL_SIZE);
-    this->gun_.set_origin_zero(0.5 * CAPSULE_TOWER_GUN_PIC_SIZE, 0.59 * CAPSULE_TOWER_GUN_PIC_SIZE);
+    this->gun_.set_origin_zero(0.5 * CAPSULE_TOWER_GUN_PIC_SIZE, 0.55 * CAPSULE_TOWER_GUN_PIC_SIZE);
 }
 
 CapsuleTower::CapsuleTower():
