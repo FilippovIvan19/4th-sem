@@ -1,4 +1,6 @@
 #include "../headers/EntityManager.h"
+#include "../headers/Wave.h"
+#include "../headers/Tower.h"
 
 
 EntityManager::EntityManager() :
@@ -25,7 +27,10 @@ void EntityManager::act(float dt)
     if (this->cur_wave_)
         this->cur_wave_->act(dt);
     for (auto tower : this->towers_)
+    {
+        tower->find_target(this->cur_wave_);
         tower->act(dt);
+    }
 }
 
 void EntityManager::update(float dt)

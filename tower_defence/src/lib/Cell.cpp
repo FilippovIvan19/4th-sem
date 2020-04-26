@@ -1,4 +1,5 @@
 #include "../headers/Cell.h"
+#include "../headers/Tower.h"
 
 Cell::Cell(sf::RenderWindow* window, sf::Sprite sprite,
   int col, int row, Direction cell_type):
@@ -26,10 +27,6 @@ void Cell::set_type(Direction cell_type) {
             this->set_frame(0, 0);
             break;
 
-        //case '0':
-        //case '2':
-        //case '4':
-        //case '6':
         case Direction::D_ROADSIDE:
         case Direction::U_ROADSIDE:
         case Direction::L_ROADSIDE:
@@ -80,7 +77,7 @@ void Cell::set_type(Direction cell_type) {
 
         case Direction::FREE_PLACE:
             this->set_frame(5, 0);
-            printf("it's free place!\n");
+            // printf("it's free place!\n");
             break;
         default:
             this->set_frame(5,0);

@@ -1,19 +1,23 @@
 #pragma once
 
-#include "Unit.h"
+#include "constants.h"
+class Level;
+class Unit;
 
 
 class Unitpack
 {
 private:
-    std::vector<Unit*> units_;
     float spawn_delta_;
     float spawn_delay_;
     int spawned_count_;
     float delayed_;
 public:
-    Unitpack(sf::RenderWindow *window, all_sprites *sprites, Map *map,
-        std::string &unit_name, int unit_count, float spawn_delta, float spawn_delay);
+    std::vector<Unit*> units_;
+
+    Unitpack(sf::RenderWindow *window, all_sprites *sprites, Level *level,
+        std::string &unit_name, int unit_count, float spawn_delta,
+        float spawn_delay, float speed, int unit_cost, float health);
     Unitpack();
    ~Unitpack(); // should delete every unit inside
     

@@ -1,25 +1,25 @@
 #pragma once
 
 #include "Cell.h"
-#include "stdio.h"
-#include <fstream>
-#include <iostream>
-#include <list>
+// #include "stdio.h"
+// #include <fstream>
+// #include <iostream>
+// #include <list>
 
-#include <utility> // added
+// #include <utility> // added
 
 class Map {
 private:
   std::set<point> free_places_;
   std::set<point> busy_places_;
   std::vector<point> turn_vector_;
-  int hp_;
+  CommonElement heart_;
 
 public:
   Cell cell_array_[MAP_WIDTH][MAP_HEIGHT];
 
   Map();
-  Map(sf::RenderWindow* window, sf::Sprite map_sprite, const char* filename);
+  Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::Sprite heart_sprite, const char* filename);
  ~Map();
 
   void draw() const;
@@ -37,5 +37,4 @@ public:
   bool check_corner(int col, int row) const;
   bool check_turn(Direction turn) const;
   bool is_free(point cell);
-  void damage_hq(int hp = 1);
 };

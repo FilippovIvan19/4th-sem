@@ -1,7 +1,11 @@
 #pragma once
 
-#include "Level.h"
+#include <fstream>
+#include <string.h>
+
 #include "Buttons.h"
+
+class Level;
 
 
 class GameManager
@@ -18,8 +22,10 @@ private:
     bool is_pause_;
     bool is_speed_up_;
     int chosen_tower_;
+    all_fonts *fonts_;
 public:
-    GameManager(sf::RenderWindow *window, sf::Event *event, sf::Clock *main_clock, all_sprites *sprites);
+    GameManager(sf::RenderWindow *window, sf::Event *event,
+        sf::Clock *main_clock, all_sprites *sprites, all_fonts *fonts);
     GameManager();
    ~GameManager();
     
@@ -35,10 +41,16 @@ public:
     void set_speed();
     GameCodes input_handler();
     void add_tower(point coords);
-    void save_result();
+    void save_result(int score);
+    LevelProgress read_info(int level_num);
     void load_level();
     void restart_level();
     GameCodes level_cycle();
     GameCodes main_cycle();
     void clear_state();
+    GameCodes level_end(GameCodes option);
+    int get_end_button_num();
+    void update_coins();
+    void update_health();
+    bool is_level_end_button_active(GameCodes option, int button_num);
 };

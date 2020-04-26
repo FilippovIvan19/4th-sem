@@ -1,7 +1,10 @@
 #pragma once
 
-#include "Wave.h"
-#include "Tower.h"
+// #include "Wave.h"
+// #include "Tower.h"
+class Wave;
+class Tower;
+#include <set>
 
 
 class EntityManager
