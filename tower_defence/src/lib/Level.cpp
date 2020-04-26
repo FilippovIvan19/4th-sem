@@ -127,7 +127,7 @@ GameCodes Level::check_wave()
     return GameCodes::NOTHING;
 }
 
-std::pair<int, int> Level::get_wave_num()
+std::pair<int, int> Level::get_wave_num() const
 {
     return std::pair<int, int>(this->cur_wave_num_, this->waves_.size());
 }
@@ -143,12 +143,12 @@ void Level::add_coins(int count)
     this->coins_ += count;
 }
 
-int Level::get_coins()
+int Level::get_coins() const
 {
     return this->coins_;
 }
 
-int Level::get_health()
+int Level::get_health() const
 {
     return this->hq_health_;
 }

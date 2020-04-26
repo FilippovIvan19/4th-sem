@@ -36,5 +36,5 @@ public:
   void make_roadside(int col, int row, Direction type);
   bool check_corner(int col, int row) const;
   bool check_turn(Direction turn) const;
-  bool is_free(point cell);
+  bool is_free(point cell) const;
 };

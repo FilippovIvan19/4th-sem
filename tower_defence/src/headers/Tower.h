@@ -64,6 +64,6 @@ public:
     void find_target(Wave *wave);
 
     virtual void shoot();
-    bool is_available(Unit *target);
+    bool is_available(Unit *target) const;
     void move_bullets(float dt);
 };

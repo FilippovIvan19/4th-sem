@@ -360,7 +360,7 @@ point Map::next_turn(unsigned int n) const {
   END_POINT;
 }
 
-bool Map::is_free(point cell)
+bool Map::is_free(point cell) const
 {
-  return this->free_places_.count(cell);
+  return (bool)this->free_places_.count(cell);
 }

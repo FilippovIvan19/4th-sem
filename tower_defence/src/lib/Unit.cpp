@@ -162,7 +162,12 @@ void Unit::update(float dt)
     // if (this->alive_)
 }
 
-float Unit::cur_waypoint_distance()
+float Unit::cur_waypoint_distance() const
 {
     return std::abs(this->waypoint_.x - this->get_x() + this->waypoint_.y - this->get_y());
+}
+
+int Unit::waypoint_num() const
+{
+    return this->cur_waypoint_;
 }

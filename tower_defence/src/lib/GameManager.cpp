@@ -127,7 +127,7 @@ GameCodes GameManager::level_menu()
     return GameCodes::NOTHING;
 }
 
-int GameManager::get_cur_lvl_pos()
+int GameManager::get_cur_lvl_pos() const
 {
     int position = PAGE_LEVEL_COUNT; // PAGE_LEVEL_COUNT is a default case value
 
@@ -145,7 +145,7 @@ int GameManager::get_cur_lvl_pos()
     return position;
 }
 
-int GameManager::get_end_button_num()
+int GameManager::get_end_button_num() const
 {
     int num = -1;
 
@@ -168,7 +168,10 @@ void GameManager::load_level()
     if (this->level_)
         delete this->level_;
     if (this->level_num_ < 1)
+    {
         printf("wrong level number");
+        return;
+    }
     this->level_ = new Level(this->window_, this->sprites_, this->level_num_);
     
     // this->window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_));
@@ -376,7 +379,7 @@ GameCodes GameManager::input_handler()
     return GameCodes::NOTHING;
 }
 
-point GameManager::get_coordinates()
+point GameManager::get_coordinates() const
 {
     sf::Vector2i coords = sf::Mouse::getPosition(*this->window_);
     return {(int)coords.x / CELL_SIZE, (int)coords.y / CELL_SIZE};
@@ -490,7 +493,7 @@ void GameManager::add_tower(point coords)
     }
 }
 
-LevelProgress GameManager::read_info(int level_num)
+LevelProgress GameManager::read_info(int level_num) const
 {
     std::ifstream file;
     file.open("levels/progress.txt");
@@ -578,7 +581,7 @@ void GameManager::save_result(int score)
     file.close();
 }
 
-bool GameManager::is_level_end_button_active(GameCodes option, int button_num)
+bool GameManager::is_level_end_button_active(GameCodes option, int button_num) const
 {
     return (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1) // all button except next
             || (button_num == LEVEL_END_BUTTONS_COUNT - 1

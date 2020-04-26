@@ -171,13 +171,13 @@ void Tower::find_target(Wave *wave)
         {
             if (target_candidates[i])
             {
-                if (target_candidates[i]->cur_waypoint_ > target->cur_waypoint_)
+                if (target_candidates[i]->waypoint_num() > target->waypoint_num())
                 {
                     target = target_candidates[i];
                 }
                 else
                 {
-                    if (target_candidates[i]->cur_waypoint_ == target->cur_waypoint_)
+                    if (target_candidates[i]->waypoint_num() == target->waypoint_num())
                     {
                         if (target_candidates[i]->cur_waypoint_distance() < target->cur_waypoint_distance())
                         {
@@ -191,7 +191,7 @@ void Tower::find_target(Wave *wave)
     this->target_ = target;
 }
 
-bool Tower::is_available(Unit *target)
+bool Tower::is_available(Unit *target) const
 {
     float r2 = pow(this->get_x() - target->get_x(), 2) + pow(this->get_y() - target->get_y(), 2);
     return r2 <= pow(this->attack_range_, 2);
