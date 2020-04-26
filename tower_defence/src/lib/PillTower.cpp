@@ -18,6 +18,3 @@ Tower()
 
 PillTower::~PillTower()
 {}
-
-// void PillTower::shoot(Unit *target)
-// {}

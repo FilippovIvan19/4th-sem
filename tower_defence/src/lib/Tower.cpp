@@ -112,21 +112,10 @@ void Tower::act(float dt)
     }
 
     this->move_bullets(dt);
-    /*
-    this->gun_.act(dt);
-    this->bullet_.act(dt);
-    this->rank_.act(dt);
-    */
 }
 
 void Tower::update(float dt)
 {
-    /*
-    this->bullet_.update(dt);
-    this->rank_.update(dt);
-    this->gun_.update(dt);
-    */
-
     this->gun_.rotate(this->target_);
 }
 
@@ -136,7 +125,6 @@ void Tower::draw() const
     for (auto *bullet : this->active_bullets_)
         bullet->draw();
     this->gun_.draw();
-    // this->rank_.draw();
 }
 
 void Tower::find_target(Wave *wave)

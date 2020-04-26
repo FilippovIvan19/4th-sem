@@ -32,7 +32,6 @@ private:
     float prev_dist_x_;
     float prev_dist_y_;
     int power_;
-public:
     point waypoint_;
     int cur_waypoint_;
 public:

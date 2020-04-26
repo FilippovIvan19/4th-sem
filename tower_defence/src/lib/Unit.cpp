@@ -4,8 +4,6 @@
 #include <iostream>
 
 
-
-
 HealthBar::HealthBar(sf::RenderWindow *window, float x0, float y0,
     sf::Sprite sprite, int pic_frame_width, int pic_frame_height) :
 CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
@@ -65,9 +63,9 @@ power_( 0 ),
 cur_waypoint_ ( 0 )
 {}
 
-
 Unit::~Unit()
 {}
+
 
 bool Unit::is_alive() const { return this->alive_; }
 
@@ -81,7 +79,6 @@ void Unit::update_way()
     }
 }
 
-// TODO(optional): find alternative in c++ std lib
 int sign(double exp)
 {
     return exp == 0 ? 0 : exp/std::abs(exp);

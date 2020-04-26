@@ -18,6 +18,3 @@ Tower()
 
 CapsuleTower::~CapsuleTower()
 {}
-
-// void CapsuleTower::shoot(Unit *target)
-// {}

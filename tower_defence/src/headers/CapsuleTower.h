@@ -10,6 +10,4 @@ public:
     CapsuleTower(sf::RenderWindow *window, float x0, float y0, all_sprites *sprites);
     CapsuleTower();
    ~CapsuleTower();
-    
-    // void shoot(Unit *target) override;
 };

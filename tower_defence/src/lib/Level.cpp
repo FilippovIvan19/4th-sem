@@ -120,8 +120,6 @@ GameCodes Level::check_wave()
             return GameCodes::WAVE_ENDED;
             printf("ended\n");
         }
-            // this->map_. window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_) + 
-            //     std::string("WAVE") + std);
         printf("run next wave %d\n", this->cur_wave_num_);
     }
     return GameCodes::NOTHING;
@@ -135,7 +133,6 @@ std::pair<int, int> Level::get_wave_num() const
 void Level::damage_hq(int hp)
 {
     this->hq_health_ -= hp;
-    // printf("hp %d\n", this->hq_health_);
 }
 
 void Level::add_coins(int count)

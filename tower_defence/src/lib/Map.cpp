@@ -67,10 +67,9 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
       if (cur_type == Direction::TURN_POINT || cur_type == Direction::ROAD_POINT || cur_type == Direction::END_POINT) {
 
           make_roadside(col, row, turn_info(prev_dx, prev_dy, dx, dy));
-          if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { //road turn
+          if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { 
               this->turn_vector_.push_back( point{col, row} );
               this->cell_array_[col][row].set_type(Direction::TURN_POINT);
-              // printf("turn = (%d ; %d)\n", col, row);
           }
 
 
@@ -236,7 +235,6 @@ Direction Map::turn_info(const int x0, const int y0, const int x, const int y, b
         }
     }
 
-
     printf("Error: unknown direction or wrong arguments!\n");
     return Direction::ERR;
 }
@@ -264,7 +262,7 @@ void Map::make_roadside(int col, int row, Direction type) {
 
     if (type == Direction::UL || type == Direction::RD) {
         if (col - 1 >= 0 && row + 1 < MAP_HEIGHT) {
-            this->cell_array_[col - 1][row + 1].set_type(Direction::LD_INT_ROADSIDE); //a
+            this->cell_array_[col - 1][row + 1].set_type(Direction::LD_INT_ROADSIDE); // a
         }
         if (col + 1 < MAP_WIDTH && row - 1 >= 0)
             this->cell_array_[col + 1][row - 1].set_type(Direction::RU_EXT_ROADSIDE);
@@ -277,7 +275,7 @@ void Map::make_roadside(int col, int row, Direction type) {
 
     if (type == Direction::RU || type == Direction::DL) {
         if (col - 1 >= 0 && row - 1 >= 0) {
-            this->cell_array_[col - 1][row - 1].set_type(Direction::LU_INT_ROADSIDE); //b
+            this->cell_array_[col - 1][row - 1].set_type(Direction::LU_INT_ROADSIDE); // b
         }
         if (col + 1 < MAP_WIDTH && row + 1 < MAP_HEIGHT)
             this->cell_array_[col + 1][row + 1].set_type(Direction::RD_EXT_ROADSIDE);
@@ -327,10 +325,9 @@ bool Map::check_corner(int col, int row) const {
         case Direction::RD_EXT_ROADSIDE:
         case Direction::LU_EXT_ROADSIDE:
         case Direction::LD_EXT_ROADSIDE:
-        //printf("it's_corner!\n");
-        return 1;
+            return 1;
         default:
-        return 0;
+            return 0;
     }
     return 0;
 }
@@ -345,7 +342,6 @@ bool Map::check_turn(Direction turn) const {
         case Direction::DR:
         case Direction::UL:
         case Direction::DL:
-        //printf("it's_turn!\n");
         return 1;
         default:
         return 0;
