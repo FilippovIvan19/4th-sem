@@ -1,9 +1,12 @@
 before sharp simbol you can write whatever you want
 prompt: unit_name >> unit_count >> spawn_delta >> spawn_delay >> speed >> unit_cost >> health;
 #0
-initial_coins 40
+initial_coins 200
 #1
-Bacteria 3 0.5 0.0 4.0 1 100
-Bacteria 10 0.2 3.0 4.0 2 100
+Bacteria    20      0.5     0.0      4.0     1     80
 #2
-Bacteria 2 0.02 0.0 6.5 5 50
+Virus       10      0.2     0.0      4.0     5     150
+#3
+Bacteria    30      0.2     0.0      6.0     1     50
+#4
+Bacteria    30      0.5     0.1      5.0     1     80
