@@ -96,5 +96,4 @@ void Cell::highlight() {
 void Cell::darken() {
   this->sprite_.setColor(sf::Color::White);
   // this->set_frame(this->sprite_.getTextureRect().left / this->sprite_.getTextureRect().width, 0);
-  // printf("dark\n");
 }

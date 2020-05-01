@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-// #include <iostream>
 
 #define  MAP_FILE(num) (std::string("maps/")   + std::to_string(num) + std::string(".txt")).c_str()
 #define WAVE_FILE(num) (std::string("levels/") + std::to_string(num) + std::string(".txt")).c_str()

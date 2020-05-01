@@ -10,7 +10,7 @@ class Level;
 class GameManager
 {
 private:
-    Level *level_; // should be deleted soc it's a pointer
+    Level *level_; // should be deleted
     Buttons buttons_;
     sf::RenderWindow *window_;
     sf::Event *event_;

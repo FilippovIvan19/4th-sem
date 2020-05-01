@@ -576,11 +576,14 @@ bool GameManager::is_level_end_button_active(GameCodes option, int button_num) c
 
 GameCodes GameManager::level_end(GameCodes option)
 {
+<<<<<<< HEAD
+=======
     // if (option == GameCodes::LEVEL_COMPLETED)
     // {
     //     // this->opened_levels_num_++;
     // }
     
+>>>>>>> origin/TD_dev
     CommonElement banner(this->window_, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, *this->sprites_->level_completed_sprite,
         LEVEL_COMPLETED_PIC_WIDTH, LEVEL_COMPLETED_PIC_HEIGHT);
     banner.set_origin_center();
