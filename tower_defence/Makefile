@@ -9,10 +9,9 @@ SRCS = $(wildcard $(LIB_DIR)/*.cpp)
 PROG_OBJ = $(patsubst $(LIB_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
 
 CC = g++
-CXXFLAGS = -Wall
+CXXFLAGS = -Wall -std=c++17 
 
-
-all: depend $(PROG)
+all: $(OBJ_DIR) depend $(PROG)
 
 -include $(DEPENDENCIES)
 
@@ -25,9 +24,13 @@ $(OBJ_DIR)/%.o: $(LIB_DIR)/%.cpp
 $(OBJ_DIR)/main.o: $(MAIN)
 	$(CC) $(CXXFLAGS) -c $< -o $@
 
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
+
 depend: $(SRCS) $(MAIN)
 	$(CC) $(CXXFLAGS) -MM -c $^ > $(DEPENDENCIES)
 	sed -i 's/[a-zA-Z0-9_]*[.]o/$(OBJ_DIR)\/&/' $(DEPENDENCIES)
 
-clean: 
+clean:
 	rm -f $(OBJ_DIR)/*.o $(PROG_OBJ) $(PROG) $(DEPENDENCIES)
+	rm -fr $(OBJ_DIR)

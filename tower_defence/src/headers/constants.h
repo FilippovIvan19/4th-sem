@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#define DEBUG
+// #define DEBUG
 
 #ifndef DEBUG
     #define RELEASE
