@@ -127,7 +127,7 @@ GameCodes GameManager::level_menu()
     return GameCodes::NOTHING;
 }
 
-int GameManager::get_cur_lvl_pos()
+int GameManager::get_cur_lvl_pos() const
 {
     int position = PAGE_LEVEL_COUNT; // PAGE_LEVEL_COUNT is a default case value
 
@@ -145,7 +145,7 @@ int GameManager::get_cur_lvl_pos()
     return position;
 }
 
-int GameManager::get_end_button_num()
+int GameManager::get_end_button_num() const
 {
     int num = -1;
 
@@ -168,10 +168,12 @@ void GameManager::load_level()
     if (this->level_)
         delete this->level_;
     if (this->level_num_ < 1)
+    {
         printf("wrong level number");
+        return;
+    }
     this->level_ = new Level(this->window_, this->sprites_, this->level_num_);
     
-    // this->window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_));
     this->update_coins();
     this->update_health();
     this->level_->run_wave(0);
@@ -197,10 +199,7 @@ GameCodes GameManager::main_cycle()
             }
         }
 
-
-            // printf("000\n");
         retval = this->level_cycle();
-            // printf("999\n");
         this->clear_state();
         
         if (retval == GameCodes::EXIT_APP)
@@ -266,7 +265,6 @@ GameCodes GameManager::level_cycle()
 
         this->draw();
 
-    // printf("111\n");
         retval = this->level_->check_wave();
         if (retval == GameCodes::EXIT_APP || 
             retval == GameCodes::LEVEL_COMPLETED || 
@@ -276,7 +274,6 @@ GameCodes GameManager::level_cycle()
                 return GameCodes::LAST_LEVEL_COMPLETED;
             else
                 return retval;
-    // printf("333\n");
         }
         else if (retval == GameCodes::WAVE_ENDED)
         {
@@ -284,12 +281,8 @@ GameCodes GameManager::level_cycle()
             this->window_->setTitle(std::string("LEVEL ") + std::to_string(this->level_num_) + 
                 std::string("    WAVE ") + std::to_string(wave_num.first + 1) +
                 "/" + std::to_string(wave_num.second));
-                // return retval;
-    // printf("555\n");
         }
-    // printf("777\n");
     }
-    // printf("888\n");
     return GameCodes::EXIT_APP;
 }
 
@@ -324,7 +317,6 @@ GameCodes GameManager::input_handler()
                         break;
                     
                     default:
-                        // printf("nothing to do\n");
                         break;
                 }
                 break;
@@ -361,7 +353,6 @@ GameCodes GameManager::input_handler()
                             break;
                         
                         default:
-                            // printf("nothing to do\n");
                             break;
                     }
                 else
@@ -369,14 +360,13 @@ GameCodes GameManager::input_handler()
                 break;
             
             default:
-                // printf("nothing to do\n");
                 break;
         }
     }
     return GameCodes::NOTHING;
 }
 
-point GameManager::get_coordinates()
+point GameManager::get_coordinates() const
 {
     sf::Vector2i coords = sf::Mouse::getPosition(*this->window_);
     return {(int)coords.x / CELL_SIZE, (int)coords.y / CELL_SIZE};
@@ -490,7 +480,7 @@ void GameManager::add_tower(point coords)
     }
 }
 
-LevelProgress GameManager::read_info(int level_num)
+LevelProgress GameManager::read_info(int level_num) const
 {
     std::ifstream file;
     file.open("levels/progress.txt");
@@ -570,7 +560,6 @@ void GameManager::save_result(int score)
                 file.write("1", 1);
             }
         }
-
     }
     else
         return;
@@ -578,7 +567,7 @@ void GameManager::save_result(int score)
     file.close();
 }
 
-bool GameManager::is_level_end_button_active(GameCodes option, int button_num)
+bool GameManager::is_level_end_button_active(GameCodes option, int button_num) const
 {
     return (button_num > -1 && button_num < LEVEL_END_BUTTONS_COUNT - 1) // all button except next
             || (button_num == LEVEL_END_BUTTONS_COUNT - 1
@@ -587,10 +576,10 @@ bool GameManager::is_level_end_button_active(GameCodes option, int button_num)
 
 GameCodes GameManager::level_end(GameCodes option)
 {
-    if (option == GameCodes::LEVEL_COMPLETED)
-    {
-        // this->opened_levels_num_++;
-    }
+    // if (option == GameCodes::LEVEL_COMPLETED)
+    // {
+    //     // this->opened_levels_num_++;
+    // }
     
     CommonElement banner(this->window_, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, *this->sprites_->level_completed_sprite,
         LEVEL_COMPLETED_PIC_WIDTH, LEVEL_COMPLETED_PIC_HEIGHT);
@@ -605,9 +594,9 @@ GameCodes GameManager::level_end(GameCodes option)
         level_end_buttonds[i]->scale(LEVEL_END_BUTTONS_SCALE_COEF, LEVEL_END_BUTTONS_SCALE_COEF);
         level_end_buttonds[i]->set_origin_center();
     }
-    level_end_buttonds[0]->set_frame(5, 0);//restart
-    level_end_buttonds[1]->set_frame(2, 0);//menu
-    level_end_buttonds[2]->set_frame(4, 0);//next
+    level_end_buttonds[0]->set_frame(5, 0); // restart
+    level_end_buttonds[1]->set_frame(2, 0); // menu
+    level_end_buttonds[2]->set_frame(4, 0); // next
     level_end_buttonds[2]->scale(-1, 1);
     
     sf::Text text;
@@ -629,7 +618,6 @@ GameCodes GameManager::level_end(GameCodes option)
             banner.scale(1, -1);
             text.setString("LEVEL FAILED");
             text.setPosition(WINDOW_WIDTH / 3, WINDOW_HEIGHT / 5);
-            // level_end_buttonds[LEVEL_END_BUTTONS_COUNT - 1]->set_visibility(false);
             break;
 
         default:

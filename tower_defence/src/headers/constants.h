@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#define DEBUG
+// #define DEBUG
 
 #ifndef DEBUG
     #define RELEASE
@@ -25,25 +25,26 @@ const int CELL_PIC_SIZE = 100;
 const int HEART_PIC_SIZE = 400;
 #define HEART_SIZE (int)(CELL_SIZE * 5)
 
+const int RANK_PIC_SIZE = 100;
+#define RANK_SIZE (int)(GLOBAL_SCALE_COEF * 30)
+#define BULLET_SPEED (CELL_SIZE * 15)
+
 // PillTower constants
 const int PILL_TOWER_COST = 20;
-#define BULLET_SPEED (CELL_SIZE * 20)
-const float PILL_TOWER_SHOOT_PERIOD = 0.4;
-const int PILL_TOWER_POWER = 20;
+const float PILL_TOWER_SHOOT_PERIOD  = 0.5;
+const int PILL_TOWER_POWER           = 10;
 const int PILL_TOWER_BASE_PIC_SIZE   = 100;
 const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 55;
 #define PILL_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 10)
 #define PILL_TOWER_GUN_SIZE (int)(CELL_SIZE * 1.7)
-#define PILL_TOWER_RANGE (int)(CELL_SIZE * 10)
+#define PILL_TOWER_RANGE (int)(CELL_SIZE * 5)
 #define PILL_TOWER_BASE_SIZE (int)(CELL_SIZE)
-const int RANK_PIC_SIZE = 100;
-#define RANK_SIZE (int)(GLOBAL_SCALE_COEF * 30)
 
 // CapsuleTower constants
-const int CAPSULE_TOWER_COST = 80;
-const float CAPSULE_TOWER_SHOOT_PERIOD = 1;
-const int CAPSULE_TOWER_POWER = 50;
+const int CAPSULE_TOWER_COST            = 80;
+const float CAPSULE_TOWER_SHOOT_PERIOD  = 1;
+const int CAPSULE_TOWER_POWER           = 40;
 const int CAPSULE_TOWER_BASE_PIC_SIZE   = 100;
 const int CAPSULE_TOWER_GUN_PIC_SIZE    = 120;
 const int CAPSULE_TOWER_BULLET_PIC_SIZE = 60;
@@ -58,17 +59,17 @@ const int MAP_WIDTH = 31;
 #define WINDOW_WIDTH  (CELL_SIZE * (MAP_WIDTH + 1))
 #define WINDOW_HEIGHT (CELL_SIZE * MAP_HEIGHT)
 
-// BacteriaUnit constants
+// Unit constants
 const int BACTERIA_UNIT_PIC_SIZE = 100;
-const int VIRUS_UNIT_PIC_SIZE = 100;
 const int BACTERIA_UNIT_POWER = 1;
+
+const int VIRUS_UNIT_PIC_SIZE = 100;
 const int VIRUS_UNIT_POWER = 5;
+
 const int HEALTH_BAR_PIC_WIDTH  = 100;
 const int HEALTH_BAR_PIC_HEIGHT = 10;
 #define HEALTH_BAR_WIDTH  (int)(CELL_SIZE * 0.9)
 #define HEALTH_BAR_HEIGHT (int)(CELL_SIZE * 0.1)
-// const int BACTERIA_UNIT_HEALTH = 100;
-// #define BACTERIA_UNIT_VELOCITY (int)(GLOBAL_SCALE_COEF * 200)
 
 // LevelIcon constants
 const int LEVEL_ICON_PIC_SIZE = 300;
@@ -77,13 +78,10 @@ const int LEVEL_LOCK_PIC_SIZE = 500;
 #define LEVEL_LOCK_SIZE (int)(GLOBAL_SCALE_COEF * 60)
 
 // Menu constants
-
 const int MENU_PIC_WIDTH = 1920;
 const int MENU_PIC_HEIGHT = 1080;
 const int LEVEL_COMPLETED_PIC_WIDTH = 1920;
 const int LEVEL_COMPLETED_PIC_HEIGHT = 1080;
-// #define MENU_WIDTH  WINDOW_WIDTH
-// #define MENU_HEIGHT WINDOW_HEIGHT
 
 const int PAGE_LEVEL_COUNT_X = 4;
 const int PAGE_LEVEL_COUNT_Y = 3;
@@ -140,8 +138,7 @@ enum class Direction {
     RD_INT_ROADSIDE = 'd',
     RU_INT_ROADSIDE = 'c',
     LD_INT_ROADSIDE = 'a',
-    LU_INT_ROADSIDE = 'b'
-
+    LU_INT_ROADSIDE = 'b',
 };
 
 enum class GameCodes
@@ -153,5 +150,4 @@ enum class GameCodes
     EXIT_LEVEL,
     EXIT_APP,
     NOTHING,
-
 };

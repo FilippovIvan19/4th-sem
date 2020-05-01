@@ -60,8 +60,8 @@ active_bullets_(std::set<Bullet*> ()),
 rank_num_(0),
 shoot_period_(shoot_period),
 shoot_ago_(0),
-target_(nullptr),
 attack_range_(attack_range),
+target_(nullptr),
 power_(power)
 {
     this->rank_.set_position(this->get_x() + RANK_SPRITE_OFFSET_X,
@@ -85,14 +85,14 @@ power_(power)
 Tower::Tower():
 CommonElement(),
 gun_(),
+rank_(),
 free_bullets_(std::queue<Bullet*> ()),
 active_bullets_(std::set<Bullet*> ()),
-rank_(),
 rank_num_(0),
 shoot_period_(0),
 shoot_ago_(0),
-target_(nullptr),
 attack_range_(0),
+target_(nullptr),
 power_(0)
 {}
 
@@ -112,21 +112,10 @@ void Tower::act(float dt)
     }
 
     this->move_bullets(dt);
-    /*
-    this->gun_.act(dt);
-    this->bullet_.act(dt);
-    this->rank_.act(dt);
-    */
 }
 
 void Tower::update(float dt)
 {
-    /*
-    this->bullet_.update(dt);
-    this->rank_.update(dt);
-    this->gun_.update(dt);
-    */
-
     this->gun_.rotate(this->target_);
 }
 
@@ -136,7 +125,6 @@ void Tower::draw() const
     for (auto *bullet : this->active_bullets_)
         bullet->draw();
     this->gun_.draw();
-    // this->rank_.draw();
 }
 
 void Tower::find_target(Wave *wave)
@@ -149,7 +137,7 @@ void Tower::find_target(Wave *wave)
     for (int i = 0; i < count; i++)
     {
         Unitpack *cur_pack = wave->packs_[i];
-        for (unsigned int j = 0; j < cur_pack->units_.size(); j++)
+        for (int j = 0; j < (int)cur_pack->units_.size(); j++)
         {
             Unit *cur_unit = cur_pack->units_[j];
             if (cur_unit->is_alive() && this->is_available(cur_unit))
@@ -171,13 +159,13 @@ void Tower::find_target(Wave *wave)
         {
             if (target_candidates[i])
             {
-                if (target_candidates[i]->cur_waypoint_ > target->cur_waypoint_)
+                if (target_candidates[i]->waypoint_num() > target->waypoint_num())
                 {
                     target = target_candidates[i];
                 }
                 else
                 {
-                    if (target_candidates[i]->cur_waypoint_ == target->cur_waypoint_)
+                    if (target_candidates[i]->waypoint_num() == target->waypoint_num())
                     {
                         if (target_candidates[i]->cur_waypoint_distance() < target->cur_waypoint_distance())
                         {
@@ -191,7 +179,7 @@ void Tower::find_target(Wave *wave)
     this->target_ = target;
 }
 
-bool Tower::is_available(Unit *target)
+bool Tower::is_available(Unit *target) const
 {
     float r2 = pow(this->get_x() - target->get_x(), 2) + pow(this->get_y() - target->get_y(), 2);
     return r2 <= pow(this->attack_range_, 2);

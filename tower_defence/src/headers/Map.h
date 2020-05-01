@@ -1,12 +1,7 @@
 #pragma once
 
 #include "Cell.h"
-// #include "stdio.h"
-// #include <fstream>
-// #include <iostream>
-// #include <list>
 
-// #include <utility> // added
 
 class Map {
 private:
@@ -27,7 +22,7 @@ public:
   void darken_free();
   void mark_busy(point cell);
   void mark_free(point cell);
-  point next_turn(unsigned int n) const;
+  point next_turn(int n) const;
   // what does this function stand for? it commented everywhere. 
   //    it can be marked as #ifdef DEBUG .. #endif
   //        vvvvvvvvv
@@ -36,5 +31,5 @@ public:
   void make_roadside(int col, int row, Direction type);
   bool check_corner(int col, int row) const;
   bool check_turn(Direction turn) const;
-  bool is_free(point cell);
+  bool is_free(point cell) const;
 };

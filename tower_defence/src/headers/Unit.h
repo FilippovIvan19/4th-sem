@@ -22,19 +22,19 @@ public:
 class Unit : public CommonElement
 {
 private:
-    float velocity_;
+    HealthBar health_bar_;
     double health_;
     double spawn_health_;
+    float velocity_;
     bool alive_;
     Level *level_;
     int cost_;
     float prev_dist_x_;
     float prev_dist_y_;
     int power_;
-    HealthBar health_bar_;
-public:
     point waypoint_;
     int cur_waypoint_;
+public:
 
     Unit(sf::RenderWindow *window, double health, float velocity, int cost,
          int power, float x0, float y0, sf::Sprite sprite, sf::Sprite health_sprite, 
@@ -49,7 +49,8 @@ public:
     void update_way();
     void hurt (double damage);
     void move (float dt);
-    float cur_waypoint_distance();
+    float cur_waypoint_distance() const;
+    int waypoint_num() const; // cur_waypoint_ getter
 
     void draw () const override;
     void draw_bar() const;

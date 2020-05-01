@@ -1,11 +1,13 @@
 #pragma once
 
-#include "CommonElement.h"
-#include "constants.h"
-class Unit;
-class Wave;
 #include <queue>
 #include <set>
+
+#include "CommonElement.h"
+#include "constants.h"
+
+class Unit;
+class Wave;
 
 
 class Gun : public CommonElement
@@ -17,9 +19,6 @@ public:
    ~Gun();
     
     void rotate(Unit *target);
-
-    // void    act(float dt) override;
-    // void update(float dt) override;
 };
 
 class Bullet : public CommonElement
@@ -64,6 +63,6 @@ public:
     void find_target(Wave *wave);
 
     virtual void shoot();
-    bool is_available(Unit *target);
+    bool is_available(Unit *target) const;
     void move_bullets(float dt);
 };

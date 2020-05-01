@@ -10,9 +10,9 @@ Unitpack::Unitpack(sf::RenderWindow *window, all_sprites *sprites, Level *level,
     float spawn_delay, float speed, int unit_cost, float health) :
 spawn_delta_(spawn_delta),
 spawn_delay_(spawn_delay),
-units_(std::vector<Unit*> ()),
 spawned_count_(0),
-delayed_(0)
+delayed_(0),
+units_(std::vector<Unit*> ())
 {
 
     if (unit_name == "Bacteria")
@@ -38,9 +38,9 @@ delayed_(0)
 Unitpack::Unitpack() :
 spawn_delta_(0),
 spawn_delay_(0),
-units_(std::vector<Unit*> ()),
 spawned_count_(0),
-delayed_(0)
+delayed_(0),
+units_(std::vector<Unit*> ())
 {}
 
 Unitpack::~Unitpack()
@@ -76,12 +76,12 @@ void Unitpack::delay(float dt)
         return;
 
     this->delayed_ += dt;
-    unsigned int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_ + 1);
+    int new_count = trunc((this->delayed_ - this->spawn_delay_) / this->spawn_delta_ + 1);
     if (new_count < 0)
         new_count = 0;
-    if (new_count > this->units_.size())
+    if (new_count > (int)this->units_.size())
         new_count = this->units_.size();
-    for (unsigned int i = this->spawned_count_; i < new_count; i++)
+    for (int i = this->spawned_count_; i < new_count; i++)
         this->units_[i]->spawn();
     this->spawned_count_ = new_count;
 }

@@ -11,12 +11,12 @@
 
 
 Level::Level(sf::RenderWindow *window, all_sprites *sprites, int num) :
-map_(window, *sprites->map_sprite, *sprites->heart_sprite, MAP_FILE(num)),
-entity_manager_(),
 waves_(std::vector<Wave*> ()),
 cur_wave_num_(-1),
 hq_health_(100),
-coins_(0)
+coins_(0),
+map_(window, *sprites->map_sprite, *sprites->heart_sprite, MAP_FILE(num)),
+entity_manager_()
 {
     std::ifstream fin;
     fin.open(WAVE_FILE(num));
@@ -64,12 +64,12 @@ coins_(0)
 
 
 Level::Level() :
-map_(),
-entity_manager_(),
 waves_(std::vector<Wave*> ()),
 cur_wave_num_(-1),
 hq_health_(0),
-coins_(0)
+coins_(0),
+map_(),
+entity_manager_()
 {}
 
 Level::~Level()
@@ -94,10 +94,10 @@ void Level::update(float dt)
     this->entity_manager_.update(dt);
 }
 
-void Level::run_wave(unsigned int wave_num)
+void Level::run_wave(int wave_num)
 {
     this->cur_wave_num_ = wave_num;
-    if (wave_num >= this->waves_.size())
+    if (wave_num >= (int)this->waves_.size())
         this->entity_manager_.set_wave(nullptr);
     else
         this->entity_manager_.set_wave(this->waves_[wave_num]);
@@ -110,7 +110,7 @@ GameCodes Level::check_wave()
     if (!this->entity_manager_.is_cur_wave_alive())
     {
         this->run_wave(this->cur_wave_num_ + 1);
-        if (this->cur_wave_num_ == this->waves_.size())
+        if (this->cur_wave_num_ == (int)this->waves_.size())
         {
             return GameCodes::LEVEL_COMPLETED;
             printf("completed\n");
@@ -120,14 +120,12 @@ GameCodes Level::check_wave()
             return GameCodes::WAVE_ENDED;
             printf("ended\n");
         }
-            // this->map_. window_->setTitle(std::string("LEVEL") + std::to_string(this->level_num_) + 
-            //     std::string("WAVE") + std);
         printf("run next wave %d\n", this->cur_wave_num_);
     }
     return GameCodes::NOTHING;
 }
 
-std::pair<int, int> Level::get_wave_num()
+std::pair<int, int> Level::get_wave_num() const
 {
     return std::pair<int, int>(this->cur_wave_num_, this->waves_.size());
 }
@@ -135,7 +133,6 @@ std::pair<int, int> Level::get_wave_num()
 void Level::damage_hq(int hp)
 {
     this->hq_health_ -= hp;
-    // printf("hp %d\n", this->hq_health_);
 }
 
 void Level::add_coins(int count)
@@ -143,12 +140,12 @@ void Level::add_coins(int count)
     this->coins_ += count;
 }
 
-int Level::get_coins()
+int Level::get_coins() const
 {
     return this->coins_;
 }
 
-int Level::get_health()
+int Level::get_health() const
 {
     return this->hq_health_;
 }

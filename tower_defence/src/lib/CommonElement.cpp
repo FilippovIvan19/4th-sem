@@ -3,22 +3,22 @@
 
 CommonElement::CommonElement(sf::RenderWindow *window, float x0, float y0,
     sf::Sprite sprite, int pic_frame_width, int pic_frame_height):
+window_(window),
 x_(x0),
 y_(y0),
-sprite_(sprite),
 visibility_(true),
-window_(window)
+sprite_(sprite)
 {
     this->sprite_.setPosition(x0, y0);
     this->sprite_.setTextureRect(sf::IntRect(0, 0, pic_frame_width, pic_frame_height));
 }
 
 CommonElement::CommonElement():
+window_(nullptr),
 x_(0),
 y_(0),
-sprite_(sf::Sprite()),
 visibility_(false),
-window_(nullptr)
+sprite_(sf::Sprite())
 {
     this->sprite_.setPosition(0, 0);
 }

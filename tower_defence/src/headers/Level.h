@@ -11,7 +11,7 @@ class Level
 {
 private:
     std::vector<Wave*> waves_;
-    unsigned int cur_wave_num_;
+    int cur_wave_num_;
     int hq_health_;
     int coins_;
 public:
@@ -22,16 +22,16 @@ public:
     Level();
    ~Level(); //should delete every wave
 
-    void run_wave(unsigned int wave_num);
+    void run_wave(int wave_num);
     void damage_hq(int hp = 1);
     void add_coins(int count);
-    int get_coins();
-    int get_health();
+    int get_coins() const;
+    int get_health() const;
     
     void draw() const;
     void update(float dt);
     void act(float dt);
-    std::pair<int, int> get_wave_num();
+    std::pair<int, int> get_wave_num() const;
 
     GameCodes check_wave();
 };
