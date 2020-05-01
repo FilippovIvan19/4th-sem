@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#define DEBUG
+// #define DEBUG
 
 #ifndef DEBUG
     #define RELEASE
@@ -16,7 +16,7 @@
 
 extern float GLOBAL_SCALE_COEF;
 
-const int READY_LEVEL_COUNT = 2;
+const int READY_LEVEL_COUNT = 3;
 
 #define RANK_SPRITE_OFFSET_X (int)(GLOBAL_SCALE_COEF * 0)
 #define RANK_SPRITE_OFFSET_Y (int)(GLOBAL_SCALE_COEF * 0)
