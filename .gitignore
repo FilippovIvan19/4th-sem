@@ -2,3 +2,5 @@ callgrind*
 *.vscode
 *.o
 obj*
+tower_defence/game
+snake/snake
