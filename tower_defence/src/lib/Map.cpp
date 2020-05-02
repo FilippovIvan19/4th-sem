@@ -86,9 +86,6 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
   
   
   make_roadside(col, row, turn_info(prev_dx, prev_dy, prev_dx, prev_dy));
-  // maybe should be deleted
-  //turn_info(prev_dx, prev_dy, prev_dx, prev_dy);
-  //make_roadside();
   this->turn_vector_.push_back( point{col, row} );
   
   this->heart_.set_origin_center();
