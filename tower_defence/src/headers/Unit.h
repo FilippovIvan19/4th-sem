@@ -3,6 +3,8 @@
 #include "CommonElement.h"
 #include "constants.h"
 
+#include "../headers/audio.h"
+
 class Level;
 
 class HealthBar : public CommonElement
@@ -34,6 +36,8 @@ private:
     int power_;
     point waypoint_;
     int cur_waypoint_;
+
+    Sound* unit_sound_;
 public:
 
     Unit(sf::RenderWindow *window, double health, float velocity, int cost,

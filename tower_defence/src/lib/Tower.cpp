@@ -35,7 +35,7 @@ target_(nullptr)
 {
     this->set_origin_center();
     this->set_visibility(false);
-}
+ }
 
 Bullet::Bullet():
 CommonElement(),
@@ -79,7 +79,7 @@ power_(power)
         this->free_bullets_.push(bullet);
     }
     
-
+    this->shoot_ = new Sound("shoot1.ogg");
 }
 
 Tower::Tower():
@@ -98,8 +98,15 @@ power_(0)
 
 Tower::~Tower()
 {
+    printf("Deleting Tower\n");
     for (auto *bullet : this->active_bullets_)
         delete bullet;
+
+    
+     if (this->shoot_ != nullptr) {
+         delete this->shoot_;
+         this->shoot_ = nullptr;
+     }
 }
 
 void Tower::act(float dt)
@@ -192,6 +199,8 @@ void Tower::shoot()
     bullet->target_ = this->target_;
     bullet->set_visibility(true);
     this->active_bullets_.insert(bullet);
+
+    this->shoot_->play();
 }
 
 void Tower::move_bullets(float dt)

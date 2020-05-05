@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "Buttons.h"
+#include "../headers/audio.h"
 
 class Level;
 
@@ -22,6 +23,9 @@ private:
     bool is_speed_up_;
     int chosen_tower_;
     all_fonts *fonts_;
+
+    Sound* button_click_;
+    Sound* level_end_sound_;
 public:
     GameManager(sf::RenderWindow *window, sf::Event *event,
         sf::Clock *main_clock, all_sprites *sprites, all_fonts *fonts);

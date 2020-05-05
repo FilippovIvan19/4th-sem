@@ -6,6 +6,8 @@
 #include "CommonElement.h"
 #include "constants.h"
 
+#include "../headers/audio.h"
+
 class Unit;
 class Wave;
 
@@ -47,6 +49,7 @@ private:
     float attack_range_;
     Unit *target_;
     int power_;
+    Sound* shoot_;
 public:
     Tower(sf::RenderWindow *window, float attack_range,
         float shoot_period, double power, float x0, float y0,

@@ -138,7 +138,7 @@ Direction Map::turn_info(const int x0, const int y0, const int x, const int y, b
     #ifdef DEBUG
     static int i = 0;
     #endif
-    if (p) printf("%d. %d %d %d %d.\t", i++, x0, y0, x, y);
+    //if (p) printf("%d. %d %d %d %d.\t", i++, x0, y0, x, y);
 
     // start point directions
     if (x0 == 0 && y0 == 0) {

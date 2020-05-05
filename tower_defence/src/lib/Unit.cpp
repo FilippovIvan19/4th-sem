@@ -47,6 +47,8 @@ cur_waypoint_ ( -1 )
 {
     this->update_way();
     this->health_bar_.set_position(this->get_center_x(), this->get_y());
+    this->unit_sound_ = nullptr;
+    //this->unit_sound_ = new Sound("die.ogg");
 }
 
 Unit::Unit() :
@@ -60,11 +62,18 @@ cost_( 0 ),
 prev_dist_x_( 0 ),
 prev_dist_y_( 0 ),
 power_( 0 ),
-cur_waypoint_ ( 0 )
+cur_waypoint_ ( 0 ),
+unit_sound_ ( nullptr )
 {}
 
 Unit::~Unit()
-{}
+{
+    printf("Deleting Unit\n");
+    if (this->unit_sound_ != nullptr) {
+        delete this->unit_sound_;
+        this->unit_sound_ = nullptr;
+        }
+}
 
 
 bool Unit::is_alive() const { return this->alive_; }
@@ -122,8 +131,12 @@ void Unit::hurt(double damage)
 
 void Unit::die()
 {
+    if (this->alive_ && this->unit_sound_ != nullptr) {
+        this->unit_sound_->play();
+    }
     this->set_visibility(false);
     this->alive_ = false;
+
 }
 
 void Unit::spawn()
