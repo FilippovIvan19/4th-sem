@@ -47,8 +47,8 @@ cur_waypoint_ ( -1 )
 {
     this->update_way();
     this->health_bar_.set_position(this->get_center_x(), this->get_y());
-    this->unit_sound_ = nullptr;
-    //this->unit_sound_ = new Sound("die.ogg");
+    // this->unit_sound_ = nullptr;
+    this->unit_sound_ = new Sound("die.ogg");
 }
 
 Unit::Unit() :

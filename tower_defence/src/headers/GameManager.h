@@ -56,4 +56,5 @@ public:
     void update_coins();
     void update_health();
     bool is_level_end_button_active(GameCodes option, int button_num) const;
+    void clear_level();
 };

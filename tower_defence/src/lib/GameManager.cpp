@@ -71,6 +71,7 @@ void GameManager::update(float dt)
 
 GameManager::~GameManager()
 {
+    this->clear_level();
     printf("Deleting GameManager\n");
     if (this->button_click_ != nullptr) {
         delete this->button_click_;
@@ -185,8 +186,8 @@ int GameManager::get_end_button_num() const
 void GameManager::load_level()
 {
     
-    if (this->level_)
-        delete this->level_;
+    // if (this->level_)
+    //     delete this->level_;
     if (this->level_num_ < 1)
     {
         printf("wrong level number");
@@ -234,6 +235,7 @@ GameCodes GameManager::main_cycle()
         {
             this->save_result(this->level_->get_health());
             retval = this->level_end(retval);
+            this->clear_level();
 
             switch (retval)
             {
@@ -258,6 +260,17 @@ GameCodes GameManager::main_cycle()
                     break;
             }
         }
+        else
+            this->clear_level();
+    }
+}
+
+void GameManager::clear_level()
+{
+    if (this->level_)
+    {
+        delete this->level_;
+        this->level_ = nullptr;
     }
 }
 
@@ -443,6 +456,7 @@ void GameManager::clear_state()
 void GameManager::restart_level()
 {
     this->clear_state();
+    this->clear_level();
     this->load_level();
 }
 
