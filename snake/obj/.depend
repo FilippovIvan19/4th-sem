@@ -1,0 +1,21 @@
+obj/Snake.o: src/lib/Snake.cpp src/lib/../headers/Snake.hpp \
+ src/lib/../headers/structs.hpp src/lib/../headers/Ui.hpp \
+ src/lib/../headers/Game.hpp
+obj/Control.o: src/lib/Control.cpp src/lib/../headers/Control.hpp \
+ src/lib/../headers/Snake.hpp src/lib/../headers/structs.hpp \
+ src/lib/../headers/Game.hpp src/lib/../headers/Ui.hpp
+obj/Game.o: src/lib/Game.cpp src/lib/../headers/Game.hpp \
+ src/lib/../headers/structs.hpp src/lib/../headers/Ui.hpp \
+ src/lib/../headers/Snake.hpp
+obj/Ui.o: src/lib/Ui.cpp src/lib/../headers/Ui.hpp \
+ src/lib/../headers/structs.hpp src/lib/../headers/TextUi.hpp
+obj/TextUi.o: src/lib/TextUi.cpp src/lib/../headers/TextUi.hpp \
+ src/lib/../headers/Ui.hpp src/lib/../headers/structs.hpp \
+ src/lib/../headers/Game.hpp
+obj/controllers.o: src/lib/controllers.cpp src/lib/../headers/controllers.hpp \
+ src/lib/../headers/Control.hpp src/lib/../headers/Snake.hpp \
+ src/lib/../headers/structs.hpp src/lib/../headers/Ui.hpp \
+ src/lib/../headers/Game.hpp
+obj/main.o: src/main.cpp src/headers/structs.hpp src/headers/Game.hpp \
+ src/headers/Ui.hpp src/headers/controllers.hpp src/headers/Control.hpp \
+ src/headers/Snake.hpp

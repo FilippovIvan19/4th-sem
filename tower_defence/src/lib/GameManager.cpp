@@ -3,6 +3,7 @@
 #include "../headers/PillTower.h"
 #include "../headers/CapsuleTower.h"
 #include "../headers/Level.h"
+//#include "../headers/audio.h"
 #include <string.h>
 
 
@@ -21,6 +22,8 @@ is_speed_up_(false),
 chosen_tower_(-1),
 fonts_(fonts)
 {
+    this->button_click_ = new Sound("click.ogg");
+    this->level_end_sound_ = new Sound("game_over.ogg");
     this->pause();
 }
 
@@ -36,9 +39,10 @@ time_coef_(0),
 is_pause_(false),
 is_speed_up_(false),
 chosen_tower_(-1),
-fonts_(nullptr)
+fonts_(nullptr),
+button_click_(nullptr),
+level_end_sound_(nullptr)
 {}
-
 
 void GameManager::draw() const
 {
@@ -66,11 +70,24 @@ void GameManager::update(float dt)
 }
 
 GameManager::~GameManager()
-{}
+{
+    this->clear_level();
+    printf("Deleting GameManager\n");
+    if (this->button_click_ != nullptr) {
+        delete this->button_click_;
+        this->button_click_ = nullptr;
+    }
+
+    if (this->level_end_sound_ != nullptr) {
+        delete this->level_end_sound_;
+        this->level_end_sound_ = nullptr;
+    }
+}
 
 GameCodes GameManager::level_menu()
 {
     this->window_->setTitle("TOWER DEFENCE");
+    Music melody("menu.ogg");
 
     LevelIcon *level[PAGE_LEVEL_COUNT + 1];
     for (int i = 0; i < PAGE_LEVEL_COUNT; ++i)
@@ -107,12 +124,15 @@ GameCodes GameManager::level_menu()
                 return GameCodes::EXIT_APP;
             }
             else if (this->event_->type == sf::Event::MouseButtonPressed && 
-                     sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                     sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                
+                this->button_click_->play();
                 if(level_num > -1 && level_num < PAGE_LEVEL_COUNT)
                 {
                     if(!level[level_num]->is_locked())
                         is_menu = false;
                 }
+            }
         }
 
         if (level_num != PAGE_LEVEL_COUNT && !level[level_num]->is_locked())
@@ -165,13 +185,15 @@ int GameManager::get_end_button_num() const
 
 void GameManager::load_level()
 {
-    if (this->level_)
-        delete this->level_;
+    
+    // if (this->level_)
+    //     delete this->level_;
     if (this->level_num_ < 1)
     {
         printf("wrong level number");
         return;
     }
+    
     this->level_ = new Level(this->window_, this->sprites_, this->level_num_);
     
     this->update_coins();
@@ -186,6 +208,7 @@ void GameManager::load_level()
 
 GameCodes GameManager::main_cycle()
 {
+    
     GameCodes retval = GameCodes::EXIT_LEVEL;
     while (true)
     {
@@ -212,6 +235,7 @@ GameCodes GameManager::main_cycle()
         {
             this->save_result(this->level_->get_health());
             retval = this->level_end(retval);
+            this->clear_level();
 
             switch (retval)
             {
@@ -236,6 +260,17 @@ GameCodes GameManager::main_cycle()
                     break;
             }
         }
+        else
+            this->clear_level();
+    }
+}
+
+void GameManager::clear_level()
+{
+    if (this->level_)
+    {
+        delete this->level_;
+        this->level_ = nullptr;
     }
 }
 
@@ -246,8 +281,13 @@ GameCodes GameManager::level_cycle()
     float dt = 0;
     this->draw();
 
+    std::string s = "level";
+    s += (std::to_string(this->level_num_) + ".ogg");
+    Music melody(s);
+
     while (this->window_->isOpen())
     {
+        
         retval = this->input_handler();
         if (retval == GameCodes::EXIT_APP || retval == GameCodes::EXIT_LEVEL)
             return retval;
@@ -322,6 +362,7 @@ GameCodes GameManager::input_handler()
                 break;
 
             case sf::Event::MouseButtonPressed:
+                this->button_click_->play();
                 coords = this->get_coordinates();
                 if (coords.x == MAP_WIDTH)
                     switch (coords.y)
@@ -415,6 +456,7 @@ void GameManager::clear_state()
 void GameManager::restart_level()
 {
     this->clear_state();
+    this->clear_level();
     this->load_level();
 }
 
@@ -576,14 +618,11 @@ bool GameManager::is_level_end_button_active(GameCodes option, int button_num) c
 
 GameCodes GameManager::level_end(GameCodes option)
 {
-<<<<<<< HEAD
-=======
     // if (option == GameCodes::LEVEL_COMPLETED)
     // {
     //     // this->opened_levels_num_++;
     // }
-    
->>>>>>> origin/TD_dev
+    this->level_end_sound_->play();
     CommonElement banner(this->window_, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, *this->sprites_->level_completed_sprite,
         LEVEL_COMPLETED_PIC_WIDTH, LEVEL_COMPLETED_PIC_HEIGHT);
     banner.set_origin_center();
@@ -653,11 +692,13 @@ GameCodes GameManager::level_end(GameCodes option)
         {
             if (this->event_->type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 return GameCodes::EXIT_APP;
-            else if (this->event_->type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            else if (this->event_->type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                this->button_click_->play();
                 if (is_level_end_button_active(option, button_num))
                 {
                     is_menu = false;
                 }
+            }
         }
 
         if (is_level_end_button_active(option, button_num))

@@ -45,8 +45,11 @@ units_(std::vector<Unit*> ())
 
 Unitpack::~Unitpack()
 {
-    for (auto unit : this->units_)
+    for (auto unit : this->units_) {
+        //unit->~Unit();
         delete unit;
+    }
+        
 }
 
 void Unitpack::draw() const

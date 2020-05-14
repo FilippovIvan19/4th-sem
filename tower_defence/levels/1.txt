@@ -4,7 +4,12 @@ unit_name >> unit_count >> spawn_delta >> spawn_delay >> speed >> unit_cost >> h
 #0
 initial_coins 200
 #1
-Bacteria    8       0.5     0.0     4.0     1     80
-Virus       1       0.3     7.0     4.0     3     150
+Bacteria    10      0.5     0.0      4.0     1     80
+Virus       1       0.3     7.0      4.0     5     150
 #2
-Bacteria    20      0.2     0.0     4.5     5     50
+Bacteria    20      0.2     3.0      4.5     5     50
+Virus       5       1.0     7.0      3.0     10    250
+Virus       3       0.5     15.0     3.0     10    250
+#3
+Bacteria    30      0.3     0        2       5     100
+Virus       5       1.8     0.6      2       15    400
