@@ -18,7 +18,7 @@ Music::~Music() {
     channel = nullptr;
 }
 
-Sound::Sound(std::string name) {
+Sound::Sound(std::string name) : sound_has_played(false) {
     std::string path = "audio/";
     path += name;
 
@@ -40,8 +40,9 @@ Sound::~Sound() {
     printf("deleted sound_buffer %p;\t sound %p\n", this->buffer, this->sound);
 }
 
-void Sound::play() {
-    this->sound->play();
+void Sound::play(bool once) {
+    if (!this->sound_has_played) this->sound->play();
+    if (once) this->sound_has_played = true;
 }
 
 /*Sound::Sound() {

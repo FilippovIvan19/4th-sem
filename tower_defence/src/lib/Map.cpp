@@ -1,11 +1,16 @@
 #include "../headers/Map.h"
 #include <fstream>
 
+#include "math.h"
+
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::Sprite heart_sprite, const char* filename):
 free_places_(std::set<point> ()),
 busy_places_(std::set<point> ()),
 turn_vector_(std::vector<point> ()),
+heart_phase_(0),
+heart_scale_(1),
+heart_rate_(0.01 * M_PI), // 1% of phase
 heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 {
   int row = 0;
@@ -358,4 +363,29 @@ point Map::next_turn(int n) const {
 bool Map::is_free(point cell) const
 {
   return (bool)this->free_places_.count(cell);
+}
+
+void Map::heart_bit(double delta) {
+    if (delta >= 0) {
+        delta *= (2 * M_PI / 100);
+        this->heart_rate_ = delta;
+    }
+    
+    double new_scale = 1;
+    if (this->heart_phase_ <= M_PI * 2) {
+        new_scale = 1 + sin(this->heart_phase_) * 0.04 * this->heart_rate_ ;
+        this->heart_scale_ *= new_scale;
+        this->heart_.scale(new_scale, new_scale);
+    }
+    else if (this->heart_phase_ >= M_PI * 4) {
+        this->heart_phase_ = 0;
+        if (abs(this->heart_scale_ - 1) >= 0.001) {
+            new_scale = 1 / this->heart_scale_;
+            this->heart_.scale(new_scale, new_scale);
+            this->heart_scale_ *= new_scale;
+        }
+        //printf("%lf\n", this->heart_scale_);
+    }
+
+    this->heart_phase_ += this->heart_rate_;
 }
