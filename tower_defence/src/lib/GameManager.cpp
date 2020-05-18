@@ -94,7 +94,7 @@ GameCodes GameManager::level_menu()
     {
         level[i] = new LevelIcon(this->window_, LEVEL_GRID_X0 + LEVEL_OFFSET_X * (i % PAGE_LEVEL_COUNT_X),
          LEVEL_GRID_Y0 + LEVEL_OFFSET_Y * (i / PAGE_LEVEL_COUNT_X), this->sprites_,
-         i, LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE);
+         i, LEVEL_ICON_PIC_SIZE, LEVEL_ICON_PIC_SIZE, fonts_->level_end_font);
 
         LevelProgress info = this->read_info(i + 1);
         level[i]->set_lock(!(info.enabled && i < READY_LEVEL_COUNT));
