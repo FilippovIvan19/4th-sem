@@ -8,6 +8,7 @@ private:
   std::set<point> free_places_;
   std::set<point> busy_places_;
   std::vector<point> turn_vector_;
+  //std::vector<std::pair<point,int>> speed_vector_;
   double heart_phase_;
   float heart_scale_;
   float heart_rate_;

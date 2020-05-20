@@ -36,15 +36,17 @@ CommonElement(window, x0, y0, sprite, pic_frame_width, pic_frame_height),
 health_bar_(window, x0, y0, health_sprite, HEALTH_BAR_PIC_WIDTH, HEALTH_BAR_PIC_HEIGHT),
 health_ ( health ),
 spawn_health_ ( health ),
-velocity_ ( velocity * CELL_SIZE ),
+original_velocity_ ( velocity * CELL_SIZE ),
 alive_ ( false ),
 level_ ( level ),
 cost_( cost ),
 prev_dist_x_( 0 ),
 prev_dist_y_( 0 ),
 power_( power ),
-cur_waypoint_ ( -1 )
+cur_turn_point_ ( -1 ),
+cur_speed_point_ ( -1 )
 {
+    velocity_ = original_velocity_;
     this->update_way();
     this->health_bar_.set_position(this->get_center_x(), this->get_y());
     // this->unit_sound_ = nullptr;
@@ -56,13 +58,15 @@ CommonElement(),
 health_bar_(),
 health_ ( 0 ),
 spawn_health_ ( 0 ),
+original_velocity_ ( 0 ),
 velocity_ ( 0 ),
 alive_ ( false ),
 cost_( 0 ),
 prev_dist_x_( 0 ),
 prev_dist_y_( 0 ),
 power_( 0 ),
-cur_waypoint_ ( 0 ),
+cur_turn_point_ ( 0 ),
+cur_speed_point_ ( 0 ),
 unit_sound_ ( nullptr )
 {}
 
@@ -80,12 +84,32 @@ bool Unit::is_alive() const { return this->alive_; }
 
 void Unit::update_way()
 {
-    this->waypoint_ = this->level_->map_.next_turn(this->cur_waypoint_++);
+    point next_turn = this->level_->map_.next_turn(this->cur_turn_point_++);
+    point next_speed; // = this->level_->map.next_speed(this->cur_speed_point_++); // .second
+    
+    if (
+        std::abs(this->get_x() - next_turn.x) + std::abs(this->get_y() - next_turn.y) < 
+        std::abs(this->get_x() - next_speed.x) + std::abs(this->get_y() - next_speed.y) &&
+        (next_turn.x == next_speed.x || next_turn.y == next_speed.y) 
+    )
+        this->waypoint_ = next_turn;
+    else
+        this->waypoint_ = next_speed;
+    
+    if (next_speed.x == get_x() && next_speed.y == get_y())
+        // change_velocity();
+
     if (this->waypoint_ == END_POINT)
     {
         this->die();
         this->level_->damage_hq(this->power_);
     }
+}
+
+void Unit::change_velocity(int x)
+{
+    this->velocity_ = x > 0 ? 
+    velocity_ + original_velocity_ * 0.2 : velocity_ - original_velocity_ * 0.2;
 }
 
 int sign(double exp)
@@ -177,7 +201,12 @@ float Unit::cur_waypoint_distance() const
     return std::abs(this->waypoint_.x - this->get_x() + this->waypoint_.y - this->get_y());
 }
 
-int Unit::waypoint_num() const
+int Unit::turn_point_num() const
 {
-    return this->cur_waypoint_;
+    return this->cur_turn_point_;
+}
+
+int Unit::speed_point_num() const
+{
+    return this->cur_speed_point_;
 }

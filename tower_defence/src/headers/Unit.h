@@ -27,6 +27,7 @@ private:
     HealthBar health_bar_;
     double health_;
     double spawn_health_;
+    float original_velocity_;
     float velocity_;
     bool alive_;
     Level *level_;
@@ -35,7 +36,9 @@ private:
     float prev_dist_y_;
     int power_;
     point waypoint_;
-    int cur_waypoint_;
+    int cur_turn_point_;
+    int cur_speed_point_;
+    bool speed_point_;
 
     Sound* unit_sound_;
 public:
@@ -54,9 +57,12 @@ public:
     void hurt (double damage);
     void move (float dt);
     float cur_waypoint_distance() const;
-    int waypoint_num() const; // cur_waypoint_ getter
+    int turn_point_num() const; // cur_waypoint_ getter
+    int speed_point_num() const; // 
 
-    void draw () const override;
+    void change_velocity(int x);
+
+    void draw() const override;
     void draw_bar() const;
     void    act (float dt) override; // moving, dying
     void update (float dt) override; // only visual
