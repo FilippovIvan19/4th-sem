@@ -11,8 +11,8 @@ private:
     Cell background_[MAP_HEIGHT];
     sf::Text labels_[MAP_HEIGHT];
     sf::Text hints_[MAP_HEIGHT];
-    int cur_hint_;
     sf::RenderWindow* window_;
+    int cur_hint_;
     static sf::Text make_coins_text(std::string str, sf::Font *font, int row);
     static sf::Text make_hint(std::string str, sf::Font *font, int row);
 

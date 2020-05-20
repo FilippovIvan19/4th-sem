@@ -155,6 +155,8 @@ void Buttons::help()
         // printf("here\n");
         switch (coords.y)
         {
+        case Buttons::Order::Pause :
+        case Buttons::Order::SpeedUp :
         case Buttons::Order::Exit :
         case Buttons::Order::Menu :
         case Buttons::Order::Restart :
