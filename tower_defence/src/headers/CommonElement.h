@@ -7,11 +7,11 @@
 class CommonElement
 {
 private:
-    sf::RenderWindow *window_;
     float x_;
     float y_;
     bool visibility_;
 protected:
+    sf::RenderWindow *window_;
     sf::Sprite sprite_;
 public:
     CommonElement(sf::RenderWindow *window, float x0, float y0, 
