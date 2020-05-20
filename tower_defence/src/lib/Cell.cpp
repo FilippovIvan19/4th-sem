@@ -80,7 +80,7 @@ void Cell::set_type(Direction cell_type) {
             // printf("it's free place!\n");
             break;
         default:
-            this->set_frame(5,0);
+            this->set_frame(6,0);
     }
 }
 

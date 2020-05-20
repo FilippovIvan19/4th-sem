@@ -3,6 +3,8 @@
 
 #include "math.h"
 
+#include<iostream> // delete
+
 
 Map::Map(sf::RenderWindow* window, sf::Sprite map_sprite, sf::Sprite heart_sprite, const char* filename):
 free_places_(std::set<point> ()),
@@ -30,12 +32,20 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
         this->turn_vector_.push_back( point{col, row} );
       else if (str[col] == (char)Direction::FREE_PLACE)
         this->free_places_.insert( point{col, row} );
-      
+///////////////////////////////////////////////////////////////////////////////
+     /* else if (str[col] == (char)Direction::LOWER_SPEED)
+        this->speed_vector_.push_back( {point{col, row}, -20} );
+      else if (str[col] == (char)Direction::FASTER_SPEED)
+        this->speed_vector_.push_back( {point{col, row},  20} ); */
+//////////////////////////////////////////////////////////////////////////////////////      
       if (   str[col] != (char)Direction::END_POINT
           && str[col] != (char)Direction::COMMON_POINT
           && str[col] != (char)Direction::ROAD_POINT
           && str[col] != (char)Direction::SPAWN_POINT
-          && str[col] != (char)Direction::FREE_PLACE) {
+          && str[col] != (char)Direction::FREE_PLACE
+
+          && str[col] != (char)Direction::LOWER_SPEED
+          && str[col] != (char)Direction::FASTER_SPEED) {
         this->cell_array_[col][row] = Cell(window, map_sprite, col, row, Direction::ERR);
         printf("Map: undefined map symbol.\n");
       } else {
@@ -69,13 +79,34 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
       }
 
       Direction cur_type = this->cell_array_[col + dx][row + dy].get_type();
-      if (cur_type == Direction::TURN_POINT || cur_type == Direction::ROAD_POINT || cur_type == Direction::END_POINT) {
+      if (cur_type == Direction::TURN_POINT || 
+          cur_type == Direction::ROAD_POINT || 
+          cur_type == Direction::END_POINT  ||
+
+          cur_type == Direction::FASTER_SPEED ||
+          cur_type == Direction::LOWER_SPEED) {
+
+            // added by ant
+          if (cur_type == Direction::LOWER_SPEED) {
+              this->speed_vector_.push_back( {point{col, row}, -20} );
+              std::cout<< "col = " << col << "row = " << row << std::endl;
+          }
+          else if (cur_type == Direction::FASTER_SPEED) {
+              this->speed_vector_.push_back( {point{col, row},  20} );
+              std::cout<< "col = " << col << "row = " << row << std::endl;
+             // std::cout<< "fff" << std::endl;
+          }
+
+            
+          // end
 
           make_roadside(col, row, turn_info(prev_dx, prev_dy, dx, dy));
           if ( check_turn( turn_info(prev_dx, prev_dy, dx, dy) ) ) { 
               this->turn_vector_.push_back( point{col, row} );
               this->cell_array_[col][row].set_type(Direction::TURN_POINT);
           }
+
+          
 
 
           col += dx;
@@ -87,6 +118,13 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
           break_flag = true;
       }
     }
+    //
+    std::cout<< "===speed:   " << std::endl;
+    for (int r = 0 ; r < this->speed_vector_.size(); r++) {
+        
+        std::cout << this->speed_vector_[r].first.x << " " << this->speed_vector_[r].first.y << " " << this->speed_vector_[r].second << std::endl;
+    }
+    
   }
   
   
