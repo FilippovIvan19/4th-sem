@@ -4,6 +4,7 @@
 #include "EntityManager.h"
 #include "Map.h"
 #include "constants.h"
+#include "../headers/audio.h"
 
 class Wave;
 
@@ -15,6 +16,7 @@ private:
     int hq_health_;
     int coins_;
 public:
+    Sound* heart_sound_;
     Map map_;
     EntityManager entity_manager_;
 

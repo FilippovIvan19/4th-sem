@@ -16,8 +16,9 @@ public:
     ~Sound();
     
 
-    void play();
+    void play(bool once = false);
 private:
+    bool sound_has_played;
     sf::SoundBuffer* buffer;
     sf::Sound* sound;
 };
