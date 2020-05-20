@@ -8,9 +8,14 @@ private:
   std::set<point> free_places_;
   std::set<point> busy_places_;
   std::vector<point> turn_vector_;
-  CommonElement heart_;
+  double heart_phase_;
+  float heart_scale_;
+  float heart_rate_;
+  
+  
 
 public:
+  CommonElement heart_;
   Cell cell_array_[MAP_WIDTH][MAP_HEIGHT];
 
   Map();
@@ -28,4 +33,7 @@ public:
   bool check_corner(int col, int row) const;
   bool check_turn(Direction turn) const;
   bool is_free(point cell) const;
+
+  void heart_bit(double delta = -1);
+  
 };

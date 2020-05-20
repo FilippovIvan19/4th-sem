@@ -38,8 +38,8 @@ const int PILL_TOWER_GUN_PIC_SIZE    = 120;
 const int PILL_TOWER_BULLET_PIC_SIZE = 55;
 #define PILL_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 10)
 #define PILL_TOWER_GUN_SIZE (int)(CELL_SIZE * 1.7)
-#define PILL_TOWER_RANGE (int)(CELL_SIZE * 5)
 #define PILL_TOWER_BASE_SIZE (int)(CELL_SIZE)
+#define PILL_TOWER_RANGE (int)(CELL_SIZE * 5)
 
 // CapsuleTower constants
 const int CAPSULE_TOWER_COST            = 80;
@@ -50,8 +50,8 @@ const int CAPSULE_TOWER_GUN_PIC_SIZE    = 120;
 const int CAPSULE_TOWER_BULLET_PIC_SIZE = 60;
 #define CAPSULE_TOWER_BULLET_SIZE (int)(GLOBAL_SCALE_COEF * 20)
 #define CAPSULE_TOWER_GUN_SIZE (int)(CELL_SIZE * 1.5)
-#define CAPSULE_TOWER_RANGE (int)(CELL_SIZE * 7)
 #define CAPSULE_TOWER_BASE_SIZE (int)(CELL_SIZE)
+#define CAPSULE_TOWER_RANGE (int)(CELL_SIZE * 7)
 
 // Window constants
 const int MAP_HEIGHT = 18;

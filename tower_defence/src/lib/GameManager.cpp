@@ -285,6 +285,7 @@ GameCodes GameManager::level_cycle()
     s += (std::to_string(this->level_num_) + ".ogg");
     Music melody(s);
 
+
     while (this->window_->isOpen())
     {
         
@@ -328,6 +329,7 @@ GameCodes GameManager::level_cycle()
 
 GameCodes GameManager::input_handler()
 {
+    this->buttons_.help();
     while (this->window_->pollEvent(*this->event_))
     {
         point coords;

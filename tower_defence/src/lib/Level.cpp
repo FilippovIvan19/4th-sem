@@ -17,6 +17,8 @@ coins_(0),
 map_(window, *sprites->map_sprite, *sprites->heart_sprite, MAP_FILE(num)),
 entity_manager_()
 {
+    this->heart_sound_ = new Sound("heart_warn.ogg");
+
     std::ifstream fin;
     fin.open(WAVE_FILE(num));
 
@@ -68,6 +70,7 @@ cur_wave_num_(-1),
 hq_health_(0),
 coins_(0),
 map_(),
+//heart_sound_(nullptr),
 entity_manager_()
 {}
 
@@ -75,6 +78,11 @@ Level::~Level()
 {
     for (auto wave : this->waves_)
         delete wave;
+    
+    if (this->heart_sound_ != nullptr) {
+        delete this->heart_sound_;
+        this->heart_sound_ = nullptr;
+    }
 }
 
 void Level::draw() const
@@ -85,6 +93,8 @@ void Level::draw() const
 
 void Level::act(float dt)
 {
+    
+    this->map_.heart_bit();
     this->entity_manager_.act(dt);
 }
 
@@ -132,6 +142,24 @@ std::pair<int, int> Level::get_wave_num() const
 void Level::damage_hq(int hp)
 {
     this->hq_health_ -= hp;
+
+    if (this->hq_health_ < 100 && this->hq_health_ + hp == 100) {
+        this->map_.heart_bit(1);
+        this->heart_sound_->play();
+    }
+    else if (this->hq_health_ < 50 && this->hq_health_ + hp >= 50) {
+        this->map_.heart_bit(2);
+        this->heart_sound_->play();
+    }
+    else if (this->hq_health_ < 20 && this->hq_health_ + hp >= 20) {
+        this->map_.heart_bit(4);
+        this->heart_sound_->play();
+    }
+    else if (this->hq_health_ < 10 && this->hq_health_ + hp >= 10) {
+        this->map_.heart_bit(8);
+        this->heart_sound_->play();
+    }
+    
 }
 
 void Level::add_coins(int count)
