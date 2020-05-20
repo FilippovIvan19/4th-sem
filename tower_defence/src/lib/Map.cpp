@@ -88,12 +88,12 @@ heart_(window, 0, 0, heart_sprite, HEART_PIC_SIZE, HEART_PIC_SIZE)
 
             // added by ant
           if (cur_type == Direction::LOWER_SPEED) {
-              this->speed_vector_.push_back( {point{col, row}, -20} );
-              std::cout<< "col = " << col << "row = " << row << std::endl;
+              this->speed_vector_.push_back( {point{col + dx, row + dy}, -20} );
+              //std::cout<< "col = " << col + dx << "row = " << row + dy << std::endl;
           }
           else if (cur_type == Direction::FASTER_SPEED) {
-              this->speed_vector_.push_back( {point{col, row},  20} );
-              std::cout<< "col = " << col << "row = " << row << std::endl;
+              this->speed_vector_.push_back( {point{col + dx, row + dy},  20} );
+              //std::cout<< "col = " << col + dx << "row = " << row + dy << std::endl;
              // std::cout<< "fff" << std::endl;
           }
 
