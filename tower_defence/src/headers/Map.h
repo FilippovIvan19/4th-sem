@@ -8,7 +8,9 @@ private:
   std::set<point> free_places_;
   std::set<point> busy_places_;
   std::vector<point> turn_vector_;
-  //std::vector<std::pair<point,int>> speed_vector_;
+
+  std::vector<std::pair<point,int>> speed_vector_;
+
   double heart_phase_;
   float heart_scale_;
   float heart_rate_;
@@ -29,6 +31,7 @@ public:
   void mark_busy(point cell);
   void mark_free(point cell);
   point next_turn(int n) const;
+  point next_speed(int n) const;
   Direction turn_info(const int x0, const int y0, const int x, const int y, bool p = false) const;
   void make_roadside(int col, int row, Direction type);
   bool check_corner(int col, int row) const;

@@ -85,7 +85,7 @@ bool Unit::is_alive() const { return this->alive_; }
 void Unit::update_way()
 {
     point next_turn = this->level_->map_.next_turn(this->cur_turn_point_++);
-    point next_speed; // = this->level_->map.next_speed(this->cur_speed_point_++); // .second
+    point next_speed = this->level_->map_.next_speed(this->cur_speed_point_++); // .second
     
     if (
         std::abs(this->get_x() - next_turn.x) + std::abs(this->get_y() - next_turn.y) < 

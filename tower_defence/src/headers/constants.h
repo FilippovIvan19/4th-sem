@@ -139,6 +139,9 @@ enum class Direction {
     RU_INT_ROADSIDE = 'c',
     LD_INT_ROADSIDE = 'a',
     LU_INT_ROADSIDE = 'b',
+
+    LOWER_SPEED = '4',
+    FASTER_SPEED = '6',
 };
 
 enum class GameCodes
