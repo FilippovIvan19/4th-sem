@@ -9,7 +9,7 @@
 #endif
 
 #ifdef RELEASE
-    //#define printf(...) ;
+    #define printf(...) ;
 #endif
 
 #include "structs.h"
