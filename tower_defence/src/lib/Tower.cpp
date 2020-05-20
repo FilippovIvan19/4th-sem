@@ -166,13 +166,13 @@ void Tower::find_target(Wave *wave)
         {
             if (target_candidates[i])
             {
-                if (target_candidates[i]->waypoint_num() > target->waypoint_num())
+                if (target_candidates[i]->turn_point_num() > target->turn_point_num())
                 {
                     target = target_candidates[i];
                 }
                 else
                 {
-                    if (target_candidates[i]->waypoint_num() == target->waypoint_num())
+                    if (target_candidates[i]->turn_point_num() == target->turn_point_num())
                     {
                         if (target_candidates[i]->cur_waypoint_distance() < target->cur_waypoint_distance())
                         {
